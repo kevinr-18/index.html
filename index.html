@@ -585,25 +585,24 @@
         </section>
 
         <!-- ==================== 5. REPOSITORIO ==================== -->
-        <section id="galeria" class="hidden py-16 md:py-24 bg-slate-50 w-full flex-grow border-b border-slate-200">
+         <section id="galeria" class="hidden py-14 md:py-20 bg-slate-50 w-full flex-grow border-b border-slate-200">
             <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
-                <div class="text-center mb-10">
+                <div class="text-center mb-8">
                     <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Memoria Gráfica</span>
-                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Repositorio Histórico</h3>
-                    <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
+                    <h3 class="font-serif text-xl sm:text-2xl md:text-3xl font-bold text-brand-dark px-2">Repositorio Histórico</h3>
+                    <div class="w-12 h-0.5 bg-brand-green mx-auto mt-3"></div>
                 </div>
 
-                <!-- Filtros principales de categoría -->
-                <div class="flex flex-wrap justify-center gap-1.5 mb-4" id="filtros-categoria">
-                    <button onclick="seleccionarCategoria('todos')" id="btn-cat-todos" class="px-3 py-1.5 text-xs font-bold rounded bg-brand-green text-brand-white">Todo</button>
-                    <button onclick="seleccionarCategoria('maxima')" id="btn-cat-maxima" class="px-3 py-1.5 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Máxima</button>
-                    <button onclick="seleccionarCategoria('primera')" id="btn-cat-primera" class="px-3 py-1.5 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Primera</button>
-                    <button onclick="seleccionarCategoria('segunda')" id="btn-cat-segunda" class="px-3 py-1.5 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Segunda</button>
-                    <button onclick="seleccionarCategoria('femenino')" id="btn-cat-femenino" class="px-3 py-1.5 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Femenino</button>
-                    <button onclick="seleccionarCategoria('retro')" id="btn-cat-retro" class="px-3 py-1.5 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Retro</button>
+                <div class="flex flex-wrap justify-center gap-1.5 mb-3" id="filtros-categoria">
+                    <button onclick="seleccionarCategoria('todos')" id="btn-cat-todos" class="px-3 py-1 text-xs font-bold rounded bg-brand-green text-brand-white">Todo</button>
+                    <button onclick="seleccionarCategoria('maxima')" id="btn-cat-maxima" class="px-3 py-1 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Máxima</button>
+                    <button onclick="seleccionarCategoria('primera')" id="btn-cat-primera" class="px-3 py-1 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Primera</button>
+                    <button onclick="seleccionarCategoria('segunda')" id="btn-cat-segunda" class="px-3 py-1 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Segunda</button>
+                    <button onclick="seleccionarCategoria('femenino')" id="btn-cat-femenino" class="px-3 py-1 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Femenino</button>
+                    <button onclick="seleccionarCategoria('retro')" id="btn-cat-retro" class="px-3 py-1 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Retro</button>
                 </div>
 
-                <div class="flex flex-wrap justify-center gap-1.5 mb-8 min-h-[32px]" id="filtros-anio"></div>
+                <div class="flex flex-wrap justify-center gap-1.5 mb-6 min-h-[28px]" id="filtros-anio"></div>
 
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5" id="repo-grid">
                     <div class="repo-item" data-cat="maxima" data-anio="2026"><div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative cursor-pointer group" onclick="abrirLightbox(this.querySelector('img').src, 'Máxima 2026')"><img src="CampeonatoMaxima26.jpg" alt="Máxima 2026" class="w-full h-full object-cover group-hover:scale-105 transition-transform" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=Maxima+2026+1'"><span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2026 #1</span></div></div>
