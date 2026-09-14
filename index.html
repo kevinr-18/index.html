@@ -438,157 +438,273 @@
         </section>
 
         <!-- ==================== 4. PLANTILLA ==================== -->
-        <section id="plantilla" class="hidden py-16 md:py-24 bg-brand-white w-full flex-grow border-b border-slate-200">
-            <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
-                <div class="text-center mb-10">
-                    <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Nómina Oficial</span>
-                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Plantilla 2026</h3>
-                    <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
-                </div>
-
-                <div class="flex justify-center space-x-2 mb-10">
-                    <button onclick="mostrarSubPestaña('plantilla', 'masculino')" id="btn-plantilla-masculino" class="plantilla-btn bg-brand-green text-brand-white px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-wider transition-colors shadow-subtle">Masculina</button>
-                    <button onclick="mostrarSubPestaña('plantilla', 'femenino')" id="btn-plantilla-femenino" class="plantilla-btn bg-slate-100 text-slate-700 hover:bg-slate-200 px-4 py-2 rounded-md font-semibold text-xs uppercase tracking-wider transition-colors">Femenina</button>
-                </div>
-
-                <!-- Plantilla Masculina -->
-                <div id="plantilla-masculino" class="plantilla-content block space-y-10">
-                    <div class="max-w-4xl mx-auto bg-slate-50 p-5 rounded-xl border border-slate-200">
-                        <h4 class="font-serif text-lg font-bold text-brand-dark mb-4 text-center">Cuerpo Técnico y Directiva (Máxima)</h4>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-xs">
-                            <div class="bg-white p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-brand-green block mb-1">Cuerpo Técnico</span>
-                                <span class="text-slate-600">Ramiro Rodríguez y José Luis Rodríguez</span>
-                            </div>
-                            <div class="bg-white p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-brand-green block mb-1">Director Deportivo</span>
-                                <span class="text-slate-600">Patricio Rodríguez</span>
-                            </div>
-                            <div class="bg-white p-3 rounded-lg border border-slate-200">
-                                <span class="font-bold text-brand-green block mb-1">Directiva General</span>
-                                <span class="text-slate-600">Daniel R., Orlando R. y Manuel H.</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Arqueros -->
-                    <div>
-                        <h4 class="font-serif text-lg font-bold text-brand-dark mb-4 border-l-3 border-brand-green pl-3">Arqueros</h4>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative">
-                                    <img src="https://images.unsplash.com/photo-1628891890467-b79f2c8ba9dc?auto=format&fit=crop&w=400&q=80" alt="Anderson Farit" class="w-full h-full object-cover">
-                                    <span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#1</span>
-                                </div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Anderson Farit</h5>
-                                <p class="text-[10px] text-brand-green truncate">Nicolalde Maila</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Defensas -->
-                    <div>
-                        <h4 class="font-serif text-lg font-bold text-brand-dark mb-4 border-l-3 border-brand-green pl-3">Defensas</h4>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=400&q=80" alt="Gallegos" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#3</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Luis Alexander</h5>
-                                <p class="text-[10px] text-brand-green truncate">Gallegos</p>
-                            </div>
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=400&q=80" alt="Navarrete" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#4</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Pablo</h5>
-                                <p class="text-[10px] text-brand-green truncate">Navarrete</p>
-                            </div>
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=400&q=80" alt="Guaman" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#17</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Jorge Luis</h5>
-                                <p class="text-[10px] text-brand-green truncate">Guaman</p>
-                            </div>
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=400&q=80" alt="Rodriguez" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#18</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Kevin Patricio</h5>
-                                <p class="text-[10px] text-brand-green truncate">Rodriguez</p>
-                            </div>
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=400&q=80" alt="Tenorio" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#29</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Jairo Javier</h5>
-                                <p class="text-[10px] text-brand-green truncate">Tenorio</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Mediocampistas -->
-                    <div>
-                        <h4 class="font-serif text-lg font-bold text-brand-dark mb-4 border-l-3 border-brand-green pl-3">Mediocampistas</h4>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=400&q=80" alt="Rodriguez" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#2</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Anderson Nicolás</h5>
-                                <p class="text-[10px] text-brand-green truncate">Rodriguez</p>
-                            </div>
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=400&q=80" alt="Puente" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#5</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Kevin Raúl</h5>
-                                <p class="text-[10px] text-brand-green truncate">Puente</p>
-                            </div>
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=400&q=80" alt="Toapanta" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#8</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Bryan Alexander</h5>
-                                <p class="text-[10px] text-brand-green truncate">Toapanta</p>
-                            </div>
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=400&q=80" alt="Rodriguez" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#10</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Elkin Daniel</h5>
-                                <p class="text-[10px] text-brand-green truncate">Rodriguez</p>
-                            </div>
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=400&q=80" alt="Jacome" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#23</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Stiven Israel</h5>
-                                <p class="text-[10px] text-brand-green truncate">Jácome</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Delanteros -->
-                    <div>
-                        <h4 class="font-serif text-lg font-bold text-brand-dark mb-4 border-l-3 border-brand-green pl-3">Delanteros</h4>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1516475429286-465d815a0df7?auto=format&fit=crop&w=400&q=80" alt="Flores" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#9</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Maycol</h5>
-                                <p class="text-[10px] text-brand-green truncate">Flores</p>
-                            </div>
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1516475429286-465d815a0df7?auto=format&fit=crop&w=400&q=80" alt="Tenorio" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#11</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Elvis Wagner</h5>
-                                <p class="text-[10px] text-brand-green truncate">Tenorio</p>
-                            </div>
-                            <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 text-center p-3">
-                                <div class="h-32 bg-slate-200 rounded-lg overflow-hidden mb-2 relative"><img src="https://images.unsplash.com/photo-1516475429286-465d815a0df7?auto=format&fit=crop&w=400&q=80" alt="Acurio" class="w-full h-full object-cover"><span class="absolute top-2 right-2 bg-brand-gold text-brand-dark text-[10px] font-bold px-1.5 py-0.5 rounded">#77</span></div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">Owen Joel</h5>
-                                <p class="text-[10px] text-brand-green truncate">Acurio</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Plantilla Femenina -->
-                <div id="plantilla-femenino" class="plantilla-content hidden space-y-8">
-                    <div class="max-w-md mx-auto bg-slate-50 p-6 rounded-xl border border-slate-200 text-center">
-                        <span class="inline-block px-3 py-1 bg-pink-100 text-pink-700 text-[10px] font-bold uppercase rounded-full mb-2">Categoría Femenina</span>
-                        <h4 class="font-serif text-lg font-bold text-brand-dark mb-1">Cuerpo Técnico Oficial</h4>
-                        <p class="text-xs font-bold text-slate-700">Sandra Reyes y Luis Onoa</p>
-                    </div>
-
-                    <div class="bg-slate-50 p-8 rounded-xl text-center max-w-lg mx-auto border border-slate-200">
-                        <h4 class="font-serif text-lg font-bold text-brand-dark mb-2">Plantilla en Formación</h4>
-                        <p class="text-xs text-slate-600">El roster oficial de jugadoras para la temporada 2026 será anunciado próximamente.</p>
-                    </div>
-                </div>
+        <section id="plantilla" class="py-16 md:py-24 bg-brand-white w-full flex-grow border-b border-slate-200">
+        <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
+            <div class="text-center mb-10">
+                <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Nómina Oficial Sincronizada</span>
+                <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Plantilla y Leyendas 2026</h3>
+                <p class="text-xs text-slate-500 mt-1">Cargada directamente desde Google Sheets en tiempo real</p>
+                <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
             </div>
-        </section>
 
+            <!-- Botones de Pestañas Principales (Estética Corregida) -->
+            <div class="flex flex-wrap justify-center gap-4 mb-10">
+                <button onclick="cambiarPlantillaTab('masculino')" id="btn-tab-masculino" 
+                    data-active="bg-brand-green text-brand-white border-brand-dark shadow-subtle" 
+                    data-inactive="bg-white text-brand-dark border-slate-200 hover:bg-slate-50"
+                    class="plantilla-tab-btn border-b-4 px-6 py-2.5 rounded-t-lg font-bold text-xs uppercase tracking-wider transition-all duration-300">
+                    Plantilla Masculina
+                </button>
+                
+                <button onclick="cambiarPlantillaTab('femenino')" id="btn-tab-femenino" 
+                    data-active="bg-brand-rose text-brand-white border-brand-green shadow-subtle" 
+                    data-inactive="bg-white text-brand-rose border-slate-200 hover:bg-pink-50"
+                    class="plantilla-tab-btn border-b-4 px-6 py-2.5 rounded-t-lg font-bold text-xs uppercase tracking-wider transition-all duration-300">
+                    Plantilla Femenina
+                </button>
+                
+                <button onclick="cambiarPlantillaTab('leyendas')" id="btn-tab-leyendas" 
+                    data-active="bg-gradient-to-r from-brand-gold to-yellow-500 text-brand-white border-brand-green shadow-badge-gold -translate-y-1" 
+                    data-inactive="bg-white text-brand-gold border-slate-200 hover:bg-yellow-50"
+                    class="plantilla-tab-btn border-b-4 px-6 py-2.5 rounded-t-lg font-bold text-xs uppercase tracking-wider transition-all duration-300 transform">
+                    Leyendas del Club
+                </button>
+            </div>
+
+            <!-- Contenedor Dinámico de Plantillas -->
+            <div id="plantilla-dinamica-container" class="space-y-12">
+                <div class="text-center py-12 text-slate-400 text-xs">Cargando datos institucionales desde Google Sheets...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Script de automatización para la sección Plantilla -->
+    <script>
+        const SPREADSHEET_ID = "1EXz8vjq4cILNs_w2S4BLydKToN_arlejavhTKvcwByY";
+        const GIDS_CONFIG = {
+            masculino: { plantilla: "687593249", cuerpo: "1175652707" },
+            femenino: { plantilla: "192660410", cuerpo: "804737150" },
+            leyendas: { plantilla: "571554949", cuerpo: null }
+        };
+
+        async function cargarDatosPlantilla(tipoTab) {
+            const container = document.getElementById('plantilla-dinamica-container');
+            container.innerHTML = `<div class="text-center py-12 text-slate-500 text-xs">Cargando información de ${tipoTab}...</div>`;
+
+            const config = GIDS_CONFIG[tipoTab];
+            if (!config) return;
+
+            try {
+                // Cargar plantilla principal
+                const urlPlantilla = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.plantilla}`;
+                const respPlantilla = await fetch(urlPlantilla);
+                if (!respPlantilla.ok) throw new Error("Error al conectar con Google Sheets");
+                const csvPlantilla = await respPlantilla.text();
+
+                // Cargar cuerpo técnico si aplica
+                let csvCuerpo = "";
+                if (config.cuerpo) {
+                    const urlCuerpo = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.cuerpo}`;
+                    const respCuerpo = await fetch(urlCuerpo);
+                    if (respCuerpo.ok) csvCuerpo = await respCuerpo.text();
+                }
+
+                renderizarPlantillaCompleta(csvPlantilla, csvCuerpo, tipoTab, container);
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = `<div class="text-center py-12 text-red-500 text-xs">No se pudo cargar la información en vivo. Asegúrate de que las hojas de Google Sheets sean públicas ("Cualquier persona con el enlace").</div>`;
+            }
+        }
+
+        function parsearCSV(csvText) {
+            return csvText.split('\n').map(fila => {
+                // Regex para manejar comillas en CSV de Google Sheets
+                const match = fila.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+                return fila.split(',').map(val => val.replace(/^"|"$/g, '').trim());
+            });
+        }
+
+        function renderizarPlantillaCompleta(csvPlantilla, csvCuerpo, tipoTab, container) {
+            container.innerHTML = '';
+
+            // 1. Procesar Cuerpo Técnico (si existe)
+            if (csvCuerpo) {
+                const filasCuerpo = parsearCSV(csvCuerpo);
+                let idxCuerpo = 0;
+                for (let i = 0; i < filasCuerpo.length; i++) {
+                    if (filasCuerpo[i].join(' ').toLowerCase().includes('nombre') || filasCuerpo[i].join(' ').toLowerCase().includes('nombres')) {
+                        idxCuerpo = i + 1;
+                        break;
+                    }
+                }
+
+                const tecnicos = [];
+                for (let i = idxCuerpo; i < filasCuerpo.length; i++) {
+                    const cols = filasCuerpo[i];
+                    if (cols && cols.length >= 2 && (cols[1] || cols[2])) {
+                        tecnicos.push({
+                            nombre: cols[1] || '',
+                            apellido: cols[2] || '',
+                            cargo: cols[3] || 'Cuerpo Técnico'
+                        });
+                    }
+                }
+
+                if (tecnicos.length > 0) {
+                    const divCuerpo = document.createElement('div');
+                    divCuerpo.className = 'max-w-4xl mx-auto bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8 shadow-subtle';
+                    divCuerpo.innerHTML = `
+                        <h4 class="font-serif text-lg font-bold text-brand-dark mb-4 text-center">Cuerpo Técnico Oficial</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-${Math.min(tecnicos.length, 3)} gap-4 text-center text-xs">
+                            ${tecnicos.map(t => `
+                                <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+                                    <span class="font-bold text-brand-green block mb-1">${t.cargo || 'Técnico'}</span>
+                                    <span class="text-slate-700 font-medium">${t.nombre} ${t.apellido}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    container.appendChild(divCuerpo);
+                }
+            }
+
+            // 2. Procesar Jugadores / Leyendas
+            const filasPlantilla = parsearCSV(csvPlantilla);
+            let idxPlantilla = 0;
+            for (let i = 0; i < filasPlantilla.length; i++) {
+                const textoFila = filasPlantilla[i].join(' ').toLowerCase();
+                if (textoFila.includes('nombres') || textoFila.includes('apellidos') || textoFila.includes('cédula')) {
+                    idxPlantilla = i + 1;
+                    break;
+                }
+            }
+
+            const categoriasJugadores = {
+                'PORTERO': [],
+                'DEFENSA': [],
+                'MEDIOCAMPISTA': [],
+                'DELANTERO': [],
+                'OTROS': []
+            };
+
+            for (let i = idxPlantilla; i < filasPlantilla.length; i++) {
+                const cols = filasPlantilla[i];
+                if (!cols || cols.length < 4) continue;
+
+                const numCamiseta = cols[1] || cols[0] || '•';
+                const nombres = cols[3] || cols[2] || '';
+                const apellidos = cols[4] || cols[3] || '';
+                const fechaNac = cols[5] || 'No registrada';
+                const observacion = cols[6] || 'Nacional';
+                const posicion = (cols[10] || cols[9] || 'MEDIOCAMPISTA').toUpperCase();
+
+                if (!nombres && !apellidos) continue;
+
+                const jugadorObj = { num: numCamiseta, nombres, apellidos, fechaNac, observacion, posicion };
+
+                if (posicion.includes('ARQUERO') || posicion.includes('PORTERO')) {
+                    categoriasJugadores['PORTERO'].push(jugadorObj);
+                } else if (posicion.includes('DEFENSA')) {
+                    categoriasJugadores['DEFENSA'].push(jugadorObj);
+                } else if (posicion.includes('MEDIO')) {
+                    categoriasJugadores['MEDIOCAMPISTA'].push(jugadorObj);
+                } else if (posicion.includes('DELANTERO')) {
+                    categoriasJugadores['DELANTERO'].push(jugadorObj);
+                } else {
+                    categoriasJugadores['OTROS'].push(jugadorObj);
+                }
+            }
+
+            const seccionesOrden = [
+                { key: 'PORTERO', title: 'Porteros / Arqueros' },
+                { key: 'DEFENSA', title: 'Defensas' },
+                { key: 'MEDIOCAMPISTA', title: 'Mediocampistas' },
+                { key: 'DELANTERO', title: 'Delanteros' },
+                { key: 'OTROS', title: 'Otros Registros' }
+            ];
+
+            let hayRegistros = false;
+
+            seccionesOrden.forEach(sec => {
+                const lista = categoriasJugadores[sec.key];
+                if (lista && lista.length > 0) {
+                    hayRegistros = true;
+                    const divSec = document.createElement('div');
+                    divSec.className = 'mb-10';
+                    
+                    // Ajuste de color del borde de la categoría según la pestaña
+                    let borderColorClass = 'border-brand-green';
+                    if(tipoTab === 'femenino') borderColorClass = 'border-brand-rose';
+                    if(tipoTab === 'leyendas') borderColorClass = 'border-brand-gold';
+
+                    divSec.innerHTML = `
+                        <h4 class="font-serif text-lg font-bold text-brand-dark mb-4 border-l-4 ${borderColorClass} pl-3">${sec.title}</h4>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="grid-${tipoTab}-${sec.key}"></div>
+                    `;
+                    container.appendChild(divSec);
+
+                    const grid = divSec.querySelector(`#grid-${tipoTab}-${sec.key}`);
+                    lista.forEach(j => {
+                        const tarjeta = document.createElement('div');
+                        tarjeta.className = 'bg-slate-50 rounded-xl overflow-hidden border border-slate-200 p-3 shadow-subtle hover:shadow-card transition-all flex flex-col justify-between';
+                        
+                        let badgeBgColor = 'bg-brand-gold text-brand-dark';
+                        if(tipoTab === 'masculino') badgeBgColor = 'bg-brand-green text-white';
+                        if(tipoTab === 'femenino') badgeBgColor = 'bg-brand-rose text-white';
+                        
+                        tarjeta.innerHTML = `
+                            <div>
+                                <div class="h-28 bg-slate-200 rounded-lg overflow-hidden mb-2.5 relative flex items-center justify-center">
+                                    <img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=400&q=80" alt="${j.nombres}" class="w-full h-full object-cover">
+                                    <span class="absolute top-2 right-2 ${badgeBgColor} text-[10px] font-bold px-1.5 py-0.5 rounded shadow">#${j.num}</span>
+                                </div>
+                                <h5 class="text-xs font-bold text-brand-dark truncate">${j.nombres}</h5>
+                                <p class="text-[11px] text-brand-green font-semibold truncate mb-2">${j.apellidos}</p>
+                            </div>
+                            <div class="border-t border-slate-200 pt-2 text-[10px] text-slate-600 space-y-0.5">
+                                <p><strong>Nac:</strong> ${j.fechaNac}</p>
+                                <p><strong>Obs:</strong> ${j.observacion}</p>
+                            </div>
+                        `;
+                        grid.appendChild(tarjeta);
+                    });
+                }
+            });
+
+            if (!hayRegistros) {
+                container.innerHTML += `<div class="text-center py-12 text-slate-500 text-xs">No se encontraron registros disponibles en esta sección.</div>`;
+            }
+        }
+
+        // Lógica de cambio de pestañas refactorizada para soportar estilos personalizados
+        function cambiarPlantillaTab(tipoTab) {
+            // Reiniciar todos los botones a su estado inactivo
+            document.querySelectorAll('.plantilla-tab-btn').forEach(b => {
+                const activeClasses = b.getAttribute('data-active').split(' ');
+                const inactiveClasses = b.getAttribute('data-inactive').split(' ');
+                
+                b.classList.remove(...activeClasses.filter(c => c));
+                b.classList.add(...inactiveClasses.filter(c => c));
+            });
+            
+            // Aplicar estado activo al botón seleccionado
+            const activo = document.getElementById(`btn-tab-${tipoTab}`);
+            if (activo) {
+                const activeClasses = activo.getAttribute('data-active').split(' ');
+                const inactiveClasses = activo.getAttribute('data-inactive').split(' ');
+                
+                activo.classList.remove(...inactiveClasses.filter(c => c));
+                activo.classList.add(...activeClasses.filter(c => c));
+            }
+            
+            cargarDatosPlantilla(tipoTab);
+        }
+
+        // Carga inicial automática
+        document.addEventListener('DOMContentLoaded', () => {
+            cambiarPlantillaTab('masculino');
+        });
+    </script>
         <!-- ==================== 5. REPOSITORIO ==================== -->
          <section id="galeria" class="py-16 md:py-24 bg-slate-50 w-full flex-grow border-b border-slate-200">
     <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
