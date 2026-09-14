@@ -495,8 +495,10 @@
             if (!config) return;
 
             try {
-                // Cargar plantilla principal
-                const urlPlantilla = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.plantilla}`;
+                // Usamos el proxy CORS oficial para evitar el bloqueo de GitHub Pages hacia Google Sheets
+                const rawUrlPlantilla = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.plantilla}`;
+                const urlPlantilla = `https://api.allorigins.win/raw?url=${encodeURIComponent(rawUrlPlantilla)}`;
+                
                 const respPlantilla = await fetch(urlPlantilla);
                 if (!respPlantilla.ok) throw new Error("Error al conectar con Google Sheets");
                 const csvPlantilla = await respPlantilla.text();
@@ -504,12 +506,27 @@
                 // Cargar cuerpo técnico si aplica
                 let csvCuerpo = "";
                 if (config.cuerpo) {
-                    const urlCuerpo = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.cuerpo}`;
+                    const rawUrlCuerpo = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.cuerpo}`;
+                    const urlCuerpo = `https://api.allorigins.win/raw?url=${encodeURIComponent(rawUrlCuerpo)}`;
                     const respCuerpo = await fetch(urlCuerpo);
                     if (respCuerpo.ok) csvCuerpo = await respCuerpo.text();
                 }
 
-                function renderizarPlantillaCompleta(csvPlantilla, csvCuerpo, tipoTab, container) {
+                renderizarPlantillaCompleta(csvPlantilla, csvCuerpo, tipoTab, container);
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = `<div class="text-center py-12 text-red-500 text-xs">No se pudo cargar la información en vivo. Asegúrate de que las hojas de Google Sheets sean públicas ("Cualquier persona con el enlace").</div>`;
+            }
+        }
+
+        function parsearCSV(csvText) {
+            return csvText.split('\n').map(fila => {
+                const match = fila.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+                return fila.split(',').map(val => val.replace(/^"|"$/g, '').trim());
+            });
+        }
+
+        function renderizarPlantillaCompleta(csvPlantilla, csvCuerpo, tipoTab, container) {
             container.innerHTML = '';
 
             // 1. Procesar Cuerpo Técnico (si existe)
@@ -577,7 +594,7 @@
                 if (!cols || cols.length < 4) continue;
 
                 const numCamiseta = cols[1] || cols[0] || '•';
-                const cedulaImagen = (cols[2] || '').trim(); // Columna C: Cédula / Nombre del archivo en GitHub
+                const cedulaImagen = (cols[2] || '').trim(); // Columna C: Cédula / Nombre de la foto en GitHub
                 const nombres = cols[3] || cols[2] || '';
                 const apellidos = cols[4] || cols[3] || '';
                 const fechaNac = cols[5] || 'No registrada';
@@ -637,7 +654,7 @@
                         if(tipoTab === 'masculino') badgeBgColor = 'bg-brand-green text-white';
                         if(tipoTab === 'femenino') badgeBgColor = 'bg-brand-rose text-white';
                         
-                        // Construcción de la ruta: toma la cédula de la Columna C y le añade .jpg desde GitHub
+                        // Toma el valor de la Columna C (cédula) y busca "cedula.jpg" en tu GitHub. Si no hay, usa "Amazonas PGN.png"
                         const urlFoto = j.cedulaImagen ? `${j.cedulaImagen}.jpg` : 'Amazonas PGN.png';
                         
                         tarjeta.innerHTML = `
@@ -663,9 +680,8 @@
                 container.innerHTML += `<div class="text-center py-12 text-slate-500 text-xs">No se encontraron registros disponibles en esta sección.</div>`;
             }
         }
-        // Lógica de cambio de pestañas refactorizada para soportar estilos personalizados
+
         function cambiarPlantillaTab(tipoTab) {
-            // Reiniciar todos los botones a su estado inactivo
             document.querySelectorAll('.plantilla-tab-btn').forEach(b => {
                 const activeClasses = b.getAttribute('data-active').split(' ');
                 const inactiveClasses = b.getAttribute('data-inactive').split(' ');
@@ -674,7 +690,6 @@
                 b.classList.add(...inactiveClasses.filter(c => c));
             });
             
-            // Aplicar estado activo al botón seleccionado
             const activo = document.getElementById(`btn-tab-${tipoTab}`);
             if (activo) {
                 const activeClasses = activo.getAttribute('data-active').split(' ');
@@ -687,7 +702,6 @@
             cargarDatosPlantilla(tipoTab);
         }
 
-        // Carga inicial automática
         document.addEventListener('DOMContentLoaded', () => {
             cambiarPlantillaTab('masculino');
         });
