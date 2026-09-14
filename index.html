@@ -576,9 +576,9 @@
                 const cols = filasPlantilla[i];
                 if (!cols || cols.length < 4) continue;
 
+                // Mapeo adaptado a tus columnas de Google Sheets
                 const numCamiseta = cols[1] || cols[0] || '•';
-                // Captura la cédula (ajustada según el orden habitual de tus columnas)
-                const cedula = cols[1] || cols[2] || '';
+                const cedulaImagen = (cols[2] || '').trim(); // Columna C: Cédula / Nombre de la foto en GitHub
                 const nombres = cols[3] || cols[2] || '';
                 const apellidos = cols[4] || cols[3] || '';
                 const fechaNac = cols[5] || 'No registrada';
@@ -587,7 +587,7 @@
 
                 if (!nombres && !apellidos) continue;
 
-                const jugadorObj = { num: numCamiseta, cedula, nombres, apellidos, fechaNac, observacion, posicion };
+                const jugadorObj = { num: numCamiseta, cedulaImagen, nombres, apellidos, fechaNac, observacion, posicion };
 
                 if (posicion.includes('ARQUERO') || posicion.includes('PORTERO')) {
                     categoriasJugadores['PORTERO'].push(jugadorObj);
@@ -638,11 +638,13 @@
                         if(tipoTab === 'masculino') badgeBgColor = 'bg-brand-green text-white';
                         if(tipoTab === 'femenino') badgeBgColor = 'bg-brand-rose text-white';
                         
+                        // Ruta automática basada en el número de cédula (Columna C) + .jpg con respaldo al escudo
+                        const urlFoto = j.cedulaImagen ? `${j.cedulaImagen}.jpg` : 'Amazonas PGN.png';
+
                         tarjeta.innerHTML = `
                             <div>
-                                <div class="h-28 bg-slate-200 rounded-lg overflow-hidden mb-2.5 relative flex items-center justify-center">
-                                    <!-- Carga la imagen usando la cédula y respaldo automático si no existe -->
-                                    <img src="${j.cedula}.jpg" alt="${j.nombres} ${j.apellidos}" class="w-full h-full object-cover" onerror="this.src='https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=400&q=80'">
+                                <div class="h-36 bg-white rounded-lg overflow-hidden mb-2.5 relative flex items-center justify-center border border-slate-100">
+                                    <img src="${urlFoto}" alt="${j.nombres} ${j.apellidos}" class="w-full h-full object-cover" onerror="this.src='Amazonas PGN.png'">
                                     <span class="absolute top-2 right-2 ${badgeBgColor} text-[10px] font-bold px-1.5 py-0.5 rounded shadow">#${j.num}</span>
                                 </div>
                                 <h5 class="text-xs font-bold text-brand-dark truncate">${j.nombres}</h5>
