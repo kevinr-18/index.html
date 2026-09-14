@@ -576,7 +576,6 @@
                 const cols = filasPlantilla[i];
                 if (!cols || cols.length < 4) continue;
 
-                // Mapeo adaptado a tus columnas de Google Sheets
                 const numCamiseta = cols[1] || cols[0] || '•';
                 const cedulaImagen = (cols[2] || '').trim(); // Columna C: Cédula / Nombre de la foto en GitHub
                 const nombres = cols[3] || cols[2] || '';
@@ -638,9 +637,9 @@
                         if(tipoTab === 'masculino') badgeBgColor = 'bg-brand-green text-white';
                         if(tipoTab === 'femenino') badgeBgColor = 'bg-brand-rose text-white';
                         
-                        // Ruta automática basada en el número de cédula (Columna C) + .jpg con respaldo al escudo
+                        // Construye la ruta de la imagen: "numeroCedula.jpg" o usa el escudo por defecto si está vacío
                         const urlFoto = j.cedulaImagen ? `${j.cedulaImagen}.jpg` : 'Amazonas PGN.png';
-
+                        
                         tarjeta.innerHTML = `
                             <div>
                                 <div class="h-36 bg-white rounded-lg overflow-hidden mb-2.5 relative flex items-center justify-center border border-slate-100">
