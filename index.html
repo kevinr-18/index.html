@@ -436,49 +436,48 @@
                 </div>
             </div>
         </section>
-
         <!-- ==================== 4. PLANTILLA ==================== -->
         <section id="plantilla" class="py-16 md:py-24 bg-brand-white w-full flex-grow border-b border-slate-200">
-        <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
-            <div class="text-center mb-10">
-                <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Nómina Oficial Sincronizada</span>
-                <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Plantilla y Leyendas 2026</h3>
-                <p class="text-xs text-slate-500 mt-1">Cargada directamente desde Google Sheets en tiempo real</p>
-                <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
-            </div>
+            <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
+                <div class="text-center mb-10">
+                    <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Nómina Oficial Sincronizada</span>
+                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Plantilla y Leyendas 2026</h3>
+                    <p class="text-xs text-slate-500 mt-1">Cargada directamente desde Google Sheets en tiempo real</p>
+                    <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
+                </div>
 
-            <!-- Botones de Pestañas Principales (Estética Corregida) -->
-            <div class="flex flex-wrap justify-center gap-4 mb-10">
-                <button onclick="cambiarPlantillaTab('masculino')" id="btn-tab-masculino" 
-                    data-active="bg-brand-green text-brand-white border-brand-dark shadow-subtle" 
-                    data-inactive="bg-white text-brand-dark border-slate-200 hover:bg-slate-50"
-                    class="plantilla-tab-btn border-b-4 px-6 py-2.5 rounded-t-lg font-bold text-xs uppercase tracking-wider transition-all duration-300">
-                    Plantilla Masculina
-                </button>
-                
-                <button onclick="cambiarPlantillaTab('femenino')" id="btn-tab-femenino" 
-                    data-active="bg-brand-rose text-brand-white border-brand-green shadow-subtle" 
-                    data-inactive="bg-white text-brand-rose border-slate-200 hover:bg-pink-50"
-                    class="plantilla-tab-btn border-b-4 px-6 py-2.5 rounded-t-lg font-bold text-xs uppercase tracking-wider transition-all duration-300">
-                    Plantilla Femenina
-                </button>
-                
-                <button onclick="cambiarPlantillaTab('leyendas')" id="btn-tab-leyendas" 
-                    data-active="bg-gradient-to-r from-brand-gold to-yellow-500 text-brand-white border-brand-green shadow-badge-gold -translate-y-1" 
-                    data-inactive="bg-white text-brand-gold border-slate-200 hover:bg-yellow-50"
-                    class="plantilla-tab-btn border-b-4 px-6 py-2.5 rounded-t-lg font-bold text-xs uppercase tracking-wider transition-all duration-300 transform">
-                    Leyendas del Club
-                </button>
-            </div>
+                <!-- Botones de Pestañas Principales (Estética Corregida) -->
+                <div class="flex flex-wrap justify-center gap-4 mb-10">
+                    <button onclick="cambiarPlantillaTab('masculino')" id="btn-tab-masculino" 
+                        data-active="bg-brand-green text-brand-white border-brand-dark shadow-subtle" 
+                        data-inactive="bg-white text-brand-dark border-slate-200 hover:bg-slate-50"
+                        class="plantilla-tab-btn border-b-4 px-6 py-2.5 rounded-t-lg font-bold text-xs uppercase tracking-wider transition-all duration-300">
+                        Plantilla Masculina
+                    </button>
+                    
+                    <button onclick="cambiarPlantillaTab('femenino')" id="btn-tab-femenino" 
+                        data-active="bg-brand-rose text-brand-white border-brand-green shadow-subtle" 
+                        data-inactive="bg-white text-brand-rose border-slate-200 hover:bg-pink-50"
+                        class="plantilla-tab-btn border-b-4 px-6 py-2.5 rounded-t-lg font-bold text-xs uppercase tracking-wider transition-all duration-300">
+                        Plantilla Femenina
+                    </button>
+                    
+                    <button onclick="cambiarPlantillaTab('leyendas')" id="btn-tab-leyendas" 
+                        data-active="bg-gradient-to-r from-brand-gold to-yellow-500 text-brand-white border-brand-green shadow-badge-gold -translate-y-1" 
+                        data-inactive="bg-white text-brand-gold border-slate-200 hover:bg-yellow-50"
+                        class="plantilla-tab-btn border-b-4 px-6 py-2.5 rounded-t-lg font-bold text-xs uppercase tracking-wider transition-all duration-300 transform">
+                        Leyendas del Club
+                    </button>
+                </div>
 
-            <!-- Contenedor Dinámico de Plantillas -->
-            <div id="plantilla-dinamica-container" class="space-y-12">
-                <div class="text-center py-12 text-slate-400 text-xs">Cargando datos institucionales desde Google Sheets...</div>
+                <!-- Contenedor Dinámico de Plantillas -->
+                <div id="plantilla-dinamica-container" class="space-y-12">
+                    <div class="text-center py-12 text-slate-400 text-xs">Cargando datos institucionales desde Google Sheets...</div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Script de automatización para la sección Plantilla -->
+    <!-- Script de automatización para la sección Plantilla con GIDs Correctos -->
     <script>
         const SPREADSHEET_ID = "1EXz8vjq4cILNs_w2S4BLydKToN_arlejavhTKvcwByY";
         const GIDS_CONFIG = {
@@ -495,19 +494,16 @@
             if (!config) return;
 
             try {
-                // Usamos el proxy CORS oficial para evitar el bloqueo de GitHub Pages hacia Google Sheets
-                const rawUrlPlantilla = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.plantilla}`;
-                const urlPlantilla = `https://api.allorigins.win/raw?url=${encodeURIComponent(rawUrlPlantilla)}`;
-                
+                // Cargar plantilla principal usando el GID correcto
+                const urlPlantilla = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.plantilla}`;
                 const respPlantilla = await fetch(urlPlantilla);
                 if (!respPlantilla.ok) throw new Error("Error al conectar con Google Sheets");
                 const csvPlantilla = await respPlantilla.text();
 
-                // Cargar cuerpo técnico si aplica
+                // Cargar cuerpo técnico si aplica con su GID correspondiente
                 let csvCuerpo = "";
                 if (config.cuerpo) {
-                    const rawUrlCuerpo = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.cuerpo}`;
-                    const urlCuerpo = `https://api.allorigins.win/raw?url=${encodeURIComponent(rawUrlCuerpo)}`;
+                    const urlCuerpo = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.cuerpo}`;
                     const respCuerpo = await fetch(urlCuerpo);
                     if (respCuerpo.ok) csvCuerpo = await respCuerpo.text();
                 }
@@ -547,7 +543,8 @@
                         tecnicos.push({
                             nombre: cols[1] || '',
                             apellido: cols[2] || '',
-                            cargo: cols[3] || 'Cuerpo Técnico'
+                            cargo: cols[3] || 'Cuerpo Técnico',
+                            fotoUrl: cols[4] || '' // Soporte para la foto del técnico si se agrega en el Sheets
                         });
                     }
                 }
@@ -559,7 +556,8 @@
                         <h4 class="font-serif text-lg font-bold text-brand-dark mb-4 text-center">Cuerpo Técnico Oficial</h4>
                         <div class="grid grid-cols-1 sm:grid-cols-${Math.min(tecnicos.length, 3)} gap-4 text-center text-xs">
                             ${tecnicos.map(t => `
-                                <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm">
+                                <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center">
+                                    ${t.fotoUrl ? `<div class="w-16 h-16 rounded-full overflow-hidden mb-2 bg-slate-100"><img src="${t.fotoUrl}" alt="${t.nombre}" class="w-full h-full object-cover" onerror="this.src='Amazonas PGN.png'"></div>` : ''}
                                     <span class="font-bold text-brand-green block mb-1">${t.cargo || 'Técnico'}</span>
                                     <span class="text-slate-700 font-medium">${t.nombre} ${t.apellido}</span>
                                 </div>
@@ -594,16 +592,18 @@
                 if (!cols || cols.length < 4) continue;
 
                 const numCamiseta = cols[1] || cols[0] || '•';
-                const cedulaImagen = (cols[2] || '').trim(); // Columna C: Cédula / Nombre de la foto en GitHub
                 const nombres = cols[3] || cols[2] || '';
                 const apellidos = cols[4] || cols[3] || '';
                 const fechaNac = cols[5] || 'No registrada';
                 const observacion = cols[6] || 'Nacional';
                 const posicion = (cols[10] || cols[9] || 'MEDIOCAMPISTA').toUpperCase();
+                
+                // Mapeo dinámico de la columna de foto (ajustable según la celda del CSV, ej: cols[11])
+                const fotoUrl = cols[11] || '';
 
                 if (!nombres && !apellidos) continue;
 
-                const jugadorObj = { num: numCamiseta, cedulaImagen, nombres, apellidos, fechaNac, observacion, posicion };
+                const jugadorObj = { num: numCamiseta, nombres, apellidos, fechaNac, observacion, posicion, fotoUrl };
 
                 if (posicion.includes('ARQUERO') || posicion.includes('PORTERO')) {
                     categoriasJugadores['PORTERO'].push(jugadorObj);
@@ -654,13 +654,13 @@
                         if(tipoTab === 'masculino') badgeBgColor = 'bg-brand-green text-white';
                         if(tipoTab === 'femenino') badgeBgColor = 'bg-brand-rose text-white';
                         
-                        // Toma el valor de la Columna C (cédula) y busca "cedula.jpg" en tu GitHub. Si no hay, usa "Amazonas PGN.png"
-                        const urlFoto = j.cedulaImagen ? `${j.cedulaImagen}.jpg` : 'Amazonas PGN.png';
-                        
+                        // Si hay foto en el Sheets la muestra; si no, aplica el escudo por defecto como respaldo
+                        const imagenFinal = (j.fotoUrl && j.fotoUrl.trim() !== '') ? j.fotoUrl : 'Amazonas PGN.png';
+
                         tarjeta.innerHTML = `
                             <div>
-                                <div class="h-36 bg-white rounded-lg overflow-hidden mb-2.5 relative flex items-center justify-center border border-slate-100">
-                                    <img src="${urlFoto}" alt="${j.nombres} ${j.apellidos}" class="w-full h-full object-cover" onerror="this.src='Amazonas PGN.png'">
+                                <div class="h-28 bg-slate-200 rounded-lg overflow-hidden mb-2.5 relative flex items-center justify-center p-1">
+                                    <img src="${imagenFinal}" alt="${j.nombres}" class="w-full h-full object-cover" onerror="this.src='Amazonas PGN.png'">
                                     <span class="absolute top-2 right-2 ${badgeBgColor} text-[10px] font-bold px-1.5 py-0.5 rounded shadow">#${j.num}</span>
                                 </div>
                                 <h5 class="text-xs font-bold text-brand-dark truncate">${j.nombres}</h5>
