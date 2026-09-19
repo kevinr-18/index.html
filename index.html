@@ -141,7 +141,7 @@
                     </li>
                     <li>
                         <a href="#galeria" onclick="mostrarSeccion('galeria'); return false;" id="nav-galeria" class="nav-link block px-3 py-2 rounded-md hover:text-brand-white hover:bg-white/10 transition-all">
-                            Repositorio
+                            torio
                         </a>
                     </li>
                     <li>
@@ -707,256 +707,208 @@
         });
     </script>
         <!-- ==================== 5. REPOSITORIO ==================== -->
-         <section id="galeria" class="py-16 md:py-24 bg-slate-50 w-full flex-grow border-b border-slate-200">
-    <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
-        <div class="text-center mb-10">
-            <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Memoria Gráfica</span>
-            <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Repositorio Histórico</h3>
-            <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
-            <p class="text-xs text-slate-500 mt-2">Haz clic en cualquier imagen para ampliarla</p>
+        <!-- ==================== 5. REPOSITORIO GRÁFICO (CONECTADO A GOOGLE SHEETS) ==================== -->
+        <section id="galeria" class="py-16 md:py-24 bg-slate-50 w-full flex-grow border-b border-slate-200">
+            <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
+                <div class="text-center mb-10">
+                    <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Memoria Gráfica</span>
+                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Repositorio Histórico</h3>
+                    <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
+                    <p class="text-xs text-slate-500 mt-2">Sincronizado en tiempo real • Haz clic en cualquier imagen para ampliarla</p>
+                </div>
+
+                <!-- Contenedor dinámico para los filtros de años -->
+                <div class="flex flex-wrap justify-center gap-1.5 mb-8 min-h-[32px]" id="filtros-anio-repo"></div>
+
+                <!-- Grid donde se pintarán las imágenes automáticamente -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="repo-grid-dinamico">
+                    <div class="col-span-full text-center py-12 text-slate-400 text-xs">Cargando repositorio gráfico desde Google Sheets...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal para expandir imágenes / Image Lightbox Modal -->
+        <div id="modal-imagen" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm" onclick="cerrarModalRepo()">
+            <div class="relative max-w-4xl max-h-[90vh] bg-white rounded-lg overflow-hidden shadow-2xl p-2" onclick="event.stopPropagation()">
+                <button onclick="cerrarModalRepo()" class="absolute top-4 right-4 z-10 bg-black/70 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors">✕</button>
+                <img id="modal-img-src" src="" alt="Imagen ampliada" class="max-w-full max-h-[80vh] object-contain mx-auto rounded">
+                <p id="modal-caption" class="text-center text-sm font-medium text-slate-700 mt-2"></p>
+            </div>
         </div>
 
-        <!-- Filtros principales de categoría -->
-        <div class="flex flex-wrap justify-center gap-1.5 mb-4" id="filtros-categoria">
-            <button onclick="seleccionarCategoria('todos')" id="btn-cat-todos" class="px-3 py-1.5 text-xs font-bold rounded bg-brand-green text-brand-white">Todo</button>
-            <button onclick="seleccionarCategoria('maxima')" id="btn-cat-maxima" class="px-3 py-1.5 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Máxima</button>
-            <button onclick="seleccionarCategoria('primera')" id="btn-cat-primera" class="px-3 py-1.5 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Primera</button>
-            <button onclick="seleccionarCategoria('segunda')" id="btn-cat-segunda" class="px-3 py-1.5 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Segunda</button>
-            <button onclick="seleccionarCategoria('femenino')" id="btn-cat-femenino" class="px-3 py-1.5 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Femenino</button>
-            <button onclick="seleccionarCategoria('retro')" id="btn-cat-retro" class="px-3 py-1.5 text-xs font-bold rounded bg-white text-slate-700 border border-slate-300">Retro</button>
-        </div>
+        <!-- Script de automatización para el Repositorio Gráfico -->
+        <script>
+            // Usamos el mismo ID de tu documento general o el específico que prefieras
+            const SPREADSHEET_REPO_ID = "1GxnHehS9i4QAPCiyVlf3cWfmK1QWqWsQy8juukoZ754";
+            const REPO_GID = "0"; // Asegúrate de colocar el GID correcto de la pestaña de repositorio si es diferente
 
-        <div class="flex flex-wrap justify-center gap-1.5 mb-8 min-h-[32px]" id="filtros-anio"></div>
+            let repositorioDatos = [];
+            let categoriaRepoActual = 'todos';
+            let anioRepoActual = 'todos';
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="repo-grid">
-            <!-- Máxima 2026 -->
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2026" onclick="abrirModal('CampeonatoMaxima26.jpg', 'Máxima 2026 #1')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima26.jpg" alt="Máxima 2026" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=Maxima+2026+1'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2026 #1</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2026" onclick="abrirModal('CampeonatoMaxima261.jpg', 'Máxima 2026 #2')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima261.jpg" alt="Máxima 2026" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=Maxima+2026+2'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2026 #2</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2026" onclick="abrirModal('CampeonatoMaxima262.jpg', 'Máxima 2026 #3')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima262.jpg" alt="Máxima 2026" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=Maxima+2026+3'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2026 #3</span>
-                </div>
-            </div>
+            async function cargarRepositorioGoogleSheets() {
+                const gridContainer = document.getElementById('repo-grid-dinamico');
+                try {
+                    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_REPO_ID}/export?format=csv&gid=${REPO_GID}`;
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error("No se pudo conectar con Google Sheets");
+                    const csvText = await response.text();
+                    
+                    repositorioDatos = parsearCSVRepo(csvText);
+                    
+                    if (repositorioDatos.length === 0) {
+                        gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No se encontraron registros en el repositorio.</div>`;
+                        return;
+                    }
 
-            <!-- Máxima 2025 -->
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2025" onclick="abrirModal('CampeonatoMaxima25.jpg', 'Máxima 2025 #1')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima25.jpg" alt="Máxima 2025" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/d4af37/1a1a1a?text=Campeon+2025+1'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2025 #1</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2025" onclick="abrirModal('CampeonatoMaxima251.jpg', 'Máxima 2025 #2')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima251.jpg" alt="Máxima 2025" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/d4af37/1a1a1a?text=Campeon+2025+2'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2025 #2</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2025" onclick="abrirModal('CampeonatoMaxima252.jpg', 'Máxima 2025 #3')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima252.jpg" alt="Máxima 2025" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/d4af37/1a1a1a?text=Campeon+2025+3'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2025 #3</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2025" onclick="abrirModal('CampeonatoMaxima253.jpg', 'Máxima 2025 #4')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima253.jpg" alt="Máxima 2025" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/d4af37/1a1a1a?text=Campeon+2025+4'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2025 #4</span>
-                </div>
-            </div>
+                    actualizarFiltrosAnioRepo(categoriaRepoActual);
+                    renderizarRepositorioRepo(categoriaRepoActual, anioRepoActual);
+                } catch (error) {
+                    console.error("Error cargando repositorio:", error);
+                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-red-500 text-xs">Error al sincronizar las imágenes. Verifica que el documento sea público ("Cualquier persona con el enlace").</div>`;
+                }
+            }
 
-            <!-- Máxima 2024 -->
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2024" onclick="abrirModal('CampeonatoMaxima24.jpg', 'Máxima 2024 #1')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima24.jpg" alt="Máxima 2024" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=Maxima+2024+1'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2024 #1</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2024" onclick="abrirModal('CampeonatoMaxima241.jpg', 'Máxima 2024 #2')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima241.jpg" alt="Máxima 2024" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=Maxima+2024+2'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2024 #2</span>
-                </div>
-            </div>
+            function parsearCSVRepo(csvText) {
+                const lineas = csvText.split('\n');
+                const resultado = [];
+                // Leyendo desde la fila 1 (omitiendo la cabecera)
+                for (let i = 1; i < lineas.length; i++) {
+                    const fila = lineas[i].trim();
+                    if (!fila) continue;
+                    // Limpieza y separación por comas considerando posibles comillas en el CSV
+                    const cols = fila.split(',').map(val => val.replace(/^"|"$/g, '').trim());
+                    if (cols.length >= 4) {
+                        resultado.push({
+                            equipo: (cols[0] || '').toLowerCase(),          // Columna A: Masculino / Femenino / Historico
+                            categoria: (cols[1] || 'maxima').toLowerCase(),  // Columna B: maxima, primera, segunda, femenino, historico
+                            anio: cols[2] || 'todos',                        // Columna C: 2026, 2025, etc.
+                            url: cols[3] || '',                              // Columna D: UrlImagen
+                            descripcion: cols[4] || 'Archivo Amazonas'       // Columna E: Descripcion
+                        });
+                    }
+                }
+                return resultado;
+            }
 
-            <!-- Máxima 2023 -->
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2023" onclick="abrirModal('CampeonatoMaxima23.jpg', 'Máxima 2023 #1')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima23.jpg" alt="Máxima 2023" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=Maxima+2023+1'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2023 #1</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2023" onclick="abrirModal('CampeonatoMaxima231.jpg', 'Máxima 2023 #2')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima231.jpg" alt="Máxima 2023" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=Maxima+2023+2'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2023 #2</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2023" onclick="abrirModal('CampeonatoMaxima232.jpg', 'Máxima 2023 #3')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima232.jpg" alt="Máxima 2023" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=Maxima+2023+3'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2023 #3</span>
-                </div>
-            </div>
+            function seleccionarCategoriaRepo(categoria) {
+                categoriaRepoActual = categoria;
+                anioRepoActual = 'todos';
 
-            <!-- Máxima 2022 -->
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2022" onclick="abrirModal('CampeonatoMaxima22.png', '2022 #1')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima22.png" alt="2022" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=2022+1'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2022 #1</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2022" onclick="abrirModal('CampeonatoMaxima223.jpg', '2022 #2')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima223.jpg" alt="2022" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=2022+2'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2022 #2</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2022" onclick="abrirModal('CampeonatoMaxima226.jpg', '2022 #3')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima226.jpg" alt="2022" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=2022+3'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2022 #3</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2022" onclick="abrirModal('CampeonatoMaxima227.jpg', '2022 #4')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima227.jpg" alt="2022" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=2022+4'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2022 #4</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2022" onclick="abrirModal('CampeonatoMaxima228.jpg', '2022 #5')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima228.jpg" alt="2022" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=2022+5'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2022 #5</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2022" onclick="abrirModal('CampeonatoMaxima2211.jpg', '2022 #6')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima2211.jpg" alt="2022" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=2022+6'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2022 #6</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="maxima" data-anio="2022" onclick="abrirModal('CampeonatoMaxima2212.jpg', '2022 #7')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="CampeonatoMaxima2212.jpg" alt="2022" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/046a38/ffffff?text=2022+7'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">2022 #7</span>
-                </div>
-            </div>
+                // Actualizar estilos de botones de categoría
+                document.querySelectorAll('#filtros-categoria button').forEach(b => {
+                    b.classList.remove('bg-brand-green', 'text-brand-white');
+                    b.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
+                });
+                const btnActivo = document.getElementById(`btn-cat-${categoria}`);
+                if (btnActivo) {
+                    btnActivo.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
+                    btnActivo.classList.add('bg-brand-green', 'text-brand-white');
+                }
 
-            <!-- Femenino -->
-            <div class="repo-item cursor-pointer group" data-cat="femenino" data-anio="2026" onclick="abrirModal('Femenino26.jpg', 'Fem 2026 #1')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="Femenino26.jpg" alt="Fem 2026" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/f179c5/ffffff?text=Fem+2026+1'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">Fem 2026 #1</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="femenino" data-anio="2026" onclick="abrirModal('Femenino261.jpg', 'Fem 2026 #2')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="Femenino261.jpg" alt="Fem 2026" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/f179c5/ffffff?text=Fem+2026+2'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">Fem 2026 #2</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="femenino" data-anio="2025" onclick="abrirModal('femenino25.jpg', 'Fem 2025 #1')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="femenino25.jpg" alt="Fem 2025" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/f179c5/ffffff?text=Fem+2025+1'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">Fem 2025 #1</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="femenino" data-anio="2024" onclick="abrirModal('Femeninoconsuelo24.jpg', 'Fem 2024 #1')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="Femeninoconsuelo24.jpg" alt="Fem 2024" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/f179c5/ffffff?text=Fem+2024+1'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">Fem 2024 #1</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="femenino" data-anio="2024" onclick="abrirModal('Femeninoconsuelo241.jpg', 'Fem 2024 #2')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="Femeninoconsuelo241.jpg" alt="Fem 2024" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/f179c5/ffffff?text=Fem+2024+2'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">Fem 2024 #2</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="femenino" data-anio="2024" onclick="abrirModal('Femeninoconsuelo242.jpg', 'Fem 2024 #3')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="Femeninoconsuelo242.jpg" alt="Fem 2024" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/f179c5/ffffff?text=Fem+2024+3'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">Fem 2024 #3</span>
-                </div>
-            </div>
+                actualizarFiltrosAnioRepo(categoria);
+                renderizarRepositorioRepo(categoriaRepoActual, anioRepoActual);
+            }
 
-            <!-- Primera -->
-            <div class="repo-item cursor-pointer group" data-cat="primera" data-anio="todos" onclick="abrirModal('Campeonato1ra.jpg', 'Primera')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="Campeonato1ra.jpg" alt="Primera" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/2563eb/ffffff?text=Primera'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">Primera</span>
-                </div>
-            </div>
+            function actualizarFiltrosAnioRepo(categoria) {
+                const contenedorAnios = document.getElementById('filtros-anio-repo');
+                contenedorAnios.innerHTML = '';
 
-            <!-- Segunda -->
-            <div class="repo-item cursor-pointer group" data-cat="segunda" data-anio="todos" onclick="abrirModal('Campeonato2da.jpg', 'Segunda #1')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="Campeonato2da.jpg" alt="Segunda 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/ea580c/ffffff?text=Segunda+1'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">Segunda #1</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="segunda" data-anio="todos" onclick="abrirModal('Campeonato2da1.png', 'Segunda #2')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="Campeonato2da1.png" alt="Segunda 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/ea580c/ffffff?text=Segunda+2'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">Segunda #2</span>
-                </div>
-            </div>
+                // Si la categoría es 'historico', no mostramos botones de años ya que van todas juntas
+                if (categoria === 'historico') return;
 
-            <!-- Retro -->
-            <div class="repo-item cursor-pointer group" data-cat="retro" data-anio="todos" onclick="abrirModal('Retro.jpg', 'Retro #1')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="Retro.jpg" alt="Retro 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/78716c/ffffff?text=Retro+1'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">Retro #1</span>
-                </div>
-            </div>
-            <div class="repo-item cursor-pointer group" data-cat="retro" data-anio="todos" onclick="abrirModal('Retro2.jpg', 'Retro #2')">
-                <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                    <img src="Retro2.jpg" alt="Retro 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x300/78716c/ffffff?text=Retro+2'">
-                    <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">Retro #2</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+                let aniosDisponibles = ['Todos'];
+                repositorioDatos.forEach(item => {
+                    if (categoria === 'todos' || item.categoria === categoria) {
+                        if (item.anio && !aniosDisponibles.includes(item.anio)) {
+                            aniosDisponibles.push(item.anio);
+                        }
+                    }
+                });
 
-<!-- Modal para expandir imágenes / Image Lightbox Modal -->
-<div id="modal-imagen" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm" onclick="cerrarModal()">
-    <div class="relative max-w-4xl max-h-[90vh] bg-white rounded-lg overflow-hidden shadow-2xl p-2" onclick="event.stopPropagation()">
-        <button onclick="cerrarModal()" class="absolute top-4 right-4 z-10 bg-black/70 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors">✕</button>
-        <img id="modal-img-src" src="" alt="Imagen ampliada" class="max-w-full max-h-[80vh] object-contain mx-auto rounded">
-        <p id="modal-caption" class="text-center text-sm font-medium text-slate-700 mt-2"></p>
-    </div>
-</div>
+                if (aniosDisponibles.length > 1) {
+                    aniosDisponibles.forEach(anio => {
+                        const btn = document.createElement('button');
+                        const valAnio = anio.toLowerCase() === 'todos' ? 'todos' : anio;
+                        btn.className = 'btn-anio-repo px-3 py-1 text-[11px] font-bold rounded-full transition-all border';
+                        
+                        if (valAnio === 'todos') {
+                            btn.className += ' bg-brand-gold text-brand-dark border-brand-gold';
+                        } else {
+                            btn.className += ' bg-white text-slate-600 border-slate-200 hover:border-brand-gold';
+                        }
 
-<script>
-    function abrirModal(src, caption) {
-        const modal = document.getElementById('modal-imagen');
-        const img = document.getElementById('modal-img-src');
-        const text = document.getElementById('modal-caption');
-        
-        img.src = src;
-        text.textContent = caption;
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden'; // Evita scroll de fondo / Prevent background scroll
-    }
+                        btn.innerText = anio;
+                        btn.onclick = () => seleccionarAnioRepo(valAnio, btn);
+                        contenedorAnios.appendChild(btn);
+                    });
+                }
+            }
 
-    function cerrarModal() {
-        const modal = document.getElementById('modal-imagen');
-        modal.classList.add('hidden');
-        document.body.style.overflow = 'auto'; // Restaura el scroll / Restore scroll
-    }
-</script>
+            function seleccionarAnioRepo(anio, btnClickeado) {
+                anioRepoActual = anio;
+                document.querySelectorAll('.btn-anio-repo').forEach(b => {
+                    b.classList.remove('bg-brand-gold', 'text-brand-dark', 'border-brand-gold');
+                    b.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+                });
+                btnClickeado.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
+                btnClickeado.classList.add('bg-brand-gold', 'text-brand-dark', 'border-brand-gold');
+
+                renderizarRepositorioRepo(categoriaRepoActual, anioRepoActual);
+            }
+
+            function renderizarRepositorioRepo(cat, anio) {
+                const gridContainer = document.getElementById('repo-grid-dinamico');
+                gridContainer.innerHTML = '';
+
+                const filtrados = repositorioDatos.filter(item => {
+                    const matchCat = (cat === 'todos' || item.categoria === cat);
+                    const matchAnio = (cat === 'historico' || anio === 'todos' || item.anio.toLowerCase() === anio.toLowerCase());
+                    return matchCat && matchAnio;
+                });
+
+                if (filtrados.length === 0) {
+                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No hay imágenes disponibles para esta selección en Google Sheets.</div>`;
+                    return;
+                }
+
+                filtrados.forEach(item => {
+                    const tarjeta = document.createElement('div');
+                    tarjeta.className = 'repo-item cursor-pointer group';
+                    tarjeta.onclick = () => abrirModalRepo(item.url, item.descripcion);
+                    
+                    tarjeta.innerHTML = `
+                        <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
+                            <img src="${item.url}" alt="${item.descripcion}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='Amazonas PGN.png'">
+                            <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">${item.anio !== 'todos' ? item.anio : item.categoria}</span>
+                        </div>
+                    `;
+                    gridContainer.appendChild(tarjeta);
+                });
+            }
+
+            function abrirModalRepo(src, caption) {
+                const modal = document.getElementById('modal-imagen');
+                const img = document.getElementById('modal-img-src');
+                const text = document.getElementById('modal-caption');
+                
+                img.src = src;
+                text.textContent = caption;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function cerrarModalRepo() {
+                const modal = document.getElementById('modal-imagen');
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+
+            // Cargar automáticamente al iniciar la página
+            document.addEventListener('DOMContentLoaded', () => {
+                cargarRepositorioGoogleSheets();
+            });
+        </script>
 
         <!-- ==================== 6. TIENDA ==================== -->
         <section id="tienda" class="hidden py-16 md:py-24 bg-brand-white w-full flex-grow border-b border-slate-200">
