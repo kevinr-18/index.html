@@ -706,15 +706,27 @@
             cambiarPlantillaTab('masculino');
         });
     </script>
-        <!-- ==================== 5. REPOSITORIO ==================== -->
         <!-- ==================== 5. REPOSITORIO GRÁFICO (CONECTADO A GOOGLE SHEETS) ==================== -->
         <section id="galeria" class="py-16 md:py-24 bg-slate-50 w-full flex-grow border-b border-slate-200">
             <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
                 <div class="text-center mb-10">
                     <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Memoria Gráfica</span>
-                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Repositorio Histórico</h3>
+                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Repositorio Gráfico</h3>
                     <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
                     <p class="text-xs text-slate-500 mt-2">Sincronizado en tiempo real • Haz clic en cualquier imagen para ampliarla</p>
+                </div>
+
+                <!-- Botones de Selección de Categoría / Equipo con Estética Dinámica -->
+                <div id="filtros-categoria" class="flex flex-wrap justify-center gap-2 mb-6">
+                    <button onclick="seleccionarCategoriaRepo('masculino')" id="btn-cat-masculino" class="px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-700 border border-slate-300 shadow-subtle">
+                        Equipo Masculino
+                    </button>
+                    <button onclick="seleccionarCategoriaRepo('femenino')" id="btn-cat-femenino" class="px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-700 border border-slate-300 shadow-subtle">
+                        Equipo Femenino
+                    </button>
+                    <button onclick="seleccionarCategoriaRepo('historico')" id="btn-cat-historico" class="px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-700 border border-slate-300 shadow-subtle">
+                        Histórico
+                    </button>
                 </div>
 
                 <!-- Contenedor dinámico para los filtros de años -->
@@ -736,14 +748,13 @@
             </div>
         </div>
 
-        <!-- Script de automatización para el Repositorio Gráfico -->
+        <!-- Script de automatización y control estético para el Repositorio Gráfico -->
         <script>
-            // Usamos el mismo ID de tu documento general o el específico que prefieras
             const SPREADSHEET_REPO_ID = "1GxnHehS9i4QAPCiyVlf3cWfmK1QWqWsQy8juukoZ754";
-            const REPO_GID = "0"; // Asegúrate de colocar el GID correcto de la pestaña de repositorio si es diferente
+            const REPO_GID = "0";
 
             let repositorioDatos = [];
-            let categoriaRepoActual = 'todos';
+            let categoriaRepoActual = 'masculino'; // Por defecto iniciado en masculino
             let anioRepoActual = 'todos';
 
             async function cargarRepositorioGoogleSheets() {
@@ -761,27 +772,23 @@
                         return;
                     }
 
-                    actualizarFiltrosAnioRepo(categoriaRepoActual);
-                    renderizarRepositorioRepo(categoriaRepoActual, anioRepoActual);
+                    seleccionarCategoriaRepo('masculino');
                 } catch (error) {
                     console.error("Error cargando repositorio:", error);
-                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-red-500 text-xs">Error al sincronizar las imágenes. Verifica que el documento sea público ("Cualquier persona con el enlace").</div>`;
+                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-red-500 text-xs">Error al sincronizar las imágenes. Verifica que el documento sea público.</div>`;
                 }
             }
 
             function parsearCSVRepo(csvText) {
                 const lineas = csvText.split('\n');
                 const resultado = [];
-                // Leyendo desde la fila 1 (omitiendo la cabecera)
                 for (let i = 1; i < lineas.length; i++) {
                     const fila = lineas[i].trim();
                     if (!fila) continue;
-                    // Limpieza y separación por comas considerando posibles comillas en el CSV
                     const cols = fila.split(',').map(val => val.replace(/^"|"$/g, '').trim());
                     if (cols.length >= 4) {
                         resultado.push({
-                            equipo: (cols[0] || '').toLowerCase(),          // Columna A: Masculino / Femenino / Historico
-                            categoria: (cols[1] || 'maxima').toLowerCase(),  // Columna B: maxima, primera, segunda, femenino, historico
+                            categoria: (cols[1] || 'masculino').toLowerCase(),  // Columna B: masculino, femenino, historico
                             anio: cols[2] || 'todos',                        // Columna C: 2026, 2025, etc.
                             url: cols[3] || '',                              // Columna D: UrlImagen
                             descripcion: cols[4] || 'Archivo Amazonas'       // Columna E: Descripcion
@@ -795,15 +802,23 @@
                 categoriaRepoActual = categoria;
                 anioRepoActual = 'todos';
 
-                // Actualizar estilos de botones de categoría
+                // Aplicar paleta de colores estética según el equipo seleccionado
                 document.querySelectorAll('#filtros-categoria button').forEach(b => {
-                    b.classList.remove('bg-brand-green', 'text-brand-white');
-                    b.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
+                    b.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-700 border border-slate-300 shadow-subtle';
                 });
+
                 const btnActivo = document.getElementById(`btn-cat-${categoria}`);
                 if (btnActivo) {
-                    btnActivo.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-                    btnActivo.classList.add('bg-brand-green', 'text-brand-white');
+                    if (categoria === 'masculino') {
+                        // Verde, blanco y negro
+                        btnActivo.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all bg-brand-green text-white border-2 border-brand-dark shadow-md';
+                    } else if (categoria === 'femenino') {
+                        // Verde, blanco y rosado
+                        btnActivo.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all bg-brand-rose text-white border-2 border-brand-green shadow-md';
+                    } else if (categoria === 'historico') {
+                        // Verde, blanco y dorado
+                        btnActivo.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all bg-brand-gold text-brand-dark border-2 border-brand-green shadow-badge-gold';
+                    }
                 }
 
                 actualizarFiltrosAnioRepo(categoria);
@@ -814,12 +829,11 @@
                 const contenedorAnios = document.getElementById('filtros-anio-repo');
                 contenedorAnios.innerHTML = '';
 
-                // Si la categoría es 'historico', no mostramos botones de años ya que van todas juntas
                 if (categoria === 'historico') return;
 
                 let aniosDisponibles = ['Todos'];
                 repositorioDatos.forEach(item => {
-                    if (categoria === 'todos' || item.categoria === categoria) {
+                    if (item.categoria === categoria) {
                         if (item.anio && !aniosDisponibles.includes(item.anio)) {
                             aniosDisponibles.push(item.anio);
                         }
@@ -830,14 +844,10 @@
                     aniosDisponibles.forEach(anio => {
                         const btn = document.createElement('button');
                         const valAnio = anio.toLowerCase() === 'todos' ? 'todos' : anio;
-                        btn.className = 'btn-anio-repo px-3 py-1 text-[11px] font-bold rounded-full transition-all border';
-                        
+                        btn.className = 'btn-anio-repo px-3 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
                         if (valAnio === 'todos') {
-                            btn.className += ' bg-brand-gold text-brand-dark border-brand-gold';
-                        } else {
-                            btn.className += ' bg-white text-slate-600 border-slate-200 hover:border-brand-gold';
+                            btn.classList.add('bg-brand-green', 'text-white', 'border-brand-green');
                         }
-
                         btn.innerText = anio;
                         btn.onclick = () => seleccionarAnioRepo(valAnio, btn);
                         contenedorAnios.appendChild(btn);
@@ -848,11 +858,9 @@
             function seleccionarAnioRepo(anio, btnClickeado) {
                 anioRepoActual = anio;
                 document.querySelectorAll('.btn-anio-repo').forEach(b => {
-                    b.classList.remove('bg-brand-gold', 'text-brand-dark', 'border-brand-gold');
-                    b.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
+                    b.className = 'btn-anio-repo px-3 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
                 });
-                btnClickeado.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-                btnClickeado.classList.add('bg-brand-gold', 'text-brand-dark', 'border-brand-gold');
+                btnClickeado.className = 'btn-anio-repo px-3 py-1 text-[11px] font-bold rounded-full transition-all border bg-brand-green text-white border-brand-green';
 
                 renderizarRepositorioRepo(categoriaRepoActual, anioRepoActual);
             }
@@ -862,7 +870,7 @@
                 gridContainer.innerHTML = '';
 
                 const filtrados = repositorioDatos.filter(item => {
-                    const matchCat = (cat === 'todos' || item.categoria === cat);
+                    const matchCat = (item.categoria === cat);
                     const matchAnio = (cat === 'historico' || anio === 'todos' || item.anio.toLowerCase() === anio.toLowerCase());
                     return matchCat && matchAnio;
                 });
@@ -904,7 +912,6 @@
                 document.body.style.overflow = 'auto';
             }
 
-            // Cargar automáticamente al iniciar la página
             document.addEventListener('DOMContentLoaded', () => {
                 cargarRepositorioGoogleSheets();
             });
