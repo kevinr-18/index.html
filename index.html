@@ -1299,6 +1299,7 @@
         }
 
         let chatHistory = [];
+        // Clave opcional. Si se deja vacía, el motor institucional responde localmente
         const apiKey = "";
 
         async function enviarMensajeChat() {
@@ -1310,57 +1311,92 @@
             agregarMensajeUI(mensaje, 'user');
             hacerScrollChat();
 
-            chatHistory.push({ role: "user", parts: [{ text: mensaje }] });
+            // Si hay API Key configurada, consulta a Gemini; de lo contrario, activa el motor institucional local
+            if (apiKey && apiKey.trim() !== "") {
+                chatHistory.push({ role: "user", parts: [{ text: mensaje }] });
 
-            const systemPrompt = `Eres el asistente virtual oficial del "Club Deportivo Amazonas" de Malchinguí (fundado el 12 de febrero de 1987). Responde con tono formal e institucional. Campeón Máxima 2025.`;
+                const systemPrompt = `Eres el dragón asistente y embajador oficial del "Club Deportivo Amazonas" de Malchinguí (fundado el 12 de febrero de 1987 por Don Carlos Eliécer Rodríguez). El club tiene 5 estrellas en su escudo, compite en Categoría Máxima y Femenina, y hace de local en el Estadio Cancha 7 "Carlos Eliécer Rodríguez". Responde de forma cordial, formal e institucional.`;
 
-            const payload = {
-                contents: chatHistory,
-                systemInstruction: { parts: [{ text: systemPrompt }] }
-            };
+                const payload = {
+                    contents: chatHistory,
+                    systemInstruction: { parts: [{ text: systemPrompt }] }
+                };
 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
-            try {
-                let response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (!response.ok) throw new Error();
-                const result = await response.json();
-                const candidato = result.candidates?.[0];
-                if (candidato && candidato.content?.parts?.[0]?.text) {
-                    const texto = candidato.content.parts[0].text;
-                    agregarMensajeUI(texto, 'bot');
-                    chatHistory.push({ role: "model", parts: [{ text: texto }] });
+                try {
+                    let response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error();
+                    const result = await response.json();
+                    const candidato = result.candidates?.[0];
+                    if (candidato && candidato.content?.parts?.[0]?.text) {
+                        const texto = candidato.content.parts[0].text;
+                        agregarMensajeUI(texto, 'bot');
+                        chatHistory.push({ role: "model", parts: [{ text: texto }] });
+                    }
+                } catch (e) {
+                    responderMotorInstitucional(mensaje);
                 }
-            } catch (e) {
-                agregarMensajeUI("Gracias por tu mensaje. Para mayor información comunícate al cdamazonass@gmail.com.", 'bot');
+            } else {
+                // Respuesta instantánea mediante base de conocimiento interna del club
+                setTimeout(() => {
+                    responderMotorInstitucional(mensaje);
+                }, 350);
             }
+            hacerScrollChat();
+        }
+
+        function responderMotorInstitucional(pregunta) {
+            const q = pregunta.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+            let respuesta = "";
+
+            if (q.includes("historia") || q.includes("fundad") || q.includes("origen") || q.includes("carlos")) {
+                respuesta = "El Club Deportivo Amazonas fue fundado el 12 de febrero de 1987 en el Barrio El Hospital de Malchinguí por iniciativa de Don Carlos Eliécer Rodríguez Navarrete y sus hijos. Cuenta con 5 estrellas en su escudo logradas a lo largo de su trayectoria.";
+            } else if (q.includes("estadio") || q.includes("sede") || q.includes("donde juegan") || q.includes("cancha")) {
+                respuesta = "Jugamos de local en el Estadio Cancha 7 'Carlos Eliécer Rodríguez', ubicado en el Barrio El Hospital, en Malchinguí. ¡Será un honor recibirte en las gradas!";
+            } else if (q.includes("tienda") || q.includes("camiseta") || q.includes("precio") || q.includes("comprar") || q.includes("polo") || q.includes("chaqueta")) {
+                respuesta = "En nuestra Tienda Oficial puedes encargar la Camiseta Oficial '26 ($14,99), la Chaqueta Deportiva Retro ($24,99) o la Camisa Polo ($15,99). Cada pedido es personalizado y el 100% de los beneficios apoya al club.";
+            } else if (q.includes("plantilla") || q.includes("jugador") || q.includes("equipo") || q.includes("nomina")) {
+                respuesta = "Puedes consultar las nóminas actualizadas del equipo Masculino, Femenino y Leyendas directamente en la sección 'Plantilla' del menú superior, sincronizada en tiempo real con los registros oficiales.";
+            } else if (q.includes("directiv") || q.includes("dirigent") || q.includes("presidente") || q.includes("patricio")) {
+                respuesta = "La dirigencia del equipo masculino está encabezada por Patricio Rodríguez, Ramiro Rodríguez, Daniel Rodríguez, Orlando Rodríguez, José Luis Rodríguez y Manuel Heredia. En la categoría femenina, la dirección está a cargo de Sandra Reyes.";
+            } else if (q.includes("contacto") || q.includes("telefono") || q.includes("whatsapp") || q.includes("correo")) {
+                respuesta = "Puedes contactarnos formalmente al correo cdamazonass@gmail.com o a través del formulario en la sección de Contacto. Para consultas directas también puedes escribir al 0981556626.";
+            } else if (q.includes("sponsor") || q.includes("patrocini") || q.includes("aliad")) {
+                respuesta = "Contamos con el respaldo de nuestros Aliados Estratégicos como JAG DENTAL y Comercial TORRES. Si deseas sumarte como patrocinador oficial, puedes solicitar los planes en la sección de Contacto.";
+            } else {
+                respuesta = "Con gusto te oriento. Puedes consultarme sobre la historia de nuestra institución, la nómina de jugadores, la tienda de indumentaria, los patrocinadores o comunicarte directamente a cdamazonass@gmail.com.";
+            }
+
+            agregarMensajeUI(respuesta, 'bot');
             hacerScrollChat();
         }
 
         function agregarMensajeUI(texto, emisor) {
             const contenedor = document.getElementById('chat-mensajes');
             const div = document.createElement('div');
-            div.className = `flex justify-${emisor === 'user' ? 'end' : 'start'}`;
-            div.innerHTML = `<div class="${emisor === 'user' ? 'bg-brand-green text-white' : 'bg-white text-brand-dark border border-slate-100'} p-2.5 rounded-lg shadow-sm max-w-[85%] text-xs">${texto.replace(/\n/g, '<br>')}</div>`;
+            
+            if (emisor === 'user') {
+                div.className = "flex justify-end";
+                div.innerHTML = `<div class="bg-brand-green text-white p-2.5 rounded-2xl rounded-tr-none shadow-sm max-w-[85%] text-xs leading-relaxed">${texto.replace(/\n/g, '<br>')}</div>`;
+            } else {
+                div.className = "flex items-start space-x-2";
+                div.innerHTML = `
+                    <img src="Cambiale_la_camiseta_al_dragon__202605082044-removebg-preview.png" alt="Avatar" class="h-6 w-6 rounded-full bg-brand-green/20 object-cover object-top border border-brand-gold/40 flex-shrink-0 mt-0.5">
+                    <div class="bg-white text-brand-dark p-2.5 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] border border-slate-200 text-xs leading-relaxed">${texto.replace(/\n/g, '<br>')}</div>
+                `;
+            }
+            
             contenedor.appendChild(div);
         }
 
         function hacerScrollChat() {
             const contenedor = document.getElementById('chat-mensajes');
             contenedor.scrollTop = contenedor.scrollHeight;
-        }
-
-        function alertCustom(msg) {
-            document.getElementById('toast-msg').innerText = msg;
-            document.getElementById('toast-modal').classList.remove('hidden');
-        }
-
-        function cerrarToast() {
-            document.getElementById('toast-modal').classList.add('hidden');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
