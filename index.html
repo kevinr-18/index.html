@@ -360,276 +360,655 @@
                 </div>
             </div>
         </section>
-        <!--==================== 4. PLANTILLA ==================== -->
-        <section id="plantilla" class="py-16 md:py-24 bg-brand-white w-full flex-grow border-b border-slate-200">
-            <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
+        <!-- ==================== 4. PLANTILLA (TRADING CARDS TCG) ==================== -->
+        <section id="plantilla" class="py-16 md:py-24 bg-brand-white w-full flex-grow border-b border-slate-200 relative bg-pattern-dots">
+            <div class="container mx-auto px-4 lg:px-8 max-w-7xl relative z-10">
+                
                 <div class="text-center mb-10">
-                    <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">La familia Amazonas</span>
-                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Homenaje y Nómina Oficial del Club</h3>
-                    <p class="text-xs text-slate-500 mt-1">¿Eres una leyenda del club? Envíanos una imagen y tu historia a nuestro contacto.</p>
-                    <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
+                    <span class="text-xs font-black text-brand-green tracking-widest uppercase block mb-1">Fichas Coleccionables Oficiales</span>
+                    <h3 class="font-serif text-3xl sm:text-4xl md:text-5xl font-black text-brand-dark px-2">
+                        Plantilla & Trading Cards
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-600 mt-2 max-w-xl mx-auto">
+                        Estadísticas en tiempo real mapeadas directamente desde el libro oficial de registros del Club Deportivo Amazonas.
+                    </p>
+                    <div class="w-24 h-1 bg-gradient-to-r from-brand-green via-brand-gold to-brand-green mx-auto mt-4 rounded-full"></div>
                 </div>
-
-                <!-- Botones de Pestañas Principales (Estética Corregida) -->
-                <div class="flex flex-wrap justify-center gap-4 mb-10">
+                <!-- Selector de Pestañas con Estilo Deportivo -->
+                <div class="flex flex-wrap justify-center gap-3 sm:gap-4 mb-12">
                     <button onclick="cambiarPlantillaTab('masculino')" id="btn-tab-masculino" 
-                        data-active="bg-brand-green text-brand-white border-brand-dark shadow-subtle" 
-                        data-inactive="bg-white text-brand-dark border-slate-200 hover:bg-slate-50"
-                        class="plantilla-tab-btn border-b-4 px-6 py-2.5 rounded-t-lg font-bold text-xs uppercase tracking-wider transition-all duration-300">
+                        class="plantilla-tab-btn px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all duration-300 shadow-md">
                         Plantilla Masculina
                     </button>
                     
                     <button onclick="cambiarPlantillaTab('femenino')" id="btn-tab-femenino" 
-                        data-active="bg-brand-rose text-brand-white border-brand-green shadow-subtle" 
-                        data-inactive="bg-white text-brand-rose border-slate-200 hover:bg-pink-50"
-                        class="plantilla-tab-btn border-b-4 px-6 py-2.5 rounded-t-lg font-bold text-xs uppercase tracking-wider transition-all duration-300">
+                        class="plantilla-tab-btn px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all duration-300 shadow-md">
                         Plantilla Femenina
                     </button>
                     
                     <button onclick="cambiarPlantillaTab('leyendas')" id="btn-tab-leyendas" 
-                        data-active="bg-gradient-to-r from-brand-gold to-yellow-500 text-brand-white border-brand-green shadow-badge-gold -translate-y-1" 
-                        data-inactive="bg-white text-brand-gold border-slate-200 hover:bg-yellow-50"
-                        class="plantilla-tab-btn border-b-4 px-6 py-2.5 rounded-t-lg font-bold text-xs uppercase tracking-wider transition-all duration-300 transform">
-                        Leyendas del Club
+                        class="plantilla-tab-btn px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all duration-300 shadow-md">
+                        ★ Leyendas del Club
                     </button>
                 </div>
-
-                <!-- Contenedor Dinámico de Plantillas -->
-                <div id="plantilla-dinamica-container" class="space-y-12">
-                    <div class="text-center py-12 text-slate-400 text-xs">Cargando datos institucionales desde Google Sheets...</div>
+                <!-- Contenedor Dinámico donde se inyectan Skeletons y Trading Cards -->
+                <div id="plantilla-dinamica-container" class="space-y-14">
+                    <!-- Skeletons y Cards se cargan dinámicamente -->
                 </div>
             </div>
         </section>
-
-    <!-- Script de automatización para la sección Plantilla con GIDs Correctos -->
-    <script>
-        const SPREADSHEET_ID = "1EXz8vjq4cILNs_w2S4BLydKToN_arlejavhTKvcwByY";
-        const GIDS_CONFIG = {
-            masculino: { plantilla: "687593249", cuerpo: "1175652707" },
-            femenino: { plantilla: "192660410", cuerpo: "804737150" },
-            leyendas: { plantilla: "571554949", cuerpo: null }
-        };
-
-        async function cargarDatosPlantilla(tipoTab) {
-            const container = document.getElementById('plantilla-dinamica-container');
-            container.innerHTML = `<div class="text-center py-12 text-slate-500 text-xs">Cargando información de ${tipoTab}...</div>`;
-
-            const config = GIDS_CONFIG[tipoTab];
-            if (!config) return;
-
-            try {
-                // Cargar plantilla principal usando el GID correcto
-                const urlPlantilla = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.plantilla}`;
-                const respPlantilla = await fetch(urlPlantilla);
-                if (!respPlantilla.ok) throw new Error("Error al conectar con Google Sheets");
-                const csvPlantilla = await respPlantilla.text();
-
-                // Cargar cuerpo técnico si aplica con su GID correspondiente
-                let csvCuerpo = "";
-                if (config.cuerpo) {
-                    const urlCuerpo = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.cuerpo}`;
-                    const respCuerpo = await fetch(urlCuerpo);
-                    if (respCuerpo.ok) csvCuerpo = await respCuerpo.text();
+        <!-- Script de automatización para la sección Plantilla y Trading Cards -->
+        <script>
+            const SPREADSHEET_ID = "1EXz8vjq4cILNs_w2S4BLydKToN_arlejavhTKvcwByY";
+            const GIDS_CONFIG = {
+                masculino: { plantilla: "687593249", cuerpo: "1175652707" },
+                femenino: { plantilla: "192660410", cuerpo: "804737150" },
+                leyendas: { plantilla: "571554949", cuerpo: null }
+            };
+            // Formatea automáticamente links directos y enlaces compartidos de Google Drive
+            function formatearUrlImagen(url) {
+                if (!url || typeof url !== 'string') return '';
+                url = url.trim();
+                if (!url) return '';
+                
+                // Conversión de enlaces de Google Drive (ej: /file/d/ID/view o ?id=ID) a thumbnail directo en alta resolución
+                const matchDrive1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                const matchDrive2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+                const fileId = (matchDrive1 && matchDrive1[1]) || (matchDrive2 && matchDrive2[1]);
+                
+                if (fileId) {
+                    return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
                 }
-
-                renderizarPlantillaCompleta(csvPlantilla, csvCuerpo, tipoTab, container);
-            } catch (error) {
-                console.error(error);
-                container.innerHTML = `<div class="text-center py-12 text-red-500 text-xs">No se pudo cargar la información en vivo. Asegúrate de que las hojas de Google Sheets sean públicas ("Cualquier persona con el enlace").</div>`;
+                return url;
             }
-        }
-
-        function parsearCSV(csvText) {
-            return csvText.split('\n').map(fila => {
-                const match = fila.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-                return fila.split(',').map(val => val.replace(/^"|"$/g, '').trim());
-            });
-        }
-
-        function renderizarPlantillaCompleta(csvPlantilla, csvCuerpo, tipoTab, container) {
-            container.innerHTML = '';
-
-            // 1. Procesar Cuerpo Técnico (si existe)
-            if (csvCuerpo) {
-                const filasCuerpo = parsearCSV(csvCuerpo);
-                let idxCuerpo = 0;
-                for (let i = 0; i < filasCuerpo.length; i++) {
-                    if (filasCuerpo[i].join(' ').toLowerCase().includes('nombre') || filasCuerpo[i].join(' ').toLowerCase().includes('nombres')) {
-                        idxCuerpo = i + 1;
-                        break;
-                    }
-                }
-
-                const tecnicos = [];
-                for (let i = idxCuerpo; i < filasCuerpo.length; i++) {
-                    const cols = filasCuerpo[i];
-                    if (cols && cols.length >= 2 && (cols[1] || cols[2])) {
-                        tecnicos.push({
-                            nombre: cols[1] || '',
-                            apellido: cols[2] || '',
-                            cargo: cols[3] || 'Cuerpo Técnico',
-                            fotoUrl: cols[4] || '' // Soporte para la foto del técnico si se agrega en el Sheets
-                        });
-                    }
-                }
-
-                if (tecnicos.length > 0) {
-                    const divCuerpo = document.createElement('div');
-                    divCuerpo.className = 'max-w-4xl mx-auto bg-slate-50 p-6 rounded-xl border border-slate-200 mb-8 shadow-subtle';
-                    divCuerpo.innerHTML = `
-                        <h4 class="font-serif text-lg font-bold text-brand-dark mb-4 text-center">Cuerpo Técnico Oficial</h4>
-                        <div class="grid grid-cols-1 sm:grid-cols-${Math.min(tecnicos.length, 3)} gap-4 text-center text-xs">
-                            ${tecnicos.map(t => `
-                                <div class="bg-white p-3.5 rounded-lg border border-slate-200 shadow-sm flex flex-col items-center">
-                                    ${t.fotoUrl ? `<div class="w-16 h-16 rounded-full overflow-hidden mb-2 bg-slate-100"><img src="${t.fotoUrl}" alt="${t.nombre}" class="w-full h-full object-cover" onerror="this.src='Amazonas PGN.png'"></div>` : ''}
-                                    <span class="font-bold text-brand-green block mb-1">${t.cargo || 'Técnico'}</span>
-                                    <span class="text-slate-700 font-medium">${t.nombre} ${t.apellido}</span>
+            // Renderiza Skeleton Loaders anatómicos de Trading Cards
+            function renderizarSkeletonsTradingCards(container) {
+                container.innerHTML = `
+                    <div class="space-y-8 animate-pulse">
+                        <div class="h-7 w-48 bg-slate-200 rounded-md"></div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+                            ${Array.from({ length: 10 }).map(() => `
+                                <div class="rounded-2xl p-1 bg-slate-200 border border-slate-300/60 shadow-md">
+                                    <div class="bg-slate-100 rounded-[14px] p-3 flex flex-col justify-between h-[390px]">
+                                        <div class="flex justify-between items-center mb-2">
+                                            <div class="h-6 w-12 bg-slate-300 rounded"></div>
+                                            <div class="h-5 w-14 bg-slate-300 rounded-full"></div>
+                                        </div>
+                                        <div class="h-44 bg-slate-200 rounded-xl mb-3 flex items-center justify-center">
+                                            <div class="w-16 h-16 rounded-full bg-slate-300/60"></div>
+                                        </div>
+                                        <div class="space-y-2 mb-3">
+                                            <div class="h-3 w-20 bg-slate-300 rounded mx-auto"></div>
+                                            <div class="h-5 w-32 bg-slate-300 rounded mx-auto"></div>
+                                        </div>
+                                        <div class="grid grid-cols-5 gap-1 pt-2 border-t border-slate-200">
+                                            <div class="h-9 bg-slate-200 rounded"></div>
+                                            <div class="h-9 bg-slate-200 rounded"></div>
+                                            <div class="h-9 bg-slate-200 rounded"></div>
+                                            <div class="h-9 bg-slate-200 rounded"></div>
+                                            <div class="h-9 bg-slate-200 rounded"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             `).join('')}
                         </div>
+                    </div>
+                `;
+            }
+            async function cargarDatosPlantilla(tipoTab) {
+                const container = document.getElementById('plantilla-dinamica-container');
+                renderizarSkeletonsTradingCards(container);
+                const config = GIDS_CONFIG[tipoTab];
+                if (!config) return;
+                try {
+                    const urlPlantilla = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.plantilla}`;
+                    const respPlantilla = await fetch(urlPlantilla);
+                    if (!respPlantilla.ok) throw new Error("Error al conectar con Google Sheets");
+                    const csvPlantilla = await respPlantilla.text();
+                    let csvCuerpo = "";
+                    if (config.cuerpo) {
+                        try {
+                            const urlCuerpo = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv&gid=${config.cuerpo}`;
+                            const respCuerpo = await fetch(urlCuerpo);
+                            if (respCuerpo.ok) csvCuerpo = await respCuerpo.text();
+                        } catch (e) {
+                            console.warn("No se pudo cargar el cuerpo técnico:", e);
+                        }
+                    }
+                    renderizarPlantillaCompleta(csvPlantilla, csvCuerpo, tipoTab, container);
+                } catch (error) {
+                    console.error("Error en la sincronización:", error);
+                    container.innerHTML = `
+                        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-8 text-center max-w-xl mx-auto shadow-sm">
+                            <span class="text-3xl block mb-2">⚠️</span>
+                            <h4 class="font-serif font-bold text-brand-dark text-base mb-1">Sincronización en proceso</h4>
+                            <p class="text-xs text-slate-600 mb-4">No se pudo obtener la nómina en vivo en este momento. Verifica que las hojas de cálculo de Google Sheets tengan permisos públicos de lectura.</p>
+                            <button onclick="cargarDatosPlantilla('${tipoTab}')" class="px-4 py-2 bg-brand-green text-white text-xs font-bold rounded-lg hover:bg-brand-green-hover transition-colors">Reintentar Conexión</button>
+                        </div>
                     `;
-                    container.appendChild(divCuerpo);
                 }
             }
-
-            // 2. Procesar Jugadores / Leyendas
-            const filasPlantilla = parsearCSV(csvPlantilla);
-            let idxPlantilla = 0;
-            for (let i = 0; i < filasPlantilla.length; i++) {
-                const textoFila = filasPlantilla[i].join(' ').toLowerCase();
-                if (textoFila.includes('nombres') || textoFila.includes('apellidos') || textoFila.includes('cédula')) {
-                    idxPlantilla = i + 1;
-                    break;
-                }
+            // Parser CSV seguro que respeta celdas con comillas y comas
+            function parsearCSV(csvText) {
+                const lineas = csvText.split(/\r?\n/);
+                return lineas.map(linea => {
+                    const valores = [];
+                    let dentroDeComillas = false;
+                    let valorActual = '';
+                    for (let i = 0; i < linea.length; i++) {
+                        const char = linea[i];
+                        if (char === '"') {
+                            if (dentroDeComillas && linea[i+1] === '"') {
+                                valorActual += '"';
+                                i++;
+                            } else {
+                                dentroDeComillas = !dentroDeComillas;
+                            }
+                        } else if (char === ',' && !dentroDeComillas) {
+                            valores.push(valorActual.trim());
+                            valorActual = '';
+                        } else {
+                            valorActual += char;
+                        }
+                    }
+                    valores.push(valorActual.trim());
+                    return valores;
+                });
             }
-
-            const categoriasJugadores = {
-                'PORTERO': [],
-                'DEFENSA': [],
-                'MEDIOCAMPISTA': [],
-                'DELANTERO': [],
-                'OTROS': []
-            };
-
-            for (let i = idxPlantilla; i < filasPlantilla.length; i++) {
-                const cols = filasPlantilla[i];
-                if (!cols || cols.length < 4) continue;
-
-                const numCamiseta = cols[1] || cols[0] || '•';
-                const nombres = cols[3] || cols[2] || '';
-                const apellidos = cols[4] || cols[3] || '';
-                const fechaNac = cols[5] || 'No registrada';
-                const observacion = cols[6] || 'Nacional';
-                const posicion = (cols[10] || cols[9] || 'MEDIOCAMPISTA').toUpperCase();
-                
-                // Mapeo dinámico de la columna de foto (ajustable según la celda del CSV, ej: cols[11])
-                const fotoUrl = cols[11] || '';
-
-                if (!nombres && !apellidos) continue;
-
-                const jugadorObj = { num: numCamiseta, nombres, apellidos, fechaNac, observacion, posicion, fotoUrl };
-
-                if (posicion.includes('ARQUERO') || posicion.includes('PORTERO')) {
-                    categoriasJugadores['PORTERO'].push(jugadorObj);
-                } else if (posicion.includes('DEFENSA')) {
-                    categoriasJugadores['DEFENSA'].push(jugadorObj);
-                } else if (posicion.includes('MEDIO')) {
-                    categoriasJugadores['MEDIOCAMPISTA'].push(jugadorObj);
-                } else if (posicion.includes('DELANTERO')) {
-                    categoriasJugadores['DELANTERO'].push(jugadorObj);
-                } else {
-                    categoriasJugadores['OTROS'].push(jugadorObj);
-                }
+            function abreviarPosicion(pos) {
+                if (!pos) return 'JUG';
+                const p = pos.toUpperCase();
+                if (p.includes('ARQ') || p.includes('POR')) return 'POR';
+                if (p.includes('DEF') || p.includes('LATERAL') || p.includes('CENTRAL')) return 'DEF';
+                if (p.includes('MED') || p.includes('VOL') || p.includes('PIV')) return 'MED';
+                if (p.includes('DEL') || p.includes('EXT') || p.includes('PUN')) return 'DEL';
+                return 'JUG';
             }
-
-            const seccionesOrden = [
-                { key: 'PORTERO', title: 'Porteros / Arqueros' },
-                { key: 'DEFENSA', title: 'Defensas' },
-                { key: 'MEDIOCAMPISTA', title: 'Mediocampistas' },
-                { key: 'DELANTERO', title: 'Delanteros' },
-                { key: 'OTROS', title: 'Otros Registros' }
-            ];
-
-            let hayRegistros = false;
-
-            seccionesOrden.forEach(sec => {
-                const lista = categoriasJugadores[sec.key];
-                if (lista && lista.length > 0) {
-                    hayRegistros = true;
-                    const divSec = document.createElement('div');
-                    divSec.className = 'mb-10';
-                    
-                    let borderColorClass = 'border-brand-green';
-                    if(tipoTab === 'femenino') borderColorClass = 'border-brand-rose';
-                    if(tipoTab === 'leyendas') borderColorClass = 'border-brand-gold';
-
-                    divSec.innerHTML = `
-                        <h4 class="font-serif text-lg font-bold text-brand-dark mb-4 border-l-4 ${borderColorClass} pl-3">${sec.title}</h4>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="grid-${tipoTab}-${sec.key}"></div>
-                    `;
-                    container.appendChild(divSec);
-
-                    const grid = divSec.querySelector(`#grid-${tipoTab}-${sec.key}`);
-                    lista.forEach(j => {
-                        const tarjeta = document.createElement('div');
-                        tarjeta.className = 'bg-slate-50 rounded-xl overflow-hidden border border-slate-200 p-3 shadow-subtle hover:shadow-card transition-all flex flex-col justify-between';
-                        
-                        let badgeBgColor = 'bg-brand-gold text-brand-dark';
-                        if(tipoTab === 'masculino') badgeBgColor = 'bg-brand-green text-white';
-                        if(tipoTab === 'femenino') badgeBgColor = 'bg-brand-rose text-white';
-                        
-                        // Si hay foto en el Sheets la muestra; si no, aplica el escudo por defecto como respaldo
-                        const imagenFinal = (j.fotoUrl && j.fotoUrl.trim() !== '') ? j.fotoUrl : 'Amazonas PGN.png';
-
-                        tarjeta.innerHTML = `
-                            <div>
-                                <div class="h-28 bg-slate-200 rounded-lg overflow-hidden mb-2.5 relative flex items-center justify-center p-1">
-                                    <img src="${imagenFinal}" alt="${j.nombres}" class="w-full h-full object-cover" onerror="this.src='Amazonas PGN.png'">
-                                    <span class="absolute top-2 right-2 ${badgeBgColor} text-[10px] font-bold px-1.5 py-0.5 rounded shadow">#${j.num}</span>
-                                </div>
-                                <h5 class="text-xs font-bold text-brand-dark truncate">${j.nombres}</h5>
-                                <p class="text-[11px] text-brand-green font-semibold truncate mb-2">${j.apellidos}</p>
+            function renderizarPlantillaCompleta(csvPlantilla, csvCuerpo, tipoTab, container) {
+                container.innerHTML = '';
+                // 1. Procesar Cuerpo Técnico si existe
+                if (csvCuerpo) {
+                    const filasCuerpo = parsearCSV(csvCuerpo);
+                    let idxCuerpo = 0;
+                    for (let i = 0; i < filasCuerpo.length; i++) {
+                        const rowStr = filasCuerpo[i].join(' ').toLowerCase();
+                        if (rowStr.includes('nombre') || rowStr.includes('nombres')) {
+                            idxCuerpo = i + 1;
+                            break;
+                        }
+                    }
+                    const tecnicos = [];
+                    for (let i = idxCuerpo; i < filasCuerpo.length; i++) {
+                        const cols = filasCuerpo[i];
+                        if (cols && cols.length >= 2 && (cols[1] || cols[2])) {
+                            tecnicos.push({
+                                nombre: cols[1] || '',
+                                apellido: cols[2] || '',
+                                cargo: cols[3] || 'Cuerpo Técnico',
+                                fotoUrl: formatearUrlImagen(cols[4] || '')
+                            });
+                        }
+                    }
+                    if (tecnicos.length > 0) {
+                        const divCuerpo = document.createElement('div');
+                        divCuerpo.className = 'max-w-4xl mx-auto bg-slate-900 text-white p-6 sm:p-7 rounded-2xl border border-brand-green/40 mb-12 shadow-xl';
+                        divCuerpo.innerHTML = `
+                            <div class="text-center mb-6">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-brand-gold block">Estrategia & Liderazgo</span>
+                                <h4 class="font-serif text-xl sm:text-2xl font-black text-white">Cuerpo Técnico Oficial</h4>
+                                <div class="w-12 h-0.5 bg-brand-gold mx-auto mt-2"></div>
                             </div>
-                            <div class="border-t border-slate-200 pt-2 text-[10px] text-slate-600 space-y-0.5">
-                                <p><strong>Nac:</strong> ${j.fechaNac}</p>
-                                <p><strong>Obs:</strong> ${j.observacion}</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-${Math.min(tecnicos.length, 3)} gap-4 text-center">
+                                ${tecnicos.map(t => `
+                                    <div class="bg-white/5 backdrop-blur-md p-4 rounded-xl border border-white/10 hover:border-brand-green/60 transition-colors flex flex-col items-center">
+                                        <div class="w-20 h-20 rounded-full overflow-hidden mb-3 bg-brand-dark border-2 border-brand-gold shadow-md">
+                                            <img src="${t.fotoUrl || 'Amazonas PGN.png'}" alt="${t.nombre} ${t.apellido}" class="w-full h-full object-cover" onerror="this.src='Amazonas PGN.png'">
+                                        </div>
+                                        <span class="text-[10px] font-black tracking-wider uppercase text-brand-gold bg-brand-gold/15 px-2 py-0.5 rounded-full mb-1.5">${t.cargo || 'Dirección Técnica'}</span>
+                                        <span class="text-sm font-bold text-white">${t.nombre} ${t.apellido}</span>
+                                    </div>
+                                `).join('')}
                             </div>
                         `;
-                        grid.appendChild(tarjeta);
+                        container.appendChild(divCuerpo);
+                    }
+                }
+                // 2. Procesar Nómina de Jugadores / Leyendas
+                const filasPlantilla = parsearCSV(csvPlantilla);
+                let idxPlantilla = 0;
+                for (let i = 0; i < filasPlantilla.length; i++) {
+                    const textoFila = filasPlantilla[i].join(' ').toLowerCase();
+                    if (textoFila.includes('nombre') || textoFila.includes('apellido') || textoFila.includes('dorsal') || textoFila.includes('ritmo') || textoFila.includes('defensa') || textoFila.includes('cedula') || textoFila.includes('cédula')) {
+                        idxPlantilla = i + 1;
+                        break;
+                    }
+                }
+                const categoriasJugadores = {
+                    'PORTERO': [],
+                    'DEFENSA': [],
+                    'MEDIOCAMPISTA': [],
+                    'DELANTERO': [],
+                    'OTROS': []
+                };
+                for (let i = idxPlantilla; i < filasPlantilla.length; i++) {
+                    const cols = filasPlantilla[i];
+                    if (!cols || cols.length < 4) continue;
+                    // MAPEO EXACTO SEGÚN ESTRUCTURA DE GOOGLE SHEETS:
+                    // Col A (idx 0): ID / Num
+                    // Col B (idx 1): Dorsal
+                    const numCamiseta = (cols[1] && cols[1].trim() !== '') ? cols[1].trim() : '•';
+                    // Col C (idx 2): Ritmo (RIT)
+                    const rit = (cols[2] && cols[2].trim() !== '' && !isNaN(cols[2].trim())) ? cols[2].trim() : '75';
+                    // Col D (idx 3): Nombres
+                    const nombres = (cols[3] || '').trim();
+                    // Col E (idx 4): Apellidos
+                    const apellidos = (cols[4] || '').trim();
+                    // Col F (idx 5): Fecha de Nacimiento
+                    const fechaNac = (cols[5] && cols[5].trim() !== '') ? cols[5].trim() : 'No registrada';
+                    // Col G (idx 6): Observación / Rol
+                    const observacion = (cols[6] && cols[6].trim() !== '') ? cols[6].trim() : 'Nacional';
+                    // Col H (idx 7): Tiro (TIR)
+                    const tir = (cols[7] && cols[7].trim() !== '' && !isNaN(cols[7].trim())) ? cols[7].trim() : '70';
+                    // Col I (idx 8): Pase (PAS)
+                    const pas = (cols[8] && cols[8].trim() !== '' && !isNaN(cols[8].trim())) ? cols[8].trim() : '72';
+                    // Col J (idx 9): Defensa (DEF)
+                    let def = (cols[9] && cols[9].trim() !== '' && !isNaN(cols[9].trim())) ? cols[9].trim() : '70';
+                    // Col K (idx 10): Regate (REG)
+                    const reg = (cols[10] && cols[10].trim() !== '' && !isNaN(cols[10].trim())) ? cols[10].trim() : '74';
+                    // Col L (idx 11): Foto URL (con soporte para enlaces de Google Drive)
+                    const fotoUrl = formatearUrlImagen(cols[11] || '');
+                    // Col M (idx 12): Posición
+                    let posicionRaw = (cols[12] && cols[12].trim() !== '') ? cols[12].trim() : '';
+                    // Comprobación inteligente por si las columnas J (DEF) y M (Posición) se intercambiaron
+                    if (isNaN(def) && !isNaN(posicionRaw) && posicionRaw !== '') {
+                        const temp = posicionRaw;
+                        posicionRaw = cols[9].trim();
+                        def = temp;
+                    }
+                    const posicion = (posicionRaw || 'MEDIOCAMPISTA').toUpperCase();
+                    if (!nombres && !apellidos) continue;
+                    // Cálculo del OVR (Overall Rating) promedio de las 5 estadísticas
+                    const ovr = Math.round((Number(rit) + Number(tir) + Number(pas) + Number(reg) + Number(def)) / 5);
+                    const jugadorObj = {
+                        num: numCamiseta,
+                        nombres,
+                        apellidos,
+                        fechaNac,
+                        observacion,
+                        posicion,
+                        fotoUrl,
+                        rit,
+                        tir,
+                        pas,
+                        reg,
+                        def,
+                        ovr
+                    };
+                    if (posicion.includes('ARQUERO') || posicion.includes('PORTERO') || posicion.includes('ARQ') || posicion.includes('POR')) {
+                        categoriasJugadores['PORTERO'].push(jugadorObj);
+                    } else if (posicion.includes('DEF') || posicion.includes('LATERAL') || posicion.includes('CENTRAL')) {
+                        categoriasJugadores['DEFENSA'].push(jugadorObj);
+                    } else if (posicion.includes('MEDIO') || posicion.includes('VOLANTE') || posicion.includes('PIV') || posicion.includes('EXTREMO') || posicion.includes('CENTRO')) {
+                        categoriasJugadores['MEDIOCAMPISTA'].push(jugadorObj);
+                    } else if (posicion.includes('DEL') || posicion.includes('PUNTA') || posicion.includes('ATACANTE')) {
+                        categoriasJugadores['DELANTERO'].push(jugadorObj);
+                    } else {
+                        categoriasJugadores['OTROS'].push(jugadorObj);
+                    }
+                }
+                const seccionesOrden = [
+                    { key: 'PORTERO', title: 'Porteros / Arqueros' },
+                    { key: 'DEFENSA', title: 'Defensas' },
+                    { key: 'MEDIOCAMPISTA', title: 'Mediocampistas' },
+                    { key: 'DELANTERO', title: 'Delanteros' },
+                    { key: 'OTROS', title: 'Otros Registros' }
+                ];
+                let hayRegistros = false;
+                seccionesOrden.forEach(sec => {
+                    const lista = categoriasJugadores[sec.key];
+                    if (lista && lista.length > 0) {
+                        hayRegistros = true;
+                        const divSec = document.createElement('div');
+                        divSec.className = 'mb-14';
+                        let titleBorderClass = 'border-brand-green text-brand-green';
+                        if (tipoTab === 'femenino') titleBorderClass = 'border-brand-rose text-brand-rose';
+                        if (tipoTab === 'leyendas') titleBorderClass = 'border-brand-gold text-brand-gold';
+                        divSec.innerHTML = `
+                            <div class="flex items-center gap-3 mb-6">
+                                <span class="w-2.5 h-7 bg-current ${titleBorderClass} rounded-full"></span>
+                                <h4 class="font-serif text-xl sm:text-2xl font-black text-brand-dark tracking-tight">${sec.title}</h4>
+                                <span class="text-xs font-bold text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">${lista.length}</span>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5 sm:gap-6" id="grid-${tipoTab}-${sec.key}"></div>
+                        `;
+                        container.appendChild(divSec);
+                        const grid = divSec.querySelector(`#grid-${tipoTab}-${sec.key}`);
+                        lista.forEach(j => {
+                            const tarjeta = document.createElement('div');
+                            // Configuración visual según Tab (Masculino, Femenino o Leyendas)
+                            let borderGradient = 'from-emerald-500 via-emerald-800 to-[#046a38]';
+                            let cardBg = 'bg-gradient-to-b from-[#112318] via-[#09150e] to-[#040a07]';
+                            let shadowHover = 'hover:shadow-tcg-green';
+                            let posBadgeColor = 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40';
+                            let ovrColor = 'text-emerald-400';
+                            let dorsalBg = 'bg-emerald-600/30 text-white border-emerald-400/30';
+                            let statBarColor = 'bg-emerald-500';
+                            if (tipoTab === 'femenino') {
+                                borderGradient = 'from-pink-400 via-rose-700 to-[#f179c5]';
+                                cardBg = 'bg-gradient-to-b from-[#24101e] via-[#160812] to-[#0b0309]';
+                                shadowHover = 'hover:shadow-tcg-rose';
+                                posBadgeColor = 'bg-pink-500/20 text-pink-300 border-pink-400/40';
+                                ovrColor = 'text-pink-400';
+                                dorsalBg = 'bg-pink-600/30 text-white border-pink-400/30';
+                                statBarColor = 'bg-pink-500';
+                            } else if (tipoTab === 'leyendas') {
+                                borderGradient = 'from-amber-300 via-yellow-600 to-[#d4af37]';
+                                cardBg = 'bg-gradient-to-b from-[#251b08] via-[#171104] to-[#0a0701]';
+                                shadowHover = 'hover:shadow-tcg-gold';
+                                posBadgeColor = 'bg-amber-400/20 text-brand-gold border-brand-gold/50';
+                                ovrColor = 'text-brand-gold';
+                                dorsalBg = 'bg-amber-500/30 text-brand-gold border-amber-400/40';
+                                statBarColor = 'bg-brand-gold';
+                            }
+                            const imagenFinal = (j.fotoUrl && j.fotoUrl.trim() !== '') ? j.fotoUrl : 'Amazonas PGN.png';
+                            const posAbrev = abreviarPosicion(j.posicion);
+                            // Estructura de la Trading Card de Alta Gama
+                            tarjeta.className = `tcg-shimmer-effect group relative rounded-2xl p-[2px] bg-gradient-to-b ${borderGradient} shadow-xl ${shadowHover} transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col`;
+                            tarjeta.innerHTML = `
+                                <div class="${cardBg} rounded-[14px] p-3.5 flex flex-col justify-between h-full relative z-10 text-white overflow-hidden">
+                                    
+                                    <!-- Cabecera de la Trading Card: OVR, Posición y Dorsal -->
+                                    <div class="flex justify-between items-center pb-2.5 mb-2.5 border-b border-white/10">
+                                        <div class="flex items-center gap-1.5">
+                                            <span class="text-lg font-black font-sans tracking-tight ${ovrColor} drop-shadow">${j.ovr}</span>
+                                            <span class="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border ${posBadgeColor}">
+                                                ${posAbrev}
+                                            </span>
+                                        </div>
+                                        <div class="flex items-center gap-1">
+                                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">DORSAL</span>
+                                            <span class="text-xs font-black px-2 py-0.5 rounded-md border ${dorsalBg}">
+                                                #${j.num}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!-- Retrato del Jugador Integrado con Marco Biselado -->
+                                    <div class="relative h-44 sm:h-48 w-full rounded-xl overflow-hidden bg-gradient-to-b from-black/40 via-black/20 to-black/70 border border-white/10 flex items-center justify-center p-1 mb-3">
+                                        <img src="${imagenFinal}" alt="${j.nombres} ${j.apellidos}" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" onerror="this.src='Amazonas PGN.png'; this.classList.remove('object-cover'); this.classList.add('object-contain', 'p-3');">
+                                        <div class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/90 to-transparent pointer-events-none"></div>
+                                        <img src="Amazonas PGN.png" class="absolute bottom-1 right-1.5 h-5 w-auto opacity-30 pointer-events-none" alt="Escudo Watermark">
+                                    </div>
+                                    <!-- Identificación del Jugador (Nombre y APELLIDO EN MAYÚSCULAS) -->
+                                    <div class="text-center mb-3">
+                                        <p class="text-[11px] font-medium text-slate-300 truncate tracking-wide">${j.nombres || 'Jugador'}</p>
+                                        <h5 class="text-sm sm:text-base font-black font-serif text-white tracking-wide uppercase truncate drop-shadow-sm">
+                                            ${j.apellidos || j.nombres}
+                                        </h5>
+                                        <div class="flex items-center justify-center gap-2 mt-1 text-[10px] text-slate-400">
+                                            <span class="truncate">📅 ${j.fechaNac}</span>
+                                            <span>•</span>
+                                            <span class="truncate font-medium text-slate-300">📍 ${j.observacion}</span>
+                                        </div>
+                                    </div>
+                                    <!-- Rejilla de Atributos Deportivos (0-99): RIT | TIR | PAS | REG | DEF -->
+                                    <div class="pt-2 border-t border-white/10 bg-black/40 -mx-3.5 -mb-3.5 p-3 rounded-b-[14px]">
+                                        <div class="grid grid-cols-5 gap-1 text-center">
+                                            
+                                            <!-- RIT (Col C) -->
+                                            <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
+                                                <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">RIT</span>
+                                                <span class="text-xs font-black text-white">${j.rit}</span>
+                                                <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
+                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Number(j.rit))}%"></div>
+                                                </div>
+                                            </div>
+                                            <!-- TIR (Col H) -->
+                                            <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
+                                                <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">TIR</span>
+                                                <span class="text-xs font-black text-white">${j.tir}</span>
+                                                <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
+                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Number(j.tir))}%"></div>
+                                                </div>
+                                            </div>
+                                            <!-- PAS (Col I) -->
+                                            <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
+                                                <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">PAS</span>
+                                                <span class="text-xs font-black text-white">${j.pas}</span>
+                                                <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
+                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Number(j.pas))}%"></div>
+                                                </div>
+                                            </div>
+                                            <!-- REG (Col K) -->
+                                            <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
+                                                <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">REG</span>
+                                                <span class="text-xs font-black text-white">${j.reg}</span>
+                                                <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
+                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Number(j.reg))}%"></div>
+                                                </div>
+                                            </div>
+                                            <!-- DEF (Col J) -->
+                                            <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
+                                                <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">DEF</span>
+                                                <span class="text-xs font-black text-white">${j.def}</span>
+                                                <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
+                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Number(j.def))}%"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                            grid.appendChild(tarjeta);
+                        });
+                    }
+                });
+                if (!hayRegistros) {
+                    container.innerHTML = `
+                        <div class="text-center py-16 bg-slate-50 rounded-2xl border border-slate-200">
+                            <img src="Amazonas PGN.png" class="h-16 w-auto mx-auto mb-3 opacity-40" alt="CDA">
+                            <h4 class="font-serif font-bold text-slate-600 text-sm">No se encontraron registros de jugadores en esta nómina.</h4>
+                        </div>
+                    `;
+                }
+            }
+            function cambiarPlantillaTab(tipoTab) {
+                const tabs = [
+                    { id: 'masculino', bg: 'bg-brand-green text-white shadow-tcg-green border-2 border-brand-green' },
+                    { id: 'femenino', bg: 'bg-brand-rose text-white shadow-tcg-rose border-2 border-brand-rose' },
+                    { id: 'leyendas', bg: 'bg-gradient-to-r from-brand-gold to-yellow-500 text-brand-dark shadow-tcg-gold border-2 border-yellow-300' }
+                ];
+                tabs.forEach(t => {
+                    const btn = document.getElementById(`btn-tab-${t.id}`);
+                    if (btn) {
+                        if (t.id === tipoTab) {
+                            btn.className = `plantilla-tab-btn px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all duration-300 ${t.bg} scale-105`;
+                        } else {
+                            btn.className = 'plantilla-tab-btn px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all duration-300 bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-brand-dark shadow-sm';
+                        }
+                    }
+                });
+                cargarDatosPlantilla(tipoTab);
+            }
+        </script>
+        <!-- ==================== 5. REPOSITORIO GRÁFICO (GOOGLE SHEETS) ==================== -->
+        <section id="galeria" class="py-16 md:py-24 bg-slate-50 w-full flex-grow border-b border-slate-200 bg-pitch-grid">
+            <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
+                <div class="text-center mb-10">
+                    <span class="text-xs font-black text-brand-green tracking-widest uppercase block mb-1">Galería & Memoria Viva</span>
+                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-black text-brand-dark px-2">Repositorio Gráfico Institucional</h3>
+                    <div class="w-20 h-1 bg-gradient-to-r from-brand-green to-brand-gold mx-auto mt-4 rounded-full"></div>
+                    <p class="text-xs text-slate-500 mt-2">¿Tienes fotografías históricas o de partidos? Envíanoslas y formarán parte del archivo oficial.</p>
+                </div>
+                <!-- Botones de Selección de Categoría -->
+                <div id="filtros-categoria" class="flex flex-wrap justify-center gap-2.5 mb-6">
+                    <button onclick="seleccionarCategoriaRepo('masculino')" id="btn-cat-masculino" class="px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 bg-white text-slate-700 border border-slate-300 shadow-subtle">
+                        Equipo Masculino
+                    </button>
+                    <button onclick="seleccionarCategoriaRepo('femenino')" id="btn-cat-femenino" class="px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 bg-white text-slate-700 border border-slate-300 shadow-subtle">
+                        Equipo Femenino
+                    </button>
+                    <button onclick="seleccionarCategoriaRepo('historico')" id="btn-cat-historico" class="px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 bg-white text-slate-700 border border-slate-300 shadow-subtle">
+                        Archivo Histórico
+                    </button>
+                </div>
+                <!-- Filtros Dinámicos por Año -->
+                <div class="flex flex-wrap justify-center gap-2 mb-8 min-h-[36px]" id="filtros-anio-repo"></div>
+                <!-- Rejilla de Imágenes Dinámica -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5" id="repo-grid-dinamico">
+                    <div class="col-span-full text-center py-16 text-slate-400 text-xs">Cargando repositorio gráfico...</div>
+                </div>
+            </div>
+        </section>
+        <!-- Lightbox Modal para Galería -->
+        <div id="modal-imagen" class="fixed inset-0 z-50 hidden bg-black/85 flex items-center justify-center p-4 backdrop-blur-md" onclick="cerrarModalRepo()">
+            <div class="relative max-w-4xl max-h-[90vh] bg-white rounded-2xl overflow-hidden shadow-2xl p-2.5" onclick="event.stopPropagation()">
+                <button onclick="cerrarModalRepo()" class="absolute top-4 right-4 z-10 bg-brand-dark/80 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm transition-colors">✕</button>
+                <img id="modal-img-src" src="" alt="Imagen ampliada" class="max-w-full max-h-[78vh] object-contain mx-auto rounded-xl">
+                <p id="modal-caption" class="text-center text-xs font-bold text-slate-700 mt-2.5 px-4"></p>
+            </div>
+        </div>
+        <script>
+            const SPREADSHEET_REPO_ID = "1GxnHehS9i4QAPCiyVlf3cWfmK1QWqWsQy8juukoZ754";
+            const REPO_GID = "0";
+            let repositorioDatos = [];
+            let categoriaRepoActual = 'masculino';
+            let anioRepoActual = 'todos';
+            async function cargarRepositorioGoogleSheets() {
+                const gridContainer = document.getElementById('repo-grid-dinamico');
+                try {
+                    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_REPO_ID}/export?format=csv&gid=${REPO_GID}`;
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error("No se pudo conectar con el repositorio");
+                    const csvText = await response.text();
+                    
+                    repositorioDatos = parsearCSVRepo(csvText);
+                    
+                    if (repositorioDatos.length === 0) {
+                        gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No se encontraron postales disponibles.</div>`;
+                        return;
+                    }
+                    seleccionarCategoriaRepo('masculino');
+                } catch (error) {
+                    console.error("Error al cargar repositorio:", error);
+                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-red-500 text-xs font-medium">Error al sincronizar las postales en vivo desde Google Sheets.</div>`;
+                }
+            }
+            function parsearCSVRepo(csvText) {
+                const lineas = csvText.split('\n');
+                const resultado = [];
+                for (let i = 1; i < lineas.length; i++) {
+                    const fila = lineas[i].trim();
+                    if (!fila) continue;
+                    const cols = fila.split(',').map(val => val.replace(/^"|"$/g, '').trim());
+                    if (cols.length >= 4) {
+                        resultado.push({
+                            categoria: (cols[1] || 'masculino').toLowerCase(),
+                            anio: cols[2] || 'todos',
+                            url: cols[3] || '',
+                            descripcion: cols[4] || 'Archivo Club Deportivo Amazonas'
+                        });
+                    }
+                }
+                return resultado;
+            }
+            function seleccionarCategoriaRepo(categoria) {
+                categoriaRepoActual = categoria;
+                anioRepoActual = 'todos';
+                document.querySelectorAll('#filtros-categoria button').forEach(b => {
+                    b.className = 'px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 bg-white text-slate-700 border border-slate-300 shadow-subtle';
+                });
+                const btnActivo = document.getElementById(`btn-cat-${categoria}`);
+                if (btnActivo) {
+                    if (categoria === 'masculino') {
+                        btnActivo.className = 'px-5 py-2.5 text-xs font-black rounded-xl transition-all duration-200 bg-brand-green text-white shadow-md border-2 border-brand-green-hover';
+                    } else if (categoria === 'femenino') {
+                        btnActivo.className = 'px-5 py-2.5 text-xs font-black rounded-xl transition-all duration-200 bg-brand-rose text-white shadow-md border-2 border-pink-400';
+                    } else if (categoria === 'historico') {
+                        btnActivo.className = 'px-5 py-2.5 text-xs font-black rounded-xl transition-all duration-200 bg-gradient-to-r from-brand-gold to-yellow-500 text-brand-dark shadow-badge-gold border-2 border-yellow-300';
+                    }
+                }
+                actualizarFiltrosAnioRepo(categoria);
+                renderizarRepositorioRepo(categoriaRepoActual, anioRepoActual);
+            }
+            function actualizarFiltrosAnioRepo(categoria) {
+                const contenedorAnios = document.getElementById('filtros-anio-repo');
+                contenedorAnios.innerHTML = '';
+                if (categoria === 'historico') return;
+                let aniosDisponibles = ['Todos'];
+                repositorioDatos.forEach(item => {
+                    if (item.categoria === categoria) {
+                        if (item.anio && !aniosDisponibles.includes(item.anio)) {
+                            aniosDisponibles.push(item.anio);
+                        }
+                    }
+                });
+                if (aniosDisponibles.length > 1) {
+                    aniosDisponibles.forEach(anio => {
+                        const btn = document.createElement('button');
+                        const valAnio = anio.toLowerCase() === 'todos' ? 'todos' : anio;
+                        btn.className = 'btn-anio-repo px-3.5 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
+                        if (valAnio === 'todos') {
+                            btn.classList.add('bg-brand-green', 'text-white', 'border-brand-green');
+                        }
+                        btn.innerText = anio;
+                        btn.onclick = () => seleccionarAnioRepo(valAnio, btn);
+                        contenedorAnios.appendChild(btn);
                     });
                 }
-            });
-
-            if (!hayRegistros) {
-                container.innerHTML += `<div class="text-center py-12 text-slate-500 text-xs">No se encontraron registros disponibles en esta sección.</div>`;
             }
-        }
-
-        function cambiarPlantillaTab(tipoTab) {
-            document.querySelectorAll('.plantilla-tab-btn').forEach(b => {
-                const activeClasses = b.getAttribute('data-active').split(' ');
-                const inactiveClasses = b.getAttribute('data-inactive').split(' ');
-                
-                b.classList.remove(...activeClasses.filter(c => c));
-                b.classList.add(...inactiveClasses.filter(c => c));
-            });
-            
-            const activo = document.getElementById(`btn-tab-${tipoTab}`);
-            if (activo) {
-                const activeClasses = activo.getAttribute('data-active').split(' ');
-                const inactiveClasses = activo.getAttribute('data-inactive').split(' ');
-                
-                activo.classList.remove(...inactiveClasses.filter(c => c));
-                activo.classList.add(...activeClasses.filter(c => c));
+            function seleccionarAnioRepo(anio, btnClickeado) {
+                anioRepoActual = anio;
+                document.querySelectorAll('.btn-anio-repo').forEach(b => {
+                    b.className = 'btn-anio-repo px-3.5 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
+                });
+                btnClickeado.className = 'btn-anio-repo px-3.5 py-1 text-[11px] font-bold rounded-full transition-all border bg-brand-green text-white border-brand-green';
+                renderizarRepositorioRepo(categoriaRepoActual, anioRepoActual);
             }
-            
-            cargarDatosPlantilla(tipoTab);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            cambiarPlantillaTab('masculino');
-        });
-    </script>
+            function renderizarRepositorioRepo(cat, anio) {
+                const gridContainer = document.getElementById('repo-grid-dinamico');
+                gridContainer.innerHTML = '';
+                const filtrados = repositorioDatos.filter(item => {
+                    const matchCat = (item.categoria === cat);
+                    const matchAnio = (cat === 'historico' || anio === 'todos' || item.anio.toLowerCase() === anio.toLowerCase());
+                    return matchCat && matchAnio;
+                });
+                if (filtrados.length === 0) {
+                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No hay postales disponibles para este filtro.</div>`;
+                    return;
+                }
+                filtrados.forEach(item => {
+                    const tarjeta = document.createElement('div');
+                    tarjeta.className = 'cursor-pointer group';
+                    tarjeta.onclick = () => abrirModalRepo(item.url, item.descripcion);
+                    
+                    tarjeta.innerHTML = `
+                        <div class="bg-white rounded-xl overflow-hidden border border-slate-200 aspect-video relative shadow-subtle group-hover:shadow-card-hover transition-all duration-300">
+                            <img src="${item.url}" alt="${item.descripcion}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='Amazonas PGN.png'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2.5">
+                                <p class="text-white text-[10px] font-semibold truncate">${item.descripcion}</p>
+                            </div>
+                            <span class="absolute top-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[9px] font-bold px-2 py-0.5 rounded">${item.anio !== 'todos' ? item.anio : item.categoria}</span>
+                        </div>
+                    `;
+                    gridContainer.appendChild(tarjeta);
+                });
+            }
+            function abrirModalRepo(src, caption) {
+                const modal = document.getElementById('modal-imagen');
+                const img = document.getElementById('modal-img-src');
+                const text = document.getElementById('modal-caption');
+                
+                img.src = src;
+                text.textContent = caption;
+                modal.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+            function cerrarModalRepo() {
+                const modal = document.getElementById('modal-imagen');
+                modal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        </script>
         <!-- ==================== 5. REPOSITORIO GRÁFICO (CONECTADO A GOOGLE SHEETS) ==================== -->
         <section id="galeria" class="py-16 md:py-24 bg-slate-50 w-full flex-grow border-b border-slate-200">
             <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
