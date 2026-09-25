@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Club Deportivo Amazonas | Sitio Oficial • Malchinguí</title>
+    <link rel="icon" type="image/png" href="Amazonas PGN.png">
     <meta name="description" content="Sitio web institucional del Club Deportivo Amazonas, fundado en 1987 en Malchinguí, Ecuador. Historia, plantilla oficial, fixture y repositorio gráfico.">
     
     <!-- Google Fonts: Playfair Display (Editorial Serif) & Inter (Modern Sans) -->
@@ -1189,6 +1190,13 @@
                 menuPrincipal.classList.add('hidden');
             }
             
+            // NUEVO: Guarda la pestaña actual en la URL del navegador
+            if(history.pushState) {
+                history.pushState(null, null, '#' + idSeccion);
+            } else {
+                location.hash = '#' + idSeccion;
+            }
+            
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -1403,7 +1411,14 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            mostrarSeccion('sobre-el-club');
+            let hash = window.location.hash.substring(1);
+            
+            if (hash && document.getElementById(hash)) {
+                mostrarSeccion(hash);
+            } else {
+                mostrarSeccion('sobre-el-club');
+            }
+            
             seleccionarCategoria('todos');
         });
     </script>
