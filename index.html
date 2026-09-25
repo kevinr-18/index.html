@@ -830,233 +830,55 @@
                 cargarDatosPlantilla(tipoTab);
             }
         </script>
-        <!-- ==================== 5. REPOSITORIO GRÁFICO (GOOGLE SHEETS) ==================== -->
-        <section id="galeria" class="py-16 md:py-24 bg-slate-50 w-full flex-grow border-b border-slate-200 bg-pitch-grid">
+        <!-- ==================== 5. REPOSITORIO GRÁFICO (CONECTADO A GOOGLE SHEETS) ==================== -->
+        <section id="galeria" class="py-16 md:py-24 bg-slate-50 w-full flex-grow border-b border-slate-200">
             <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
                 <div class="text-center mb-10">
-                    <span class="text-xs font-black text-brand-green tracking-widest uppercase block mb-1">Galería & Memoria Viva</span>
-                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-black text-brand-dark px-2">Repositorio Gráfico Institucional</h3>
-                    <div class="w-20 h-1 bg-gradient-to-r from-brand-green to-brand-gold mx-auto mt-4 rounded-full"></div>
-                    <p class="text-xs text-slate-500 mt-2">¿Tienes fotografías históricas o de partidos? Envíanoslas y formarán parte del archivo oficial.</p>
+                    <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Un poco de nuestras vivencias plasmadas en imágenes</span>
+                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Memoria viva del Club Deportivo Amazonas</h3>
+                    <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
+                    <p class="text-xs text-slate-500 mt-2">¿Tienes postales del club? Envialas a nuestros canales oficiales y las subiremos</p>
                 </div>
-                <!-- Botones de Selección de Categoría -->
-                <div id="filtros-categoria" class="flex flex-wrap justify-center gap-2.5 mb-6">
-                    <button onclick="seleccionarCategoriaRepo('masculino')" id="btn-cat-masculino" class="px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 bg-white text-slate-700 border border-slate-300 shadow-subtle">
+
+                <!-- Botones de Selección de Categoría / Equipo con Estética Dinámica -->
+                <div id="filtros-categoria" class="flex flex-wrap justify-center gap-2 mb-6">
+                    <button onclick="seleccionarCategoriaRepo('masculino')" id="btn-cat-masculino" class="px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-700 border border-slate-300 shadow-subtle">
                         Equipo Masculino
                     </button>
-                    <button onclick="seleccionarCategoriaRepo('femenino')" id="btn-cat-femenino" class="px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 bg-white text-slate-700 border border-slate-300 shadow-subtle">
+                    <button onclick="seleccionarCategoriaRepo('femenino')" id="btn-cat-femenino" class="px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-700 border border-slate-300 shadow-subtle">
                         Equipo Femenino
                     </button>
-                    <button onclick="seleccionarCategoriaRepo('historico')" id="btn-cat-historico" class="px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 bg-white text-slate-700 border border-slate-300 shadow-subtle">
-                        Archivo Histórico
-                    </button>
-                </div>
-                <!-- Filtros Dinámicos por Año -->
-                <div class="flex flex-wrap justify-center gap-2 mb-8 min-h-[36px]" id="filtros-anio-repo"></div>
-                <!-- Rejilla de Imágenes Dinámica -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5" id="repo-grid-dinamico">
-                    <div class="col-span-full text-center py-16 text-slate-400 text-xs">Cargando repositorio gráfico...</div>
-                </div>
-            </div>
-        </section>
-        <!-- Lightbox Modal para Galería -->
-        <div id="modal-imagen" class="fixed inset-0 z-50 hidden bg-black/85 flex items-center justify-center p-4 backdrop-blur-md" onclick="cerrarModalRepo()">
-            <div class="relative max-w-4xl max-h-[90vh] bg-white rounded-2xl overflow-hidden shadow-2xl p-2.5" onclick="event.stopPropagation()">
-                <button onclick="cerrarModalRepo()" class="absolute top-4 right-4 z-10 bg-brand-dark/80 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm transition-colors">✕</button>
-                <img id="modal-img-src" src="" alt="Imagen ampliada" class="max-w-full max-h-[78vh] object-contain mx-auto rounded-xl">
-                <p id="modal-caption" class="text-center text-xs font-bold text-slate-700 mt-2.5 px-4"></p>
-            </div>
-        </div>
-        <script>
-            const SPREADSHEET_REPO_ID = "1GxnHehS9i4QAPCiyVlf3cWfmK1QWqWsQy8juukoZ754";
-            const REPO_GID = "0";
-            let repositorioDatos = [];
-            let categoriaRepoActual = 'masculino';
-            let anioRepoActual = 'todos';
-            async function cargarRepositorioGoogleSheets() {
-                const gridContainer = document.getElementById('repo-grid-dinamico');
-                try {
-                    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_REPO_ID}/export?format=csv&gid=${REPO_GID}`;
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error("No se pudo conectar con el repositorio");
-                    const csvText = await response.text();
-                    
-                    repositorioDatos = parsearCSVRepo(csvText);
-                    
-                    if (repositorioDatos.length === 0) {
-                        gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No se encontraron postales disponibles.</div>`;
-                        return;
-                    }
-                    seleccionarCategoriaRepo('masculino');
-                } catch (error) {
-                    console.error("Error al cargar repositorio:", error);
-                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-red-500 text-xs font-medium">Error al sincronizar las postales en vivo desde Google Sheets.</div>`;
-                }
-            }
-            function parsearCSVRepo(csvText) {
-                const lineas = csvText.split('\n');
-                const resultado = [];
-                for (let i = 1; i < lineas.length; i++) {
-                    const fila = lineas[i].trim();
-                    if (!fila) continue;
-                    const cols = fila.split(',').map(val => val.replace(/^"|"$/g, '').trim());
-                    if (cols.length >= 4) {
-                        resultado.push({
-                            categoria: (cols[1] || 'masculino').toLowerCase(),
-                            anio: cols[2] || 'todos',
-                            url: cols[3] || '',
-                            descripcion: cols[4] || 'Archivo Club Deportivo Amazonas'
-                        });
-                    }
-                }
-                return resultado;
-            }
-            function seleccionarCategoriaRepo(categoria) {
-                categoriaRepoActual = categoria;
-                anioRepoActual = 'todos';
-                document.querySelectorAll('#filtros-categoria button').forEach(b => {
-                    b.className = 'px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 bg-white text-slate-700 border border-slate-300 shadow-subtle';
-                });
-                const btnActivo = document.getElementById(`btn-cat-${categoria}`);
-                if (btnActivo) {
-                    if (categoria === 'masculino') {
-                        btnActivo.className = 'px-5 py-2.5 text-xs font-black rounded-xl transition-all duration-200 bg-brand-green text-white shadow-md border-2 border-brand-green-hover';
-                    } else if (categoria === 'femenino') {
-                        btnActivo.className = 'px-5 py-2.5 text-xs font-black rounded-xl transition-all duration-200 bg-brand-rose text-white shadow-md border-2 border-pink-400';
-                    } else if (categoria === 'historico') {
-                        btnActivo.className = 'px-5 py-2.5 text-xs font-black rounded-xl transition-all duration-200 bg-gradient-to-r from-brand-gold to-yellow-500 text-brand-dark shadow-badge-gold border-2 border-yellow-300';
-                    }
-                }
-                actualizarFiltrosAnioRepo(categoria);
-                renderizarRepositorioRepo(categoriaRepoActual, anioRepoActual);
-            }
-            function actualizarFiltrosAnioRepo(categoria) {
-                const contenedorAnios = document.getElementById('filtros-anio-repo');
-                contenedorAnios.innerHTML = '';
-                if (categoria === 'historico') return;
-                let aniosDisponibles = ['Todos'];
-                repositorioDatos.forEach(item => {
-                    if (item.categoria === categoria) {
-                        if (item.anio && !aniosDisponibles.includes(item.anio)) {
-                            aniosDisponibles.push(item.anio);
-                        }
-                    }
-                });
-                if (aniosDisponibles.length > 1) {
-                    aniosDisponibles.forEach(anio => {
-                        const btn = document.createElement('button');
-                        const valAnio = anio.toLowerCase() === 'todos' ? 'todos' : anio;
-                        btn.className = 'btn-anio-repo px-3.5 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
-                        if (valAnio === 'todos') {
-                            btn.classList.add('bg-brand-green', 'text-white', 'border-brand-green');
-                        }
-                        btn.innerText = anio;
-                        btn.onclick = () => seleccionarAnioRepo(valAnio, btn);
-                        contenedorAnios.appendChild(btn);
-                    });
-                }
-            }
-            function seleccionarAnioRepo(anio, btnClickeado) {
-                anioRepoActual = anio;
-                document.querySelectorAll('.btn-anio-repo').forEach(b => {
-                    b.className = 'btn-anio-repo px-3.5 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
-                });
-                btnClickeado.className = 'btn-anio-repo px-3.5 py-1 text-[11px] font-bold rounded-full transition-all border bg-brand-green text-white border-brand-green';
-                renderizarRepositorioRepo(categoriaRepoActual, anioRepoActual);
-            }
-            function renderizarRepositorioRepo(cat, anio) {
-                const gridContainer = document.getElementById('repo-grid-dinamico');
-                gridContainer.innerHTML = '';
-                const filtrados = repositorioDatos.filter(item => {
-                    const matchCat = (item.categoria === cat);
-                    const matchAnio = (cat === 'historico' || anio === 'todos' || item.anio.toLowerCase() === anio.toLowerCase());
-                    return matchCat && matchAnio;
-                });
-                if (filtrados.length === 0) {
-                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No hay postales disponibles para este filtro.</div>`;
-                    return;
-                }
-                filtrados.forEach(item => {
-                    const tarjeta = document.createElement('div');
-                    tarjeta.className = 'cursor-pointer group';
-                    tarjeta.onclick = () => abrirModalRepo(item.url, item.descripcion);
-                    
-                    tarjeta.innerHTML = `
-                        <div class="bg-white rounded-xl overflow-hidden border border-slate-200 aspect-video relative shadow-subtle group-hover:shadow-card-hover transition-all duration-300">
-                            <img src="${item.url}" alt="${item.descripcion}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='Amazonas PGN.png'">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2.5">
-                                <p class="text-white text-[10px] font-semibold truncate">${item.descripcion}</p>
-                            </div>
-                            <span class="absolute top-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[9px] font-bold px-2 py-0.5 rounded">${item.anio !== 'todos' ? item.anio : item.categoria}</span>
-                        </div>
-                    `;
-                    gridContainer.appendChild(tarjeta);
-                });
-            }
-            function abrirModalRepo(src, caption) {
-                const modal = document.getElementById('modal-imagen');
-                const img = document.getElementById('modal-img-src');
-                const text = document.getElementById('modal-caption');
-                
-                img.src = src;
-                text.textContent = caption;
-                modal.classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            }
-            function cerrarModalRepo() {
-                const modal = document.getElementById('modal-imagen');
-                modal.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            }
-        </script>
-        <!-- ==================== 5. REPOSITORIO GRÁFICO (GOOGLE SHEETS) ==================== -->
-        <section id="galeria" class="py-16 md:py-24 bg-slate-50 w-full flex-grow border-b border-slate-200 bg-pitch-grid">
-            <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
-                <div class="text-center mb-10">
-                    <span class="text-xs font-black text-brand-green tracking-widest uppercase block mb-1">Galería & Memoria Viva</span>
-                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-black text-brand-dark px-2">Repositorio Gráfico Institucional</h3>
-                    <div class="w-20 h-1 bg-gradient-to-r from-brand-green to-brand-gold mx-auto mt-4 rounded-full"></div>
-                    <p class="text-xs text-slate-500 mt-2">¿Tienes fotografías históricas o de partidos? Envíanoslas y formarán parte del archivo oficial.</p>
-                </div>
-
-                <!-- Botones de Selección de Categoría -->
-                <div id="filtros-categoria" class="flex flex-wrap justify-center gap-2.5 mb-6">
-                    <button onclick="seleccionarCategoriaRepo('masculino')" id="btn-cat-masculino" class="px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 bg-white text-slate-700 border border-slate-300 shadow-subtle">
-                        Equipo Masculino
-                    </button>
-                    <button onclick="seleccionarCategoriaRepo('femenino')" id="btn-cat-femenino" class="px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 bg-white text-slate-700 border border-slate-300 shadow-subtle">
-                        Equipo Femenino
-                    </button>
-                    <button onclick="seleccionarCategoriaRepo('historico')" id="btn-cat-historico" class="px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 bg-white text-slate-700 border border-slate-300 shadow-subtle">
-                        Archivo Histórico
+                    <button onclick="seleccionarCategoriaRepo('historico')" id="btn-cat-historico" class="px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-700 border border-slate-300 shadow-subtle">
+                        Histórico
                     </button>
                 </div>
 
-                <!-- Filtros Dinámicos por Año -->
-                <div class="flex flex-wrap justify-center gap-2 mb-8 min-h-[36px]" id="filtros-anio-repo"></div>
+                <!-- Contenedor dinámico para los filtros de años -->
+                <div class="flex flex-wrap justify-center gap-1.5 mb-8 min-h-[32px]" id="filtros-anio-repo"></div>
 
-                <!-- Rejilla de Imágenes Dinámica -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5" id="repo-grid-dinamico">
-                    <div class="col-span-full text-center py-16 text-slate-400 text-xs">Cargando repositorio gráfico...</div>
+                <!-- Grid donde se pintarán las imágenes automáticamente -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="repo-grid-dinamico">
+                    <div class="col-span-full text-center py-12 text-slate-400 text-xs">Cargando repositorio gráfico desde Google Sheets...</div>
                 </div>
             </div>
         </section>
 
-        <!-- Lightbox Modal para Galería -->
-        <div id="modal-imagen" class="fixed inset-0 z-50 hidden bg-black/85 flex items-center justify-center p-4 backdrop-blur-md" onclick="cerrarModalRepo()">
-            <div class="relative max-w-4xl max-h-[90vh] bg-white rounded-2xl overflow-hidden shadow-2xl p-2.5" onclick="event.stopPropagation()">
-                <button onclick="cerrarModalRepo()" class="absolute top-4 right-4 z-10 bg-brand-dark/80 hover:bg-black text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm transition-colors">✕</button>
-                <img id="modal-img-src" src="" alt="Imagen ampliada" class="max-w-full max-h-[78vh] object-contain mx-auto rounded-xl">
-                <p id="modal-caption" class="text-center text-xs font-bold text-slate-700 mt-2.5 px-4"></p>
+        <!-- Modal para expandir imágenes / Image Lightbox Modal -->
+        <div id="modal-imagen" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm" onclick="cerrarModalRepo()">
+            <div class="relative max-w-4xl max-h-[90vh] bg-white rounded-lg overflow-hidden shadow-2xl p-2" onclick="event.stopPropagation()">
+                <button onclick="cerrarModalRepo()" class="absolute top-4 right-4 z-10 bg-black/70 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors">✕</button>
+                <img id="modal-img-src" src="" alt="Imagen ampliada" class="max-w-full max-h-[80vh] object-contain mx-auto rounded">
+                <p id="modal-caption" class="text-center text-sm font-medium text-slate-700 mt-2"></p>
             </div>
         </div>
 
+        <!-- Script de automatización y control estético para el Repositorio Gráfico -->
         <script>
             const SPREADSHEET_REPO_ID = "1GxnHehS9i4QAPCiyVlf3cWfmK1QWqWsQy8juukoZ754";
             const REPO_GID = "0";
 
             let repositorioDatos = [];
-            let categoriaRepoActual = 'masculino';
+            let categoriaRepoActual = 'masculino'; // Por defecto iniciado en masculino
             let anioRepoActual = 'todos';
 
             async function cargarRepositorioGoogleSheets() {
@@ -1064,20 +886,20 @@
                 try {
                     const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_REPO_ID}/export?format=csv&gid=${REPO_GID}`;
                     const response = await fetch(url);
-                    if (!response.ok) throw new Error("No se pudo conectar con el repositorio");
+                    if (!response.ok) throw new Error("No se pudo conectar con Google Sheets");
                     const csvText = await response.text();
                     
                     repositorioDatos = parsearCSVRepo(csvText);
                     
                     if (repositorioDatos.length === 0) {
-                        gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No se encontraron postales disponibles.</div>`;
+                        gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No se encontraron registros en el repositorio.</div>`;
                         return;
                     }
 
                     seleccionarCategoriaRepo('masculino');
                 } catch (error) {
-                    console.error("Error al cargar repositorio:", error);
-                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-red-500 text-xs font-medium">Error al sincronizar las postales en vivo desde Google Sheets.</div>`;
+                    console.error("Error cargando repositorio:", error);
+                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-red-500 text-xs">Error al sincronizar las imágenes. Verifica que el documento sea público.</div>`;
                 }
             }
 
@@ -1090,10 +912,10 @@
                     const cols = fila.split(',').map(val => val.replace(/^"|"$/g, '').trim());
                     if (cols.length >= 4) {
                         resultado.push({
-                            categoria: (cols[1] || 'masculino').toLowerCase(),
-                            anio: cols[2] || 'todos',
-                            url: cols[3] || '',
-                            descripcion: cols[4] || 'Archivo Club Deportivo Amazonas'
+                            categoria: (cols[1] || 'masculino').toLowerCase(),  // Columna B: masculino, femenino, historico
+                            anio: cols[2] || 'todos',                        // Columna C: 2026, 2025, etc.
+                            url: cols[3] || '',                              // Columna D: UrlImagen
+                            descripcion: cols[4] || 'Archivo Amazonas'       // Columna E: Descripcion
                         });
                     }
                 }
@@ -1104,18 +926,22 @@
                 categoriaRepoActual = categoria;
                 anioRepoActual = 'todos';
 
+                // Aplicar paleta de colores estética según el equipo seleccionado
                 document.querySelectorAll('#filtros-categoria button').forEach(b => {
-                    b.className = 'px-5 py-2.5 text-xs font-extrabold rounded-xl transition-all duration-200 bg-white text-slate-700 border border-slate-300 shadow-subtle';
+                    b.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-700 border border-slate-300 shadow-subtle';
                 });
 
                 const btnActivo = document.getElementById(`btn-cat-${categoria}`);
                 if (btnActivo) {
                     if (categoria === 'masculino') {
-                        btnActivo.className = 'px-5 py-2.5 text-xs font-black rounded-xl transition-all duration-200 bg-brand-green text-white shadow-md border-2 border-brand-green-hover';
+                        // Verde, blanco y negro
+                        btnActivo.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all bg-brand-green text-white border-2 border-brand-dark shadow-md';
                     } else if (categoria === 'femenino') {
-                        btnActivo.className = 'px-5 py-2.5 text-xs font-black rounded-xl transition-all duration-200 bg-brand-rose text-white shadow-md border-2 border-pink-400';
+                        // Verde, blanco y rosado
+                        btnActivo.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all bg-brand-rose text-white border-2 border-brand-green shadow-md';
                     } else if (categoria === 'historico') {
-                        btnActivo.className = 'px-5 py-2.5 text-xs font-black rounded-xl transition-all duration-200 bg-gradient-to-r from-brand-gold to-yellow-500 text-brand-dark shadow-badge-gold border-2 border-yellow-300';
+                        // Verde, blanco y dorado
+                        btnActivo.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all bg-brand-gold text-brand-dark border-2 border-brand-green shadow-badge-gold';
                     }
                 }
 
@@ -1142,7 +968,7 @@
                     aniosDisponibles.forEach(anio => {
                         const btn = document.createElement('button');
                         const valAnio = anio.toLowerCase() === 'todos' ? 'todos' : anio;
-                        btn.className = 'btn-anio-repo px-3.5 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
+                        btn.className = 'btn-anio-repo px-3 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
                         if (valAnio === 'todos') {
                             btn.classList.add('bg-brand-green', 'text-white', 'border-brand-green');
                         }
@@ -1156,9 +982,9 @@
             function seleccionarAnioRepo(anio, btnClickeado) {
                 anioRepoActual = anio;
                 document.querySelectorAll('.btn-anio-repo').forEach(b => {
-                    b.className = 'btn-anio-repo px-3.5 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
+                    b.className = 'btn-anio-repo px-3 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
                 });
-                btnClickeado.className = 'btn-anio-repo px-3.5 py-1 text-[11px] font-bold rounded-full transition-all border bg-brand-green text-white border-brand-green';
+                btnClickeado.className = 'btn-anio-repo px-3 py-1 text-[11px] font-bold rounded-full transition-all border bg-brand-green text-white border-brand-green';
 
                 renderizarRepositorioRepo(categoriaRepoActual, anioRepoActual);
             }
@@ -1174,22 +1000,19 @@
                 });
 
                 if (filtrados.length === 0) {
-                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No hay postales disponibles para este filtro.</div>`;
+                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No hay imágenes disponibles para esta selección en Google Sheets.</div>`;
                     return;
                 }
 
                 filtrados.forEach(item => {
                     const tarjeta = document.createElement('div');
-                    tarjeta.className = 'cursor-pointer group';
+                    tarjeta.className = 'repo-item cursor-pointer group';
                     tarjeta.onclick = () => abrirModalRepo(item.url, item.descripcion);
                     
                     tarjeta.innerHTML = `
-                        <div class="bg-white rounded-xl overflow-hidden border border-slate-200 aspect-video relative shadow-subtle group-hover:shadow-card-hover transition-all duration-300">
-                            <img src="${item.url}" alt="${item.descripcion}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='Amazonas PGN.png'">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2.5">
-                                <p class="text-white text-[10px] font-semibold truncate">${item.descripcion}</p>
-                            </div>
-                            <span class="absolute top-2 left-2 bg-black/60 backdrop-blur-sm text-white text-[9px] font-bold px-2 py-0.5 rounded">${item.anio !== 'todos' ? item.anio : item.categoria}</span>
+                        <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
+                            <img src="${item.url}" alt="${item.descripcion}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='Amazonas PGN.png'">
+                            <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">${item.anio !== 'todos' ? item.anio : item.categoria}</span>
                         </div>
                     `;
                     gridContainer.appendChild(tarjeta);
@@ -1212,6 +1035,10 @@
                 modal.classList.add('hidden');
                 document.body.style.overflow = 'auto';
             }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                cargarRepositorioGoogleSheets();
+            });
         </script>
         <!-- ==================== 6. TIENDA ==================== -->
         <section id="tienda" class="hidden py-16 md:py-24 bg-brand-white w-full flex-grow border-b border-slate-200">
