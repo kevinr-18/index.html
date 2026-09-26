@@ -449,21 +449,109 @@
                 femenino: { plantilla: "192660410", cuerpo: "804737150" },
                 leyendas: { plantilla: "571554949", cuerpo: null }
             };
-            // Formatea automáticamente links directos y enlaces compartidos de Google Drive
-            function formatearUrlImagen(url) {
-                if (!url || typeof url !== 'string') return '';
-                url = url.trim();
-                if (!url) return '';
-                
-                // Conversión de enlaces de Google Drive (ej: /file/d/ID/view o ?id=ID) a thumbnail directo en alta resolución
-                const matchDrive1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-                const matchDrive2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+            // Resolución universal e inteligente de imágenes: Google Drive, rutas locales, subcarpetas y nombres de archivo
+            function resolverUrlImagen(urlRaw, opciones = {}) {
+                if (!urlRaw || typeof urlRaw !== 'string') return '';
+                urlRaw = urlRaw.trim();
+                if (!urlRaw) return '';
+
+                // 1. Enlaces compartidos de Google Drive (ej: /file/d/ID/view o ?id=ID)
+                const matchDrive1 = urlRaw.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                const matchDrive2 = urlRaw.match(/[?&]id=([a-zA-Z0-9_-]+)/);
                 const fileId = (matchDrive1 && matchDrive1[1]) || (matchDrive2 && matchDrive2[1]);
-                
                 if (fileId) {
                     return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
                 }
-                return url;
+
+                // 2. URLs externas completas o datos en base64
+                if (urlRaw.startsWith('http://') || urlRaw.startsWith('https://') || urlRaw.startsWith('data:')) {
+                    return urlRaw;
+                }
+
+                // 3. Ya incluye prefijo de carpeta assets/
+                if (urlRaw.startsWith('assets/')) {
+                    return urlRaw;
+                }
+                if (urlRaw.startsWith('./assets/') || urlRaw.startsWith('/assets/')) {
+                    return urlRaw.replace(/^\.?\//, '');
+                }
+
+                // 4. Recursos del club y siluetas genéricas
+                if (urlRaw.includes('Jugador_Generico')) return 'assets/img/plantilla/' + urlRaw;
+                if (urlRaw.includes('Portero_Generico')) return 'assets/img/plantilla/' + urlRaw;
+                if (urlRaw.includes('Amazonas PGN') || urlRaw.includes('Escudo')) return 'assets/img/branding/' + urlRaw;
+                if (urlRaw.includes('Mascota')) return 'assets/img/branding/' + urlRaw;
+
+                // 5. Columna Carpeta explícita de Google Sheets (si está configurada)
+                if (opciones.carpeta && typeof opciones.carpeta === 'string' && opciones.carpeta.trim()) {
+                    let c = opciones.carpeta.trim().replace(/\\/g, '/');
+                    if (!c.endsWith('/')) c += '/';
+                    if (c.endsWith(urlRaw)) return c;
+                    return c + urlRaw;
+                }
+
+                // 6. Diccionario de mapeo directo para el repositorio gráfico
+                const MAPA_IMAGENES = {
+                    '1.png': 'assets/img/repositorio/historico/1.png',
+                    '2.png': 'assets/img/repositorio/historico/2.png',
+                    'Retro.jpg': 'assets/img/repositorio/historico/Retro.jpg',
+                    'Retro1.jpg': 'assets/img/repositorio/historico/Retro2.jpg',
+                    'Retro2.jpg': 'assets/img/repositorio/historico/Retro2.jpg',
+                    'Campeonato1ra.jpg': 'assets/img/repositorio/masculino/Campeonato1ra.jpg',
+                    'Campeonato2da.jpg': 'assets/img/repositorio/masculino/Campeonato2da.jpg',
+                    'Campeonato2da1.png': 'assets/img/repositorio/masculino/Campeonato2da1.png',
+                    'femenino25.jpg': 'assets/img/repositorio/femenino/femenino25.jpg',
+                    'Femenino251.jpg': 'assets/img/repositorio/femenino/Femenino251.jpg',
+                    'Femenino252.jpg': 'assets/img/repositorio/femenino/Femenino252.jpg',
+                    'Femenino26.jpg': 'assets/img/repositorio/femenino/Femenino26.jpg',
+                    'Femenino261.jpg': 'assets/img/repositorio/femenino/Femenino261.jpg',
+                    'Femeninoconsuelo24.jpg': 'assets/img/repositorio/femenino/Femeninoconsuelo24.jpg',
+                    'Femeninoconsuelo241.jpg': 'assets/img/repositorio/femenino/Femeninoconsuelo241.jpg',
+                    'Femeninoconsuelo242.jpg': 'assets/img/repositorio/femenino/Femeninoconsuelo242.jpg',
+                    'Femeninoconsuelo243.jpg': 'assets/img/repositorio/femenino/Femeninoconsuelo243.jpg',
+                    'CampeonatoMaxima22.png': 'assets/img/repositorio/masculino/CampeonatoMaxima22.png',
+                    'CampeonatoMaxima223.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima223.jpg',
+                    'CampeonatoMaxima226.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima226.jpg',
+                    'CampeonatoMaxima227.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima227.jpg',
+                    'CampeonatoMaxima228.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima228.jpg',
+                    'CampeonatoMaxima2211.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima2211.jpg',
+                    'CampeonatoMaxima2212.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima2212.jpg',
+                    'CampeonatoMaxima23.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima23.jpg',
+                    'CampeonatoMaxima231.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima231.jpg',
+                    'CampeonatoMaxima232.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima232.jpg',
+                    'CampeonatoMaxima24.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima24.jpg',
+                    'CampeonatoMaxima241.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima241.jpg',
+                    'CampeonatoMaxima25.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima25.jpg',
+                    'CampeonatoMaxima251.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima251.jpg',
+                    'CampeonatoMaxima252.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima252.jpg',
+                    'CampeonatoMaxima253.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima253.jpg',
+                    'CampeonatoMaxima26.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima26.jpg',
+                    'CampeonatoMaxima261.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima261.jpg',
+                    'CampeonatoMaxima262.jpg': 'assets/img/repositorio/masculino/CampeonatoMaxima262.jpg'
+                };
+
+                if (MAPA_IMAGENES[urlRaw]) return MAPA_IMAGENES[urlRaw];
+
+                // 7. Deducción según sección de plantilla
+                if (opciones.seccion === 'plantilla' || opciones.tipoTab) {
+                    const tab = (opciones.tipoTab || 'masculino').toLowerCase();
+                    if (tab.includes('fem')) return `assets/img/plantilla/femenino/${urlRaw}`;
+                    if (tab.includes('leyen')) return `assets/img/plantilla/leyendas/${urlRaw}`;
+                    return `assets/img/plantilla/masculino/${urlRaw}`;
+                }
+
+                // 8. Deducción según categoría de equipo en repositorio
+                const eq = (opciones.equipo || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+                if (eq.includes('fem')) return `assets/img/repositorio/femenino/${urlRaw}`;
+                if (eq.includes('hist') || eq.includes('retro')) return `assets/img/repositorio/historico/${urlRaw}`;
+                if (eq.includes('masc')) return `assets/img/repositorio/masculino/${urlRaw}`;
+
+                return urlRaw;
+            }
+
+            // Alias compatible con llamadas existentes
+            function formatearUrlImagen(url, opciones = {}) {
+                return resolverUrlImagen(url, opciones);
             }
             // Renderiza Skeleton Loaders anatómicos de Trading Cards
             function renderizarSkeletonsTradingCards(container) {
@@ -599,7 +687,7 @@
                                 nombre: cols[1] || '',
                                 apellido: cols[2] || '',
                                 cargo: cols[3] || 'Cuerpo Técnico',
-                                fotoUrl: formatearUrlImagen(cols[4] || '')
+                                fotoUrl: resolverUrlImagen(cols[4] || '', { seccion: 'plantilla', tipoTab })
                             });
                         }
                     }
@@ -669,8 +757,8 @@
                     let def = (cols[9] && cols[9].trim() !== '' && !isNaN(cols[9].trim())) ? cols[9].trim() : '70';
                     // Col K (idx 10): Regate (REG)
                     const reg = (cols[10] && cols[10].trim() !== '' && !isNaN(cols[10].trim())) ? cols[10].trim() : '74';
-                    // Col L (idx 11): Foto URL (con soporte para enlaces de Google Drive)
-                    const fotoUrl = formatearUrlImagen(cols[11] || '');
+                    // Col L (idx 11): Foto URL (con soporte para enlaces de Google Drive, rutas relativas y nombres de archivo)
+                    const fotoUrl = resolverUrlImagen(cols[11] || '', { seccion: 'plantilla', tipoTab });
                     // Col M (idx 12): Posición
                     let posicionRaw = (cols[12] && cols[12].trim() !== '') ? cols[12].trim() : '';
                     // Comprobación inteligente por si las columnas J (DEF) y M (Posición) se intercambiaron
@@ -792,7 +880,7 @@
                                     <div class="relative h-44 sm:h-48 w-full rounded-xl overflow-hidden bg-gradient-to-b from-black/40 via-black/20 to-black/70 border border-white/10 flex items-center justify-center p-1 mb-3">
                                         <img src="${imagenFinal}" alt="${j.nombres} ${j.apellidos}" loading="lazy" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" onerror="this.src='${fallbackFoto}'; this.classList.remove('object-cover'); this.classList.add('object-contain', 'p-2');">
                                         <div class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/90 to-transparent pointer-events-none"></div>
-                                        <img src="Amazonas PGN.png" class="absolute bottom-1 right-1.5 h-5 w-auto opacity-30 pointer-events-none" alt="Escudo Watermark">
+                                        <img src="assets/img/branding/Amazonas PGN.png" class="absolute bottom-1 right-1.5 h-5 w-auto opacity-30 pointer-events-none" alt="Escudo Watermark">
                                     </div>
                                     <!-- Identificación del Jugador (Nombre y APELLIDO EN MAYÚSCULAS) -->
                                     <div class="text-center mb-3">
@@ -861,7 +949,7 @@
                 if (!hayRegistros) {
                     container.innerHTML = `
                         <div class="text-center py-16 bg-slate-50 rounded-2xl border border-slate-200">
-                            <img src="Amazonas PGN.png" class="h-16 w-auto mx-auto mb-3 opacity-40" alt="CDA">
+                            <img src="assets/img/branding/Amazonas PGN.png" class="h-16 w-auto mx-auto mb-3 opacity-40" alt="CDA">
                             <h4 class="font-serif font-bold text-slate-600 text-sm">No se encontraron registros de jugadores en esta nómina.</h4>
                         </div>
                     `;
@@ -959,18 +1047,49 @@
                 }
             }
 
+            function extraerSubfiltroRepo(colCategoria, nombreArchivo) {
+                const cat = (colCategoria || '').trim();
+                const catNorm = cat.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                if (catNorm.includes('primer')) return 'Primera';
+                if (catNorm.includes('segund')) return 'Segunda';
+                const textoCombinado = cat + ' ' + (nombreArchivo || '');
+                const match4 = textoCombinado.match(/\b(19\d\d|20\d\d)\b/);
+                if (match4) return match4[1];
+                const match2 = (nombreArchivo || '').match(/(?:Maxima|Femenino|consuelo|repo|o|a)(\d{2})(?:\d|\.|$)/i);
+                if (match2 && Number(match2[1]) >= 20 && Number(match2[1]) <= 30) {
+                    return '20' + match2[1];
+                }
+                if (cat && !['historico', 'femenino', 'masculino'].includes(catNorm)) {
+                    return cat;
+                }
+                return 'General';
+            }
+
             function parsearCSVRepo(csvText) {
                 const filas = parsearCSV(csvText);
                 const resultado = [];
                 for (let i = 1; i < filas.length; i++) {
                     const cols = filas[i];
-                    if (!cols || cols.length === 0 || !cols.some(c => c)) continue;
+                    if (!cols || cols.length === 0 || !cols.some(c => c && c.trim())) continue;
                     if (cols.length >= 4) {
+                        const eqRaw = (cols[1] || 'masculino').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+                        let categoria = 'masculino';
+                        if (eqRaw.includes('fem')) categoria = 'femenino';
+                        else if (eqRaw.includes('hist') || eqRaw.includes('retro')) categoria = 'historico';
+                        
+                        const subfiltro = extraerSubfiltroRepo(cols[2], cols[3] || cols[6] || '');
+                        const urlRaw = (cols[3] && cols[3].trim()) ? cols[3].trim() : (cols[6] || '').trim();
+                        const carpetaRaw = cols[5] || '';
+                        const urlResuelta = resolverUrlImagen(urlRaw, { equipo: categoria, carpeta: carpetaRaw });
+                        const desc = cols[4] || (cols[2] ? `C.D. Amazonas - ${cols[2]}` : 'Archivo Amazonas');
+
                         resultado.push({
-                            categoria: (cols[1] || 'masculino').toLowerCase(),  // Columna B: masculino, femenino, historico
-                            anio: cols[2] || 'todos',                        // Columna C: 2026, 2025, etc.
-                            url: formatearUrlImagen(cols[3] || ''),          // Formateo seguro para Drive y enlaces directos
-                            descripcion: cols[4] || 'Archivo Amazonas'       // Columna E: Descripcion
+                            categoria: categoria,
+                            subfiltro: subfiltro,
+                            anio: subfiltro,
+                            colCategoria: (cols[2] || '').trim(),
+                            url: urlResuelta,
+                            descripcion: desc
                         });
                     }
                 }
@@ -1010,25 +1129,37 @@
 
                 if (categoria === 'historico') return;
 
-                let aniosDisponibles = ['Todos'];
+                let subfiltrosDisponibles = ['Todos'];
                 repositorioDatos.forEach(item => {
                     if (item.categoria === categoria) {
-                        if (item.anio && !aniosDisponibles.includes(item.anio)) {
-                            aniosDisponibles.push(item.anio);
+                        const val = item.subfiltro || item.anio;
+                        if (val && !subfiltrosDisponibles.includes(val)) {
+                            subfiltrosDisponibles.push(val);
                         }
                     }
                 });
 
-                if (aniosDisponibles.length > 1) {
-                    aniosDisponibles.forEach(anio => {
+                if (subfiltrosDisponibles.length > 1) {
+                    const todos = subfiltrosDisponibles[0];
+                    const resto = subfiltrosDisponibles.slice(1).sort((a, b) => {
+                        const numA = parseInt(a, 10);
+                        const numB = parseInt(b, 10);
+                        if (!isNaN(numA) && !isNaN(numB)) return numB - numA;
+                        if (!isNaN(numA)) return -1;
+                        if (!isNaN(numB)) return 1;
+                        return a.localeCompare(b);
+                    });
+                    const ordenados = [todos, ...resto];
+
+                    ordenados.forEach(sf => {
                         const btn = document.createElement('button');
-                        const valAnio = anio.toLowerCase() === 'todos' ? 'todos' : anio;
+                        const valFiltro = sf.toLowerCase() === 'todos' ? 'todos' : sf;
                         btn.className = 'btn-anio-repo px-3 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
-                        if (valAnio === 'todos') {
+                        if (valFiltro === anioRepoActual) {
                             btn.classList.add('bg-brand-green', 'text-white', 'border-brand-green');
                         }
-                        btn.innerText = anio;
-                        btn.onclick = () => seleccionarAnioRepo(valAnio, btn);
+                        btn.innerText = sf;
+                        btn.onclick = () => seleccionarAnioRepo(valFiltro, btn);
                         contenedorAnios.appendChild(btn);
                     });
                 }
@@ -1050,8 +1181,14 @@
 
                 const filtrados = repositorioDatos.filter(item => {
                     const matchCat = (item.categoria === cat);
-                    const matchAnio = (cat === 'historico' || anio === 'todos' || item.anio.toLowerCase() === anio.toLowerCase());
-                    return matchCat && matchAnio;
+                    if (!matchCat) return false;
+                    if (cat === 'historico' || anio === 'todos') return true;
+
+                    const itemFiltro = (item.subfiltro || item.anio || '').toLowerCase();
+                    const itemCatCol = (item.colCategoria || '').toLowerCase();
+                    const query = anio.toLowerCase();
+
+                    return itemFiltro === query || itemCatCol === query;
                 });
 
                 if (filtrados.length === 0) {
@@ -1064,10 +1201,12 @@
                     tarjeta.className = 'repo-item cursor-pointer group';
                     tarjeta.onclick = () => abrirModalRepo(item.url, item.descripcion);
                     
+                    const badgeText = item.subfiltro !== 'General' && item.subfiltro !== 'todos' ? item.subfiltro : (item.colCategoria || item.categoria);
+
                     tarjeta.innerHTML = `
                         <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
                             <img src="${item.url}" alt="${item.descripcion}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
-                            <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">${item.anio !== 'todos' ? item.anio : item.categoria}</span>
+                            <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded font-semibold">${badgeText}</span>
                         </div>
                     `;
                     gridContainer.appendChild(tarjeta);
