@@ -53,6 +53,9 @@
                         'card': '0 4px 20px -2px rgba(0, 0, 0, 0.06)',
                         'card-hover': '0 14px 30px -4px rgba(4, 106, 56, 0.10)',
                         'badge-gold': '0 0 12px rgba(212, 175, 55, 0.25)',
+                        'tcg-green': '0 12px 30px -6px rgba(16, 185, 129, 0.45), 0 0 15px rgba(4, 106, 56, 0.35)',
+                        'tcg-rose': '0 12px 30px -6px rgba(244, 63, 94, 0.45), 0 0 15px rgba(241, 121, 197, 0.35)',
+                        'tcg-gold': '0 12px 30px -6px rgba(245, 158, 11, 0.5), 0 0 18px rgba(212, 175, 55, 0.4)',
                     }
                 }
             }
@@ -66,6 +69,44 @@
             overflow-x: hidden;
             margin: 0;
             padding: 0;
+        }
+
+        /* Trama sutil para la sección de plantillas */
+        .bg-pattern-dots {
+            background-image: radial-gradient(rgba(4, 106, 56, 0.08) 1.5px, transparent 1.5px);
+            background-size: 20px 20px;
+        }
+
+        /* Efecto Holográfico Shimmer para las Trading Cards TCG */
+        .tcg-shimmer-effect {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+        }
+
+        .tcg-shimmer-effect::after {
+            content: '';
+            position: absolute;
+            top: -60%;
+            left: -80%;
+            width: 250%;
+            height: 220%;
+            background: linear-gradient(
+                115deg,
+                transparent 25%,
+                rgba(255, 255, 255, 0.03) 40%,
+                rgba(255, 255, 255, 0.25) 50%,
+                rgba(255, 255, 255, 0.05) 55%,
+                transparent 70%
+            );
+            transform: rotate(25deg) translateY(-120%);
+            transition: transform 0.8s ease-out;
+            pointer-events: none;
+            z-index: 25;
+        }
+
+        .tcg-shimmer-effect:hover::after {
+            transform: rotate(25deg) translateY(120%);
         }
 
         .bg-hero-pattern {
@@ -455,8 +496,17 @@
                     </div>
                 `;
             }
+            const cachePlantillas = {};
+
             async function cargarDatosPlantilla(tipoTab) {
                 const container = document.getElementById('plantilla-dinamica-container');
+
+                // Si los datos de esta categoría ya están en caché, renderizar de inmediato sin latencia
+                if (cachePlantillas[tipoTab]) {
+                    renderizarPlantillaCompleta(cachePlantillas[tipoTab].csvPlantilla, cachePlantillas[tipoTab].csvCuerpo, tipoTab, container);
+                    return;
+                }
+
                 renderizarSkeletonsTradingCards(container);
                 const config = GIDS_CONFIG[tipoTab];
                 if (!config) return;
@@ -475,6 +525,7 @@
                             console.warn("No se pudo cargar el cuerpo técnico:", e);
                         }
                     }
+                    cachePlantillas[tipoTab] = { csvPlantilla, csvCuerpo };
                     renderizarPlantillaCompleta(csvPlantilla, csvCuerpo, tipoTab, container);
                 } catch (error) {
                     console.error("Error en la sincronización:", error);
@@ -562,7 +613,7 @@
                                 ${tecnicos.map(t => `
                                     <div class="bg-white/5 backdrop-blur-md p-4 rounded-xl border border-white/10 hover:border-brand-green/60 transition-colors flex flex-col items-center">
                                         <div class="w-20 h-20 rounded-full overflow-hidden mb-3 bg-brand-dark border-2 border-brand-gold shadow-md">
-                                            <img src="${t.fotoUrl || 'Amazonas PGN.png'}" alt="${t.nombre} ${t.apellido}" class="w-full h-full object-cover" onerror="this.src='Amazonas PGN.png'">
+                                            <img src="${t.fotoUrl || 'Jugador_Generico.png'}" alt="${t.nombre} ${t.apellido}" loading="lazy" class="w-full h-full object-cover" onerror="this.src='Jugador_Generico.png'">
                                         </div>
                                         <span class="text-[10px] font-black tracking-wider uppercase text-brand-gold bg-brand-gold/15 px-2 py-0.5 rounded-full mb-1.5">${t.cargo || 'Dirección Técnica'}</span>
                                         <span class="text-sm font-bold text-white">${t.nombre} ${t.apellido}</span>
@@ -710,7 +761,9 @@
                                 dorsalBg = 'bg-amber-500/30 text-brand-gold border-amber-400/40';
                                 statBarColor = 'bg-brand-gold';
                             }
-                            const imagenFinal = (j.fotoUrl && j.fotoUrl.trim() !== '') ? j.fotoUrl : 'Amazonas PGN.png';
+                            const esArquero = (j.posicion || '').toUpperCase().includes('ARQ') || (j.posicion || '').toUpperCase().includes('POR');
+                            const fallbackFoto = esArquero ? 'Portero_Generico.png' : 'Jugador_Generico.png';
+                            const imagenFinal = (j.fotoUrl && j.fotoUrl.trim() !== '') ? j.fotoUrl : fallbackFoto;
                             const posAbrev = abreviarPosicion(j.posicion);
                             // Estructura de la Trading Card de Alta Gama
                             tarjeta.className = `tcg-shimmer-effect group relative rounded-2xl p-[2px] bg-gradient-to-b ${borderGradient} shadow-xl ${shadowHover} transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col`;
@@ -734,7 +787,7 @@
                                     </div>
                                     <!-- Retrato del Jugador Integrado con Marco Biselado -->
                                     <div class="relative h-44 sm:h-48 w-full rounded-xl overflow-hidden bg-gradient-to-b from-black/40 via-black/20 to-black/70 border border-white/10 flex items-center justify-center p-1 mb-3">
-                                        <img src="${imagenFinal}" alt="${j.nombres} ${j.apellidos}" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" onerror="this.src='Amazonas PGN.png'; this.classList.remove('object-cover'); this.classList.add('object-contain', 'p-3');">
+                                        <img src="${imagenFinal}" alt="${j.nombres} ${j.apellidos}" loading="lazy" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" onerror="this.src='${fallbackFoto}'; this.classList.remove('object-cover'); this.classList.add('object-contain', 'p-2');">
                                         <div class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/90 to-transparent pointer-events-none"></div>
                                         <img src="Amazonas PGN.png" class="absolute bottom-1 right-1.5 h-5 w-auto opacity-30 pointer-events-none" alt="Escudo Watermark">
                                     </div>
@@ -904,17 +957,16 @@
             }
 
             function parsearCSVRepo(csvText) {
-                const lineas = csvText.split('\n');
+                const filas = parsearCSV(csvText);
                 const resultado = [];
-                for (let i = 1; i < lineas.length; i++) {
-                    const fila = lineas[i].trim();
-                    if (!fila) continue;
-                    const cols = fila.split(',').map(val => val.replace(/^"|"$/g, '').trim());
+                for (let i = 1; i < filas.length; i++) {
+                    const cols = filas[i];
+                    if (!cols || cols.length === 0 || !cols.some(c => c)) continue;
                     if (cols.length >= 4) {
                         resultado.push({
                             categoria: (cols[1] || 'masculino').toLowerCase(),  // Columna B: masculino, femenino, historico
                             anio: cols[2] || 'todos',                        // Columna C: 2026, 2025, etc.
-                            url: cols[3] || '',                              // Columna D: UrlImagen
+                            url: formatearUrlImagen(cols[3] || ''),          // Formateo seguro para Drive y enlaces directos
                             descripcion: cols[4] || 'Archivo Amazonas'       // Columna E: Descripcion
                         });
                     }
@@ -1011,7 +1063,7 @@
                     
                     tarjeta.innerHTML = `
                         <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                            <img src="${item.url}" alt="${item.descripcion}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='Amazonas PGN.png'">
+                            <img src="${item.url}" alt="${item.descripcion}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='Amazonas PGN.png'">
                             <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded">${item.anio !== 'todos' ? item.anio : item.categoria}</span>
                         </div>
                     `;
@@ -1035,6 +1087,13 @@
                 modal.classList.add('hidden');
                 document.body.style.overflow = 'auto';
             }
+
+            // Atajo de teclado para cerrar el modal de galeria con tecla Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    cerrarModalRepo();
+                }
+            });
 
             document.addEventListener('DOMContentLoaded', () => {
                 cargarRepositorioGoogleSheets();
@@ -1334,8 +1393,17 @@
         <div id="chat-mensajes" class="flex-grow min-h-0 p-3.5 overflow-y-auto bg-slate-50 flex flex-col space-y-3 text-xs">
             <div class="flex items-start space-x-2">
                 <img src="Mascota.png" alt="Avatar Dragón" class="h-6 w-6 rounded-full bg-brand-green/20 object-cover object-top border border-brand-gold/40 flex-shrink-0 mt-0.5">
-                <div class="bg-white text-brand-dark p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] border border-slate-200 leading-relaxed">
-                    ¡Saludos hincha verdiblanco! Soy el asistente oficial del Club Deportivo Amazonas. ¿En qué te puedo colaborar hoy?
+                <div class="space-y-2 max-w-[88%]">
+                    <div class="bg-white text-brand-dark p-3 rounded-2xl rounded-tl-none shadow-sm border border-slate-200 leading-relaxed">
+                        ¡Saludos hincha verdiblanco! Soy <strong>Drak</strong>, asistente oficial del Club Deportivo Amazonas. ¿En qué te puedo orientar hoy?
+                    </div>
+                    <!-- Chips de Preguntas Rápidas -->
+                    <div class="flex flex-wrap gap-1.5 pt-0.5" id="chat-quick-chips">
+                        <button type="button" onclick="preguntarChatRapido('Cuéntame la historia del club')" class="bg-white hover:bg-emerald-50 text-brand-green border border-brand-green/30 text-[10px] px-2.5 py-1 rounded-full font-medium transition-all shadow-xs">📜 Historia</button>
+                        <button type="button" onclick="preguntarChatRapido('¿Dónde juegan y cómo es su estadio?')" class="bg-white hover:bg-emerald-50 text-brand-green border border-brand-green/30 text-[10px] px-2.5 py-1 rounded-full font-medium transition-all shadow-xs">📍 Estadio</button>
+                        <button type="button" onclick="preguntarChatRapido('¿Qué indumentaria oficial tienen en la tienda?')" class="bg-white hover:bg-emerald-50 text-brand-green border border-brand-green/30 text-[10px] px-2.5 py-1 rounded-full font-medium transition-all shadow-xs">👕 Tienda</button>
+                        <button type="button" onclick="preguntarChatRapido('¿Quiénes integran la plantilla y directiva?')" class="bg-white hover:bg-emerald-50 text-brand-green border border-brand-green/30 text-[10px] px-2.5 py-1 rounded-full font-medium transition-all shadow-xs">👥 Nómina</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1430,67 +1498,12 @@
             }
         }
 
-        let categoriaActual = 'todos';
-        const aniosPorCategoria = {
-            'maxima': ['Todos', '2026', '2025', '2024', '2023', '2022'],
-            'femenino': ['Todos', '2026', '2025', '2024'],
-            'primera': [], 'segunda': [], 'retro': [], 'todos': []
-        };
-
-        function seleccionarCategoria(categoria) {
-            categoriaActual = categoria;
-            const botonesCat = document.querySelectorAll('#filtros-categoria button');
-            botonesCat.forEach(b => {
-                b.classList.remove('bg-brand-green', 'text-brand-white');
-                b.classList.add('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-            });
-            
-            const btnActivo = document.getElementById(`btn-cat-${categoria}`);
-            if(btnActivo) {
-                btnActivo.classList.remove('bg-white', 'text-slate-700', 'border', 'border-slate-300');
-                btnActivo.classList.add('bg-brand-green', 'text-brand-white');
+        function preguntarChatRapido(texto) {
+            const inputField = document.getElementById('chat-input');
+            if (inputField) {
+                inputField.value = texto;
+                enviarMensajeChat();
             }
-
-            const contenedorAnios = document.getElementById('filtros-anio');
-            contenedorAnios.innerHTML = ''; 
-            const anios = aniosPorCategoria[categoria];
-            
-            if (anios && anios.length > 0) {
-                anios.forEach(anio => {
-                    const btn = document.createElement('button');
-                    const valorAnio = anio.toLowerCase() === 'todos' ? 'todos' : anio;
-                    btn.className = 'btn-anio px-3 py-1 text-[11px] font-bold rounded-full bg-white text-slate-600 border border-slate-200 hover:border-brand-gold transition-all';
-                    if (valorAnio === 'todos') {
-                        btn.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-                        btn.classList.add('bg-brand-gold', 'text-brand-dark', 'border-brand-gold');
-                    }
-                    btn.innerText = anio;
-                    btn.onclick = () => seleccionarAnio(valorAnio, btn);
-                    contenedorAnios.appendChild(btn);
-                });
-            }
-            ejecutarFiltro(categoriaActual, 'todos');
-        }
-
-        function seleccionarAnio(anio, btnClickeado) {
-            const botonesAnio = document.querySelectorAll('.btn-anio');
-            botonesAnio.forEach(b => {
-                b.classList.remove('bg-brand-gold', 'text-brand-dark', 'border-brand-gold');
-                b.classList.add('bg-white', 'text-slate-600', 'border-slate-200');
-            });
-            btnClickeado.classList.remove('bg-white', 'text-slate-600', 'border-slate-200');
-            btnClickeado.classList.add('bg-brand-gold', 'text-brand-dark', 'border-brand-gold');
-            ejecutarFiltro(categoriaActual, anio);
-        }
-
-        function ejecutarFiltro(cat, anio) {
-            const items = document.querySelectorAll('.repo-item');
-            items.forEach(item => {
-                const itemCat = item.getAttribute('data-cat');
-                const itemAnio = item.getAttribute('data-anio');
-                let mostrar = (cat === 'todos' || (itemCat === cat && (anio === 'todos' || itemAnio === anio)));
-                item.style.display = mostrar ? 'block' : 'none';
-            });
         }
 
         function toggleChat() {
@@ -1617,8 +1630,6 @@
             } else {
                 mostrarSeccion('sobre-el-club');
             }
-            
-            seleccionarCategoria('todos');
         });
     </script>
 </body>
