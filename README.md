@@ -26,8 +26,7 @@ cda-sitio-oficial/
         │   └── NoticiaSponsor.png  # Gráfico de patrocinio oficial
         │
         ├── plantilla/              # Tarjetas y nómina de jugadores
-        │   ├── Jugador_Generico.png / .jpeg   # Silueta oficial para jugadores
-        │   ├── Portero_Generico.png / .jpeg   # Silueta oficial para arqueros
+        │   ├── Generico/           # Silueta oficial para jugadores
         │   ├── masculino/          # Fotografías locales equipo masculino
         │   ├── femenino/           # Fotografías locales equipo femenino
         │   └── leyendas/           # Fotografías leyendas históricas
