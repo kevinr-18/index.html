@@ -1453,7 +1453,8 @@
         <script>
             const SPREADSHEET_TIENDA_ID = "1GxnHehS9i4QAPCiyVlf3cWfmK1QWqWsQy8juukoZ754";
             const TIENDA_GID = "436016728";
-            const WHATSAPP_CLUB_NUMERO = "";
+            // 👇 COLOCA AQUÍ TU NÚMERO DE WHATSAPP CON CÓDIGO DE PAÍS (ej: "593987654321" para Ecuador)
+            const WHATSAPP_CLUB_NUMERO = ""; 
 
             let tiendaProductos = [];
             let tiendaCargada = false;
@@ -1876,8 +1877,9 @@
 
             function generarEnlaceWhatsApp(mensaje) {
                 const msgEncoded = encodeURIComponent(mensaje);
-                if (WHATSAPP_CLUB_NUMERO && WHATSAPP_CLUB_NUMERO.trim() !== "") {
-                    return `https://wa.me/${WHATSAPP_CLUB_NUMERO.trim()}?text=${msgEncoded}`;
+                const numLimpio = (WHATSAPP_CLUB_NUMERO || "").replace(/[^0-9]/g, '');
+                if (numLimpio) {
+                    return `https://wa.me/${numLimpio}?text=${msgEncoded}`;
                 }
                 return `https://api.whatsapp.com/send?text=${msgEncoded}`;
             }
