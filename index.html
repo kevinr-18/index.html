@@ -1191,12 +1191,21 @@
                     let categoria = catRaw;
                     if (equipo === 'masculino') {
                         const prefCat = (parts[1] || '').toUpperCase();
-                        if (prefCat === 'M' || catRaw.toLowerCase().includes('max')) {
+                        const numCode = (parts[3] || '').trim();
+                        const catLower = (catRaw || '').toLowerCase();
+
+                        // En el esquema institucional:
+                        // - M_S_2026_10xx -> Máxima (serie 1000)
+                        // - M_P_N_20xx    -> Primera (letra P / serie 2000)
+                        // - M_S_N_30xx    -> Segunda (letra S / serie 3000)
+                        if (catLower.includes('max') || numCode.startsWith('1') || (prefCat === 'S' && parts[2] === '2026') || (prefCat === 'S' && !catLower.includes('seg') && !numCode.startsWith('3'))) {
                             categoria = 'Máxima';
-                        } else if (prefCat === 'P' || catRaw.toLowerCase().includes('prim')) {
-                            categoria = 'Primera';
-                        } else if (prefCat === 'S' || catRaw.toLowerCase().includes('seg')) {
+                        } else if (catLower.includes('seg') || numCode.startsWith('3')) {
                             categoria = 'Segunda';
+                        } else if (catLower.includes('prim') || prefCat === 'P' || numCode.startsWith('2')) {
+                            categoria = 'Primera';
+                        } else if (prefCat === 'M') {
+                            categoria = 'Máxima';
                         } else {
                             categoria = catRaw || 'Máxima';
                         }
