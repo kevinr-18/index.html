@@ -211,26 +211,30 @@
             
             <!-- Hero Section con espaciado óptimo para evitar solapamientos -->
             <div class="bg-hero-pattern text-brand-white py-20 sm:py-28 md:py-36 relative overflow-hidden">
+                <!-- Aura de iluminación ambiental institucional -->
+                <div class="hero-ambient-glow"></div>
+
                 <div class="container mx-auto px-4 lg:px-8 text-center relative z-10 max-w-4xl">
                     
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-dark/70 border border-brand-gold/60 text-brand-white text-xs font-semibold tracking-wider mb-6 backdrop-blur-md shadow-badge-gold">
-                        <span class="text-brand-gold text-xs tracking-widest">★★★★★</span>
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full cda-badge-stars text-brand-white text-xs font-semibold tracking-wider mb-6 cda-float-anim cursor-default">
+                        <span class="text-brand-gold text-xs tracking-widest drop-shadow">★★★★★</span>
+                        <span class="text-[11px] text-slate-200 font-bold uppercase tracking-widest">Orgullo de Malchinguí</span>
                     </div>
 
-                    <h2 class="font-serif text-2xl sm:text-4xl md:text-6xl font-bold mb-4 tracking-tight leading-tight text-brand-white px-2">
+                    <h2 class="font-serif text-3xl sm:text-5xl md:text-6xl font-bold mb-4 tracking-tight leading-tight text-brand-white drop-shadow-md px-2">
                         Más que un equipo de pueblo
                     </h2>
                     
-                    <p class="text-xs sm:text-base md:text-xl mb-8 max-w-2xl mx-auto text-slate-200 font-light leading-relaxed px-4">
-                        Desde 1987
+                    <p class="text-sm sm:text-lg md:text-xl mb-8 max-w-2xl mx-auto text-slate-200 font-light leading-relaxed px-4 drop-shadow-xs">
+                        Fundado con pasión y garra desde 1987
                     </p>
 
                     <div class="flex flex-wrap justify-center gap-3 px-4">
-                        <button onclick="mostrarSeccion('aliados'); return false;" class="px-5 py-2.5 bg-brand-white hover:bg-slate-100 text-brand-green font-semibold text-xs tracking-wider uppercase rounded-md shadow-subtle transition-all">
+                        <button onclick="mostrarSeccion('aliados'); return false;" class="cda-btn-shine px-6 py-3 bg-brand-white hover:bg-slate-100 text-brand-green font-bold text-xs tracking-wider uppercase rounded-xl shadow-card transition-all">
                             Aliados estratégicos Premium
                         </button>
-                        <button onclick="mostrarSeccion('galeria'); return false;" class="px-5 py-2.5 bg-transparent hover:bg-white/10 border border-white/50 text-brand-white font-semibold text-xs tracking-wider uppercase rounded-md backdrop-blur-sm transition-all">
-                            Repositorio Gráfico
+                        <button onclick="mostrarSeccion('galeria'); return false;" class="cda-btn-shine px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/40 text-brand-white font-bold text-xs tracking-wider uppercase rounded-xl backdrop-blur-md transition-all">
+                            Repositorio Gráfico Oficial
                         </button>
                     </div>
                 </div>
@@ -857,7 +861,8 @@
                             const imagenFinal = (j.fotoUrl && j.fotoUrl.trim() !== '') ? j.fotoUrl : fallbackFoto;
                             const posAbrev = abreviarPosicion(j.posicion);
                             // Estructura de la Trading Card de Alta Gama
-                            tarjeta.className = `tcg-shimmer-effect group relative rounded-2xl p-[2px] bg-gradient-to-b ${borderGradient} shadow-xl ${shadowHover} transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col`;
+                            const legendGlow = (tipoTab === 'leyendas') ? 'tcg-legend-glow ' : '';
+                            tarjeta.className = `tcg-shimmer-effect ${legendGlow}group relative rounded-2xl p-[2px] bg-gradient-to-b ${borderGradient} shadow-xl ${shadowHover} transition-all duration-300 cursor-pointer flex flex-col`;
                             tarjeta.innerHTML = `
                                 <div class="${cardBg} rounded-[14px] p-3.5 flex flex-col justify-between h-full relative z-10 text-white overflow-hidden">
                                     
@@ -976,264 +981,689 @@
         </script>
         <!-- ==================== 5. REPOSITORIO GRÁFICO (CONECTADO A GOOGLE SHEETS) ==================== -->
         <section id="galeria" class="py-16 md:py-24 bg-slate-50 w-full flex-grow border-b border-slate-200">
-            <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
-                <div class="text-center mb-10">
-                    <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Un poco de nuestras vivencias plasmadas en imágenes</span>
-                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Memoria viva del Club Deportivo Amazonas</h3>
+            <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
+                
+                <!-- Encabezado de la Sección -->
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-widest bg-brand-green/10 text-brand-green border border-brand-green/30 mb-3 shadow-xs">
+                        🏛️ Archivo Institucional • Memoria Viva
+                    </span>
+                    <h3 class="font-serif text-3xl sm:text-4xl md:text-5xl font-black text-brand-dark tracking-tight mb-3">
+                        Repositorio Gráfico Oficial
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-600 font-light leading-relaxed">
+                        Explora la trayectoria, títulos y momentos históricos del C.D. Amazonas organizados por equipos, divisiones y campeonatos oficiales.
+                    </p>
                     <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
-                    <p class="text-xs text-slate-500 mt-2">¿Tienes postales del club? Envialas a nuestros canales oficiales y las subiremos</p>
                 </div>
 
-                <!-- Botones de Selección de Categoría / Equipo con Estética Dinámica -->
-                <div id="filtros-categoria" class="flex flex-wrap justify-center gap-2 mb-6">
-                    <button onclick="seleccionarCategoriaRepo('masculino')" id="btn-cat-masculino" class="px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-700 border border-slate-300 shadow-subtle">
-                        Equipo Masculino
-                    </button>
-                    <button onclick="seleccionarCategoriaRepo('femenino')" id="btn-cat-femenino" class="px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-700 border border-slate-300 shadow-subtle">
-                        Equipo Femenino
-                    </button>
-                    <button onclick="seleccionarCategoriaRepo('historico')" id="btn-cat-historico" class="px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-700 border border-slate-300 shadow-subtle">
-                        Histórico
-                    </button>
+                <!-- Barra de Navegación de Equipos (Nivel 1) y Modos de Vista -->
+                <div class="bg-white rounded-2xl p-3 sm:p-4 border border-slate-200 shadow-sm mb-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                    
+                    <!-- Pestañas Principales (Equipos) -->
+                    <div id="repo-pestanas-equipos" class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-center md:justify-start">
+                        <button onclick="cambiarEquipoRepo('masculino')" id="repo-tab-masculino" class="px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 bg-brand-green text-white shadow-sm border border-brand-green">
+                            <span>⚽</span>
+                            <span>Equipo Masculino</span>
+                            <span id="repo-count-masculino" class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-black">...</span>
+                        </button>
+                        <button onclick="cambiarEquipoRepo('femenino')" id="repo-tab-femenino" class="px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200">
+                            <span>🌸</span>
+                            <span>Equipo Femenino</span>
+                            <span id="repo-count-femenino" class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-black">...</span>
+                        </button>
+                        <button onclick="cambiarEquipoRepo('historico')" id="repo-tab-historico" class="px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200">
+                            <span>📜</span>
+                            <span>Histórico (1987)</span>
+                            <span id="repo-count-historico" class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-black">...</span>
+                        </button>
+                    </div>
+
+                    <!-- Buscador y Alternador de Vistas (Cuadrícula vs Carpetas) -->
+                    <div class="flex items-center gap-2.5 w-full md:w-auto justify-between md:justify-end">
+                        <!-- Buscador instantáneo -->
+                        <div class="relative flex-grow md:w-64">
+                            <input type="text" id="repo-busqueda-input" oninput="filtrarPorBusquedaRepo()" placeholder="Buscar año, torneo o foto..." class="w-full pl-8 pr-7 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-green/30 focus:border-brand-green transition-all">
+                            <span class="absolute left-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
+                            <button id="repo-busqueda-clear" onclick="limpiarBusquedaRepo()" class="hidden absolute right-2.5 top-2 text-slate-400 hover:text-slate-600 text-xs font-bold">✕</button>
+                        </div>
+
+                        <!-- Selector de Vista -->
+                        <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 flex-shrink-0">
+                            <button onclick="cambiarModoVistaRepo('grid')" id="repo-view-grid" title="Vista Cuadrícula" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-brand-dark shadow-xs border border-slate-200">
+                                🖼️ <span class="hidden sm:inline">Galería</span>
+                            </button>
+                            <button onclick="cambiarModoVistaRepo('folders')" id="repo-view-folders" title="Vista Carpetas / Álbumes" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition-all border border-transparent">
+                                📂 <span class="hidden sm:inline">Carpetas</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Contenedor dinámico para los filtros de años -->
-                <div class="flex flex-wrap justify-center gap-1.5 mb-8 min-h-[32px]" id="filtros-anio-repo"></div>
+                <!-- Sub-Pestañas / Carpetas de Categorías (Nivel 2) -->
+                <div id="repo-subpestanas-container" class="mb-4 flex flex-wrap items-center justify-center gap-2"></div>
 
-                <!-- Grid donde se pintarán las imágenes automáticamente -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4" id="repo-grid-dinamico">
-                    <div class="col-span-full text-center py-12 text-slate-400 text-xs">Cargando repositorio gráfico desde Google Sheets...</div>
+                <!-- Filtros secundarios por Año / Temporada (Nivel 3 - dinámico) -->
+                <div id="repo-filtro-anios-container" class="mb-6 flex flex-wrap items-center justify-center gap-1.5 min-h-[30px]"></div>
+
+                <!-- Vista de Carpetas (Modo Álbumes Digitales) -->
+                <div id="repo-folders-view" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mb-8"></div>
+
+                <!-- Vista de Cuadrícula (Modo Galería Fotográfica) -->
+                <div id="repo-grid-dinamico" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    <!-- Los elementos fotográficos o skeletons se cargan dinámicamente -->
                 </div>
+
+                <!-- Pie informativo con invitación a colaborar -->
+                <div class="mt-12 bg-white rounded-2xl p-6 border border-slate-200 text-center max-w-xl mx-auto shadow-sm">
+                    <span class="text-2xl mb-2 block">📸</span>
+                    <h5 class="font-serif font-bold text-brand-dark text-sm">¿Tienes fotografías conmemorativas del club?</h5>
+                    <p class="text-xs text-slate-500 mt-1 mb-3">Ayúdanos a enriquecer el archivo histórico de Malchinguí. Comparte tus postales con la directiva.</p>
+                    <a href="https://wa.me/593981556626?text=Hola%20Club%20Deportivo%20Amazonas%2C%20tengo%20fotograf%C3%ADas%20hist%C3%B3ricas%20del%20club%20que%20me%20gustar%C3%ADa%20compartir%20para%20el%20repositorio." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-green hover:bg-brand-green-hover text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-sm">
+                        <span>💬 Enviar fotos por WhatsApp</span>
+                    </a>
+                </div>
+
             </div>
         </section>
 
-        <!-- Modal para expandir imágenes / Image Lightbox Modal -->
-        <div id="modal-imagen" class="fixed inset-0 z-50 hidden bg-black/80 flex items-center justify-center p-4 backdrop-blur-sm" onclick="cerrarModalRepo()">
-            <div class="relative max-w-4xl max-h-[90vh] bg-white rounded-lg overflow-hidden shadow-2xl p-2" onclick="event.stopPropagation()">
-                <button onclick="cerrarModalRepo()" class="absolute top-4 right-4 z-10 bg-black/70 hover:bg-black text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors">✕</button>
-                <img id="modal-img-src" src="" alt="Imagen ampliada" class="max-w-full max-h-[80vh] object-contain mx-auto rounded">
-                <p id="modal-caption" class="text-center text-sm font-medium text-slate-700 mt-2"></p>
+        <!-- Lightbox Modal Profesional a Pantalla Completa -->
+        <div id="modal-imagen" class="fixed inset-0 z-50 hidden bg-black/95 backdrop-blur-md flex flex-col justify-between p-3 sm:p-6 transition-all" onclick="cerrarModalRepo()">
+            
+            <!-- Barra Superior del Modal -->
+            <div class="w-full flex items-center justify-between text-white pb-3 border-b border-white/10 z-10" onclick="event.stopPropagation()">
+                <div class="flex items-center gap-3">
+                    <span class="bg-brand-green text-white text-[11px] font-black uppercase px-2.5 py-1 rounded-md tracking-wider shadow-xs" id="lightbox-badge-categoria">Categoría</span>
+                    <span class="text-xs text-slate-300 font-medium" id="lightbox-counter">1 de 24</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a id="lightbox-btn-descargar" href="#" download class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-1.5 transition-colors" title="Descargar imagen en alta calidad">
+                        <span>📥</span> <span class="hidden sm:inline">Descargar</span>
+                    </a>
+                    <a id="lightbox-btn-abrir" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-1.5 transition-colors" title="Abrir imagen original">
+                        <span>↗️</span> <span class="hidden sm:inline">Original</span>
+                    </a>
+                    <button onclick="cerrarModalRepo()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-red-600 text-white flex items-center justify-center font-bold text-sm transition-colors" title="Cerrar (Esc)">
+                        ✕
+                    </button>
+                </div>
             </div>
+
+            <!-- Área Central con Imagen y Flechas de Navegación -->
+            <div class="relative flex-grow flex items-center justify-center my-auto overflow-hidden py-2" onclick="event.stopPropagation()">
+                <!-- Flecha Anterior -->
+                <button onclick="navegarLightboxRepo(-1)" id="lightbox-btn-prev" class="absolute left-2 sm:left-4 z-20 w-11 h-11 rounded-full bg-black/60 hover:bg-brand-green text-white flex items-center justify-center text-xl font-bold transition-all shadow-lg backdrop-blur-xs hover:scale-110" aria-label="Fotografía anterior">
+                    ❮
+                </button>
+
+                <!-- Imagen Centrada -->
+                <img id="modal-img-src" src="" alt="Fotografía del repositorio" class="max-h-[72vh] max-w-full object-contain mx-auto rounded-xl shadow-2xl transition-all select-none">
+
+                <!-- Flecha Siguiente -->
+                <button onclick="navegarLightboxRepo(1)" id="lightbox-btn-next" class="absolute right-2 sm:right-4 z-20 w-11 h-11 rounded-full bg-black/60 hover:bg-brand-green text-white flex items-center justify-center text-xl font-bold transition-all shadow-lg backdrop-blur-xs hover:scale-110" aria-label="Siguiente fotografía">
+                    ❯
+                </button>
+            </div>
+
+            <!-- Barra Inferior del Modal con Información -->
+            <div class="w-full text-center pt-3 border-t border-white/10 z-10" onclick="event.stopPropagation()">
+                <h4 id="lightbox-titulo" class="font-serif font-bold text-base sm:text-lg text-white">Nombre del Torneo</h4>
+                <p id="modal-caption" class="text-xs sm:text-sm text-slate-200 max-w-2xl mx-auto mt-1 leading-relaxed"></p>
+                <div class="flex items-center justify-center gap-2 text-[11px] text-slate-400 mt-2">
+                    <span class="text-slate-300 font-semibold">Club Deportivo Amazonas</span>
+                    <span>•</span>
+                    <span>Usa las flechas ⬅️ ➡️ del teclado para navegar</span>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Script de automatización y control estético para el Repositorio Gráfico -->
+        <!-- ==================== LOGICA REPOSITORIO GRAFICO DINAMICO ==================== -->
         <script>
             const SPREADSHEET_REPO_ID = "https://wa.me/qr/T2Q4XLSSFVWLM1";
             const REPO_GID = "0";
 
             let repositorioDatos = [];
-            let categoriaRepoActual = 'masculino'; // Por defecto iniciado en masculino
+            let repositorioCargado = false;
+            let equipoRepoActual = 'masculino';
+            let categoriaRepoActual = 'todas';
             let anioRepoActual = 'todos';
+            let busquedaRepoActual = '';
+            let modoVistaRepoActual = 'grid'; // 'grid' | 'folders'
+            let lightboxIndexActual = 0;
+            let itemsActualmenteFiltrados = [];
 
-            async function cargarRepositorioGoogleSheets() {
-                const gridContainer = document.getElementById('repo-grid-dinamico');
-                try {
-                    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_REPO_ID}/export?format=csv&gid=${REPO_GID}`;
-                    const response = await fetch(url);
-                    if (!response.ok) throw new Error("No se pudo conectar con Google Sheets");
-                    const csvText = await response.text();
-                    
-                    repositorioDatos = parsearCSVRepo(csvText);
-                    
-                    if (repositorioDatos.length === 0) {
-                        gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No se encontraron registros en el repositorio.</div>`;
-                        return;
-                    }
-
-                    seleccionarCategoriaRepo('masculino');
-                } catch (error) {
-                    console.error("Error cargando repositorio:", error);
-                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-red-500 text-xs">Error al sincronizar las imágenes. Verifica que el documento sea público.</div>`;
-                }
+            function renderizarSkeletonsRepo() {
+                const grid = document.getElementById('repo-grid-dinamico');
+                if (!grid) return;
+                grid.innerHTML = Array.from({ length: 8 }).map(() => `
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs animate-pulse">
+                        <div class="w-full aspect-[4/3] bg-slate-200"></div>
+                        <div class="p-3 space-y-2">
+                            <div class="h-3 w-16 bg-slate-200 rounded"></div>
+                            <div class="h-4 w-32 bg-slate-300 rounded"></div>
+                        </div>
+                    </div>
+                `).join('');
             }
 
-            function extraerSubfiltroRepo(colCategoria, nombreArchivo) {
-                const cat = (colCategoria || '').trim();
-                const catNorm = cat.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                if (catNorm.includes('primer')) return 'Primera';
-                if (catNorm.includes('segund')) return 'Segunda';
-                const textoCombinado = cat + ' ' + (nombreArchivo || '');
-                const match4 = textoCombinado.match(/\b(19\d\d|20\d\d)\b/);
-                if (match4) return match4[1];
-                const match2 = (nombreArchivo || '').match(/(?:Maxima|Femenino|consuelo|repo|o|a)(\d{2})(?:\d|\.|$)/i);
-                if (match2 && Number(match2[1]) >= 20 && Number(match2[1]) <= 30) {
-                    return '20' + match2[1];
-                }
-                if (cat && !['historico', 'femenino', 'masculino'].includes(catNorm)) {
-                    return cat;
-                }
-                return 'General';
+            function resolverImagenRepo(urlRaw, equipo, imgName) {
+                const input = (urlRaw || imgName || '').trim();
+                if (!input) return 'assets/img/branding/Amazonas PGN.png';
+
+                // Google Drive
+                const matchDrive1 = input.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                const matchDrive2 = input.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+                const fileId = (matchDrive1 && matchDrive1[1]) || (matchDrive2 && matchDrive2[1]);
+                if (fileId) return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1200`;
+
+                // URL externa o assets/
+                if (input.startsWith('http://') || input.startsWith('https://') || input.startsWith('data:')) return input;
+                if (input.startsWith('assets/')) return input;
+
+                // Buscar dentro de assets/img/repositorio/<equipo>/<nombre>
+                const eqFolder = (equipo === 'femenino' ? 'femenino' : (equipo === 'historico' ? 'historico' : 'masculino'));
+                return `assets/img/repositorio/${eqFolder}/${input}`;
             }
 
             function parsearCSVRepo(csvText) {
                 const filas = parsearCSV(csvText);
                 const resultado = [];
-                for (let i = 1; i < filas.length; i++) {
-                    const cols = filas[i];
-                    if (!cols || cols.length === 0 || !cols.some(c => c && c.trim())) continue;
-                    if (cols.length >= 4) {
-                        const eqRaw = (cols[1] || 'masculino').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                        let categoria = 'masculino';
-                        if (eqRaw.includes('fem')) categoria = 'femenino';
-                        else if (eqRaw.includes('hist') || eqRaw.includes('retro')) categoria = 'historico';
-                        
-                        const subfiltro = extraerSubfiltroRepo(cols[2], cols[3] || cols[6] || '');
-                        const urlRaw = (cols[3] && cols[3].trim()) ? cols[3].trim() : (cols[6] || '').trim();
-                        const carpetaRaw = cols[5] || '';
-                        const urlResuelta = resolverUrlImagen(urlRaw, { equipo: categoria, carpeta: carpetaRaw });
-                        const desc = cols[4] || (cols[2] ? `C.D. Amazonas - ${cols[2]}` : 'Archivo Amazonas');
 
-                        resultado.push({
-                            categoria: categoria,
-                            subfiltro: subfiltro,
-                            anio: subfiltro,
-                            colCategoria: (cols[2] || '').trim(),
-                            url: urlResuelta,
-                            descripcion: desc
-                        });
+                for (let i = 1; i < filas.length; i++) {
+                    const r = filas[i];
+                    if (!r || r.length < 3 || !r.some(c => c && c.trim())) continue;
+
+                    const codigo = (r[0] || '').trim();
+                    const eqRaw = (r[1] || '').trim();
+                    const catRaw = (r[2] || '').trim();
+                    const imgRaw = (r[3] || '').trim();
+                    const descRaw = (r[4] || '').trim();
+
+                    // Descomponer código según convención: [Equipo]_[Categoria]_[Año]_[Numero]
+                    const parts = codigo.split('_');
+
+                    // 1. Determinar Equipo
+                    let equipo = 'masculino';
+                    const prefEquipo = (parts[0] || '').toUpperCase();
+                    if (prefEquipo === 'F' || eqRaw.toLowerCase().includes('fem')) {
+                        equipo = 'femenino';
+                    } else if (prefEquipo === 'H' || eqRaw.toLowerCase().includes('hist') || eqRaw.toLowerCase().includes('retro')) {
+                        equipo = 'historico';
                     }
+
+                    // 2. Determinar Categoría / Torneo
+                    let categoria = catRaw;
+                    if (equipo === 'masculino') {
+                        const prefCat = (parts[1] || '').toUpperCase();
+                        const numCode = (parts[3] || '').trim();
+                        const catLower = (catRaw || '').toLowerCase();
+
+                        // En el esquema institucional:
+                        // - M_S_2026_10xx -> Máxima (serie 1000)
+                        // - M_P_N_20xx    -> Primera (letra P / serie 2000)
+                        // - M_S_N_30xx    -> Segunda (letra S / serie 3000)
+                        if (catLower.includes('max') || numCode.startsWith('1') || (prefCat === 'S' && parts[2] === '2026') || (prefCat === 'S' && !catLower.includes('seg') && !numCode.startsWith('3'))) {
+                            categoria = 'Máxima';
+                        } else if (catLower.includes('seg') || numCode.startsWith('3')) {
+                            categoria = 'Segunda';
+                        } else if (catLower.includes('prim') || prefCat === 'P' || numCode.startsWith('2')) {
+                            categoria = 'Primera';
+                        } else if (prefCat === 'M') {
+                            categoria = 'Máxima';
+                        } else {
+                            categoria = catRaw || 'Máxima';
+                        }
+                    } else if (equipo === 'femenino') {
+                        // En femenino toma directamente la categoría registrada en el Sheet (ej: Liga Malchinguí, Copa consuelo)
+                        categoria = catRaw || 'Torneo Oficial';
+                    } else {
+                        categoria = catRaw || 'Histórico';
+                    }
+
+                    // 3. Determinar Año (desde la 3ra sección del código)
+                    // Si contiene 'N' significa sin año registrado
+                    let anio = '';
+                    if (parts.length >= 3) {
+                        const pAnio = parts[2].trim().toUpperCase();
+                        if (pAnio !== 'N' && /^\d{4}$/.test(pAnio)) {
+                            anio = pAnio;
+                        }
+                    }
+
+                    // 4. Descripción
+                    const desc = descRaw || `${categoria} • C.D. Amazonas`;
+
+                    // 5. Ruta de imagen (no se usa para deducir categorías ni años)
+                    const url = resolverImagenRepo(imgRaw, equipo, imgRaw);
+
+                    resultado.push({
+                        id: codigo || `FOTO-${i}`,
+                        codigo,
+                        equipo,
+                        categoria,
+                        anio,
+                        desc,
+                        imgRaw,
+                        url
+                    });
                 }
+
                 return resultado;
             }
 
-            function seleccionarCategoriaRepo(categoria) {
-                categoriaRepoActual = categoria;
+            async function cargarRepositorioGoogleSheets() {
+                if (repositorioCargado && repositorioDatos.length > 0) return;
+                renderizarSkeletonsRepo();
+
+                try {
+                    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_REPO_ID}/export?format=csv&gid=${REPO_GID}`;
+                    const res = await fetch(url);
+                    if (!res.ok) throw new Error("No se pudo conectar con Google Sheets");
+                    const csvText = await res.text();
+                    repositorioDatos = parsearCSVRepo(csvText);
+                    repositorioCargado = true;
+
+                    actualizarContadoresEquiposRepo();
+                    actualizarSubpestanasRepo();
+                    renderizarRepositorio();
+                } catch (error) {
+                    console.error("Error al cargar repositorio:", error);
+                    const grid = document.getElementById('repo-grid-dinamico');
+                    if (grid) {
+                        grid.innerHTML = `
+                            <div class="col-span-full text-center py-12 space-y-3">
+                                <p class="text-sm font-semibold text-slate-700">No se pudo sincronizar el repositorio en vivo.</p>
+                                <button onclick="repositorioCargado=false; cargarRepositorioGoogleSheets()" class="px-4 py-2 bg-brand-green text-white text-xs font-bold rounded-lg hover:bg-brand-green-hover transition-colors shadow-sm">
+                                    Reintentar Conexión
+                                </button>
+                            </div>
+                        `;
+                    }
+                }
+            }
+
+            function actualizarContadoresEquiposRepo() {
+                const countMasculino = repositorioDatos.filter(i => i.equipo === 'masculino').length;
+                const countFemenino = repositorioDatos.filter(i => i.equipo === 'femenino').length;
+                const countHistorico = repositorioDatos.filter(i => i.equipo === 'historico').length;
+
+                const elM = document.getElementById('repo-count-masculino');
+                const elF = document.getElementById('repo-count-femenino');
+                const elH = document.getElementById('repo-count-historico');
+
+                if (elM) elM.textContent = countMasculino;
+                if (elF) elF.textContent = countFemenino;
+                if (elH) elH.textContent = countHistorico;
+            }
+
+            function cambiarEquipoRepo(nuevoEquipo) {
+                equipoRepoActual = nuevoEquipo;
+                categoriaRepoActual = 'todas';
                 anioRepoActual = 'todos';
 
-                // Aplicar paleta de colores estética según el equipo seleccionado
-                document.querySelectorAll('#filtros-categoria button').forEach(b => {
-                    b.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-700 border border-slate-300 shadow-subtle';
-                });
-
-                const btnActivo = document.getElementById(`btn-cat-${categoria}`);
-                if (btnActivo) {
-                    if (categoria === 'masculino') {
-                        // Verde, blanco y negro
-                        btnActivo.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all bg-brand-green text-white border-2 border-brand-dark shadow-md';
-                    } else if (categoria === 'femenino') {
-                        // Verde, blanco y rosado
-                        btnActivo.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all bg-brand-rose text-white border-2 border-brand-green shadow-md';
-                    } else if (categoria === 'historico') {
-                        // Verde, blanco y dorado
-                        btnActivo.className = 'px-4 py-2 text-xs font-bold rounded-lg transition-all bg-brand-gold text-brand-dark border-2 border-brand-green shadow-badge-gold';
-                    }
-                }
-
-                actualizarFiltrosAnioRepo(categoria);
-                renderizarRepositorioRepo(categoriaRepoActual, anioRepoActual);
-            }
-
-            function actualizarFiltrosAnioRepo(categoria) {
-                const contenedorAnios = document.getElementById('filtros-anio-repo');
-                contenedorAnios.innerHTML = '';
-
-                if (categoria === 'historico') return;
-
-                let subfiltrosDisponibles = ['Todos'];
-                repositorioDatos.forEach(item => {
-                    if (item.categoria === categoria) {
-                        const val = item.subfiltro || item.anio;
-                        if (val && !subfiltrosDisponibles.includes(val)) {
-                            subfiltrosDisponibles.push(val);
+                // Actualizar estilos botones de equipo
+                const equipos = ['masculino', 'femenino', 'historico'];
+                equipos.forEach(eq => {
+                    const btn = document.getElementById(`repo-tab-${eq}`);
+                    if (!btn) return;
+                    if (eq === nuevoEquipo) {
+                        if (eq === 'masculino') {
+                            btn.className = 'px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 bg-brand-green text-white shadow-sm border border-brand-green';
+                        } else if (eq === 'femenino') {
+                            btn.className = 'px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 bg-pink-700 text-white shadow-sm border border-pink-700';
+                        } else {
+                            btn.className = 'px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 bg-brand-gold text-brand-dark shadow-sm border border-brand-gold';
                         }
+                    } else {
+                        btn.className = 'px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200';
                     }
                 });
 
-                if (subfiltrosDisponibles.length > 1) {
-                    const todos = subfiltrosDisponibles[0];
-                    const resto = subfiltrosDisponibles.slice(1).sort((a, b) => {
-                        const numA = parseInt(a, 10);
-                        const numB = parseInt(b, 10);
-                        if (!isNaN(numA) && !isNaN(numB)) return numB - numA;
-                        if (!isNaN(numA)) return -1;
-                        if (!isNaN(numB)) return 1;
-                        return a.localeCompare(b);
-                    });
-                    const ordenados = [todos, ...resto];
-
-                    ordenados.forEach(sf => {
-                        const btn = document.createElement('button');
-                        const valFiltro = sf.toLowerCase() === 'todos' ? 'todos' : sf;
-                        btn.className = 'btn-anio-repo px-3 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
-                        if (valFiltro === anioRepoActual) {
-                            btn.classList.add('bg-brand-green', 'text-white', 'border-brand-green');
-                        }
-                        btn.innerText = sf;
-                        btn.onclick = () => seleccionarAnioRepo(valFiltro, btn);
-                        contenedorAnios.appendChild(btn);
-                    });
-                }
+                actualizarSubpestanasRepo();
+                renderizarRepositorio();
             }
 
-            function seleccionarAnioRepo(anio, btnClickeado) {
+            function actualizarSubpestanasRepo() {
+                const subContainer = document.getElementById('repo-subpestanas-container');
+                if (!subContainer) return;
+                subContainer.innerHTML = '';
+
+                // Obtener categorías únicas para este equipo
+                const fotosEquipo = repositorioDatos.filter(i => i.equipo === equipoRepoActual);
+                const categoriasMap = {};
+                fotosEquipo.forEach(f => {
+                    categoriasMap[f.categoria] = (categoriasMap[f.categoria] || 0) + 1;
+                });
+
+                const subCategorias = [
+                    { id: 'todas', label: '📁 Todas las Fotos', count: fotosEquipo.length }
+                ];
+
+                if (equipoRepoActual === 'masculino') {
+                    if (categoriasMap['Máxima']) subCategorias.push({ id: 'Máxima', label: '🏆 División Máxima', count: categoriasMap['Máxima'] });
+                    if (categoriasMap['Primera']) subCategorias.push({ id: 'Primera', label: '🥇 Categoría Primera', count: categoriasMap['Primera'] });
+                    if (categoriasMap['Segunda']) subCategorias.push({ id: 'Segunda', label: '🥈 Categoría Segunda', count: categoriasMap['Segunda'] });
+                    Object.keys(categoriasMap).forEach(cat => {
+                        if (!['Máxima', 'Primera', 'Segunda'].includes(cat)) {
+                            subCategorias.push({ id: cat, label: `⚽ ${cat}`, count: categoriasMap[cat] });
+                        }
+                    });
+                } else if (equipoRepoActual === 'femenino') {
+                    Object.keys(categoriasMap).forEach(cat => {
+                        subCategorias.push({ id: cat, label: `🌸 ${cat}`, count: categoriasMap[cat] });
+                    });
+                } else {
+                    Object.keys(categoriasMap).forEach(cat => {
+                        subCategorias.push({ id: cat, label: `📜 ${cat}`, count: categoriasMap[cat] });
+                    });
+                }
+
+                subCategorias.forEach(sub => {
+                    const btn = document.createElement('button');
+                    const isActive = (categoriaRepoActual === sub.id);
+                    btn.className = isActive
+                        ? 'px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shadow-xs bg-brand-green text-white border border-brand-green flex items-center gap-1.5'
+                        : 'px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 flex items-center gap-1.5';
+                    btn.innerHTML = `<span>${sub.label}</span><span class="text-[10px] ${isActive ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'} px-1.5 py-0.5 rounded-full font-black">${sub.count}</span>`;
+                    btn.onclick = () => cambiarCategoriaRepo(sub.id);
+                    subContainer.appendChild(btn);
+                });
+
+                actualizarFiltrosAnioRepo();
+            }
+
+            function actualizarFiltrosAnioRepo() {
+                const aniosContainer = document.getElementById('repo-filtro-anios-container');
+                if (!aniosContainer) return;
+                aniosContainer.innerHTML = '';
+
+                // Filtrar según equipo y categoría actual
+                const fotos = repositorioDatos.filter(i => {
+                    if (i.equipo !== equipoRepoActual) return false;
+                    if (categoriaRepoActual !== 'todas' && i.categoria !== categoriaRepoActual) return false;
+                    return true;
+                });
+
+                const aniosDisponibles = Array.from(new Set(fotos.map(f => f.anio).filter(Boolean))).sort((a, b) => {
+                    const nA = parseInt(a, 10);
+                    const nB = parseInt(b, 10);
+                    if (!isNaN(nA) && !isNaN(nB)) return nB - nA;
+                    return b.localeCompare(a);
+                });
+
+                if (aniosDisponibles.length <= 1) return;
+
+                const listaAnios = ['todos', ...aniosDisponibles];
+
+                const label = document.createElement('span');
+                label.className = 'text-[11px] font-bold text-slate-400 mr-1 uppercase tracking-wider';
+                label.textContent = 'Edición / Año:';
+                aniosContainer.appendChild(label);
+
+                listaAnios.forEach(a => {
+                    const btn = document.createElement('button');
+                    const isActive = (anioRepoActual === a);
+                    btn.className = isActive
+                        ? 'px-2.5 py-0.5 rounded-md text-[11px] font-black transition-all bg-slate-800 text-white shadow-xs'
+                        : 'px-2.5 py-0.5 rounded-md text-[11px] font-bold transition-all bg-white text-slate-600 hover:bg-slate-100 border border-slate-200';
+                    btn.textContent = (a === 'todos' ? 'Todos los Años' : a);
+                    btn.onclick = () => cambiarAnioRepo(a);
+                    aniosContainer.appendChild(btn);
+                });
+            }
+
+            function cambiarCategoriaRepo(cat) {
+                categoriaRepoActual = cat;
+                anioRepoActual = 'todos';
+                actualizarSubpestanasRepo();
+                renderizarRepositorio();
+            }
+
+            function cambiarAnioRepo(anio) {
                 anioRepoActual = anio;
-                document.querySelectorAll('.btn-anio-repo').forEach(b => {
-                    b.className = 'btn-anio-repo px-3 py-1 text-[11px] font-bold rounded-full transition-all border bg-white text-slate-600 border-slate-200 hover:border-brand-green';
-                });
-                btnClickeado.className = 'btn-anio-repo px-3 py-1 text-[11px] font-bold rounded-full transition-all border bg-brand-green text-white border-brand-green';
-
-                renderizarRepositorioRepo(categoriaRepoActual, anioRepoActual);
+                actualizarFiltrosAnioRepo();
+                renderizarRepositorio();
             }
 
-            function renderizarRepositorioRepo(cat, anio) {
+            function cambiarModoVistaRepo(modo) {
+                modoVistaRepoActual = modo;
+                const btnGrid = document.getElementById('repo-view-grid');
+                const btnFolders = document.getElementById('repo-view-folders');
+
+                if (modo === 'grid') {
+                    btnGrid.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-brand-dark shadow-xs border border-slate-200';
+                    btnFolders.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition-all border border-transparent';
+                } else {
+                    btnFolders.className = 'px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-brand-dark shadow-xs border border-slate-200';
+                    btnGrid.className = 'px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition-all border border-transparent';
+                }
+
+                renderizarRepositorio();
+            }
+
+            function filtrarPorBusquedaRepo() {
+                const input = document.getElementById('repo-busqueda-input');
+                const clearBtn = document.getElementById('repo-busqueda-clear');
+                busquedaRepoActual = (input ? input.value : '').trim().toLowerCase();
+
+                if (clearBtn) {
+                    if (busquedaRepoActual) clearBtn.classList.remove('hidden');
+                    else clearBtn.classList.add('hidden');
+                }
+
+                renderizarRepositorio();
+            }
+
+            function limpiarBusquedaRepo() {
+                const input = document.getElementById('repo-busqueda-input');
+                const clearBtn = document.getElementById('repo-busqueda-clear');
+                if (input) input.value = '';
+                if (clearBtn) clearBtn.classList.add('hidden');
+                busquedaRepoActual = '';
+                renderizarRepositorio();
+            }
+
+            function obtenerItemsFiltradosRepo() {
+                return repositorioDatos.filter(item => {
+                    if (item.equipo !== equipoRepoActual) return false;
+                    if (categoriaRepoActual !== 'todas' && item.categoria !== categoriaRepoActual) return false;
+                    if (anioRepoActual !== 'todos' && item.anio !== anioRepoActual) return false;
+
+                    if (busquedaRepoActual) {
+                        const blob = `${item.categoria} ${item.desc} ${item.anio} ${item.id} ${item.imgRaw}`.toLowerCase();
+                        if (!blob.includes(busquedaRepoActual)) return false;
+                    }
+
+                    return true;
+                });
+            }
+
+            function renderizarRepositorio() {
                 const gridContainer = document.getElementById('repo-grid-dinamico');
-                gridContainer.innerHTML = '';
+                const foldersContainer = document.getElementById('repo-folders-view');
+                if (!gridContainer || !foldersContainer) return;
 
-                const filtrados = repositorioDatos.filter(item => {
-                    const matchCat = (item.categoria === cat);
-                    if (!matchCat) return false;
-                    if (cat === 'historico' || anio === 'todos') return true;
+                if (modoVistaRepoActual === 'folders') {
+                    gridContainer.classList.add('hidden');
+                    foldersContainer.classList.remove('hidden');
+                    renderizarModoCarpetas(foldersContainer);
+                } else {
+                    foldersContainer.classList.add('hidden');
+                    gridContainer.classList.remove('hidden');
+                    renderizarModoGrid(gridContainer);
+                }
+            }
 
-                    const itemFiltro = (item.subfiltro || item.anio || '').toLowerCase();
-                    const itemCatCol = (item.colCategoria || '').toLowerCase();
-                    const query = anio.toLowerCase();
+            function renderizarModoCarpetas(container) {
+                container.innerHTML = '';
+                const fotosEquipo = repositorioDatos.filter(i => i.equipo === equipoRepoActual);
 
-                    return itemFiltro === query || itemCatCol === query;
+                // Agrupar por categoría
+                const carpetas = {};
+                fotosEquipo.forEach(f => {
+                    if (!carpetas[f.categoria]) carpetas[f.categoria] = [];
+                    carpetas[f.categoria].push(f);
                 });
 
-                if (filtrados.length === 0) {
-                    gridContainer.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No hay imágenes disponibles para esta selección en Google Sheets.</div>`;
+                const nombres = Object.keys(carpetas);
+                if (nombres.length === 0) {
+                    container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No hay álbumes disponibles en esta sección.</div>`;
                     return;
                 }
 
-                filtrados.forEach(item => {
+                nombres.forEach(nombre => {
+                    const grupo = carpetas[nombre];
+                    const portada = grupo[0].url;
                     const tarjeta = document.createElement('div');
-                    tarjeta.className = 'repo-item cursor-pointer group';
-                    tarjeta.onclick = () => abrirModalRepo(item.url, item.descripcion);
-                    
-                    const badgeText = item.subfiltro !== 'General' && item.subfiltro !== 'todos' ? item.subfiltro : (item.colCategoria || item.categoria);
+                    tarjeta.className = 'cda-album-stack border border-slate-200/80 overflow-hidden shadow-sm transition-all group cursor-pointer flex flex-col';
+                    tarjeta.onclick = () => {
+                        cambiarModoVistaRepo('grid');
+                        cambiarCategoriaRepo(nombre);
+                    };
 
                     tarjeta.innerHTML = `
-                        <div class="bg-white rounded-lg overflow-hidden border border-slate-200 aspect-video relative shadow-sm group-hover:shadow-md transition-shadow">
-                            <img src="${item.url}" alt="${item.descripcion}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
-                            <span class="absolute bottom-1 left-1 bg-black/60 text-white text-[9px] px-1.5 py-0.5 rounded font-semibold">${badgeText}</span>
+                        <div class="relative w-full aspect-[4/3] bg-slate-100 overflow-hidden">
+                            <img src="${portada}" alt="${nombre}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-4">
+                                <span class="text-white text-xs font-black tracking-wider uppercase drop-shadow">${nombre}</span>
+                                <span class="text-slate-200 text-[11px] font-medium">${grupo.length} Fotografías Oficiales</span>
+                            </div>
+                            <span class="absolute top-3 right-3 bg-brand-green/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
+                                📁 Carpeta
+                            </span>
+                        </div>
+                        <div class="p-4 flex items-center justify-between mt-auto bg-white border-t border-slate-100">
+                            <span class="text-xs font-bold text-brand-green group-hover:underline">Explorar Álbum →</span>
+                            <span class="text-[11px] text-slate-400">Ver todas</span>
                         </div>
                     `;
-                    gridContainer.appendChild(tarjeta);
+                    container.appendChild(tarjeta);
                 });
             }
 
-            function abrirModalRepo(src, caption) {
+            function renderizarModoGrid(container) {
+                container.innerHTML = '';
+                itemsActualmenteFiltrados = obtenerItemsFiltradosRepo();
+
+                if (itemsActualmenteFiltrados.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-14 bg-white rounded-2xl border border-slate-200 p-6 space-y-2">
+                            <span class="text-3xl block">🔍</span>
+                            <h4 class="font-bold text-slate-700 text-sm">No encontramos fotografías con estos criterios</h4>
+                            <p class="text-xs text-slate-400">Intenta restablecer los filtros o buscar con otro término.</p>
+                            <button onclick="limpiarBusquedaRepo(); cambiarCategoriaRepo('todas'); cambiarAnioRepo('todos');" class="mt-2 px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-colors">
+                                Restablecer Filtros
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+
+                itemsActualmenteFiltrados.forEach((item, index) => {
+                    const tarjeta = document.createElement('div');
+                    tarjeta.className = 'cda-photo-card group relative cursor-pointer flex flex-col';
+                    tarjeta.onclick = () => abrirLightboxRepo(index);
+
+                    const badgeColor = (item.equipo === 'femenino' ? 'bg-pink-700' : (item.equipo === 'historico' ? 'bg-amber-600' : 'bg-brand-green'));
+
+                    tarjeta.innerHTML = `
+                        <div class="relative w-full aspect-[4/3] bg-slate-100 overflow-hidden">
+                            <img src="${item.url}" alt="${item.desc}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
+                            
+                            <!-- Badges Superiores -->
+                            <div class="absolute top-2 left-2 flex flex-wrap gap-1">
+                                <span class="${badgeColor} text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-md shadow-sm">
+                                    ${item.categoria}
+                                </span>
+                                ${item.anio ? `<span class="bg-black/60 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md backdrop-blur-xs">${item.anio}</span>` : ''}
+                            </div>
+
+                            <!-- Overlay Hover -->
+                            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                <span class="bg-white text-brand-dark px-3 py-1.5 rounded-xl font-bold text-xs shadow-md flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
+                                    🔍 Ampliar
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Detalle inferior de la postal -->
+                        <div class="p-3 flex flex-col justify-between flex-grow">
+                            <p class="text-xs font-bold text-brand-dark line-clamp-2 group-hover:text-brand-green transition-colors">${item.desc}</p>
+                            <div class="flex items-center justify-between text-[11px] text-slate-500 mt-2 pt-1.5 border-t border-slate-100">
+                                <span class="font-semibold text-slate-700">${item.categoria}${item.anio ? ' • ' + item.anio : ''}</span>
+                                <span class="font-bold text-brand-green">Ver postal →</span>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(tarjeta);
+                });
+            }
+
+            function abrirLightboxRepo(index) {
+                if (!itemsActualmenteFiltrados || itemsActualmenteFiltrados.length === 0) return;
+                lightboxIndexActual = index;
+                actualizarLightboxContenido();
+
                 const modal = document.getElementById('modal-imagen');
-                const img = document.getElementById('modal-img-src');
-                const text = document.getElementById('modal-caption');
-                
-                img.src = src;
-                text.textContent = caption;
-                modal.classList.remove('hidden');
+                if (modal) modal.classList.remove('hidden');
                 document.body.style.overflow = 'hidden';
+            }
+
+            function actualizarLightboxContenido() {
+                if (!itemsActualmenteFiltrados || itemsActualmenteFiltrados.length === 0) return;
+                const total = itemsActualmenteFiltrados.length;
+                if (lightboxIndexActual < 0) lightboxIndexActual = total - 1;
+                if (lightboxIndexActual >= total) lightboxIndexActual = 0;
+
+                const item = itemsActualmenteFiltrados[lightboxIndexActual];
+                const imgEl = document.getElementById('modal-img-src');
+                const captionEl = document.getElementById('modal-caption');
+                const tituloEl = document.getElementById('lightbox-titulo');
+                const counterEl = document.getElementById('lightbox-counter');
+                const badgeEl = document.getElementById('lightbox-badge-categoria');
+                const btnDescargar = document.getElementById('lightbox-btn-descargar');
+                const btnAbrir = document.getElementById('lightbox-btn-abrir');
+
+                if (imgEl) imgEl.src = item.url;
+                if (captionEl) captionEl.textContent = item.desc;
+                if (tituloEl) {
+                    tituloEl.textContent = `${item.categoria}${item.anio ? ' • Temporada ' + item.anio : ''}`;
+                }
+                if (counterEl) counterEl.textContent = `Fotografía ${lightboxIndexActual + 1} de ${total}`;
+                if (badgeEl) badgeEl.textContent = item.categoria;
+
+                if (btnDescargar) {
+                    btnDescargar.href = item.url;
+                    btnDescargar.setAttribute('download', `${item.categoria}_${item.anio || 'Amazonas'}.jpg`);
+                }
+                if (btnAbrir) {
+                    btnAbrir.href = item.url;
+                }
+            }
+
+            function navegarLightboxRepo(delta) {
+                lightboxIndexActual += delta;
+                actualizarLightboxContenido();
             }
 
             function cerrarModalRepo() {
                 const modal = document.getElementById('modal-imagen');
-                modal.classList.add('hidden');
+                if (modal) modal.classList.add('hidden');
                 document.body.style.overflow = 'auto';
             }
 
-            // Atajo de teclado para cerrar el modal de galeria con tecla Escape
+            // Atajos de teclado para el visor interactivo (Flechas y Escape)
             document.addEventListener('keydown', (e) => {
+                const modal = document.getElementById('modal-imagen');
+                if (!modal || modal.classList.contains('hidden')) return;
+
                 if (e.key === 'Escape') {
                     cerrarModalRepo();
+                } else if (e.key === 'ArrowLeft') {
+                    navegarLightboxRepo(-1);
+                } else if (e.key === 'ArrowRight') {
+                    navegarLightboxRepo(1);
                 }
             });
 
@@ -1718,7 +2148,7 @@
                     const esAgotado = prod.stockEstado === 'Agotado';
 
                     return `
-                        <div class="group bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                        <div class="cda-product-card group flex flex-col justify-between overflow-hidden">
                             
                             <!-- Cabecera de Imagen y Badges -->
                             <div class="relative bg-gradient-to-b from-slate-50 to-slate-100/60 p-6 flex items-center justify-center h-64 overflow-hidden border-b border-slate-100">
@@ -1775,7 +2205,7 @@
                                     </div>
 
                                     <div class="grid grid-cols-2 gap-2">
-                                        <button onclick="pedirProductoDirectoWhatsApp('${prod.id}')" ${esAgotado ? 'disabled' : ''} class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <button onclick="pedirProductoDirectoWhatsApp('${prod.id}')" ${esAgotado ? 'disabled' : ''} class="w-full cda-btn-whatsapp text-white py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-50 disabled:cursor-not-allowed">
                                             <span>💬 Pedir</span>
                                         </button>
                                         <button onclick="abrirModalProducto('${prod.id}')" class="w-full bg-slate-100 hover:bg-brand-dark hover:text-white text-slate-700 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1">
@@ -1980,6 +2410,9 @@
                 if (!badge) return;
                 const totalItems = carritoTienda.reduce((acc, item) => acc + item.cantidad, 0);
                 badge.textContent = totalItems;
+                badge.classList.remove('cda-cart-badge-bounce');
+                void badge.offsetWidth;
+                badge.classList.add('cda-cart-badge-bounce');
             }
 
             function abrirModalCarrito() {
@@ -2495,6 +2928,10 @@
 
             if (idSeccion === 'tienda' && typeof cargarTiendaGoogleSheets === 'function' && (!tiendaCargada || tiendaProductos.length === 0)) {
                 cargarTiendaGoogleSheets();
+            }
+
+            if (idSeccion === 'galeria' && typeof cargarRepositorioGoogleSheets === 'function' && (!repositorioCargado || repositorioDatos.length === 0)) {
+                cargarRepositorioGoogleSheets();
             }
             
             window.scrollTo({ top: 0, behavior: 'smooth' });

@@ -1,68 +1,373 @@
 /* ==========================================================================
-   Club Deportivo Amazonas - Hoja de Estilos Personalizada
+   Club Deportivo Amazonas - Hoja de Estilos de Alta Gama (Diseño CSS)
+   Identidad Institucional: Verde Amazónico, Oro Campeón, Rosa & Obsidiana
    ========================================================================== */
 
-/* Prevención estricta de desbordamiento horizontal */
+:root {
+    /* Paleta Institucional CDA */
+    --cda-green-900: #022a16;
+    --cda-green-800: #03522b;
+    --cda-green-700: #046a38; /* Verde Amazónico Oficial */
+    --cda-green-600: #078848;
+    --cda-green-500: #10b981;
+    --cda-green-surface: #f0f7f3;
+
+    --cda-gold: #d4af37;       /* Oro Campeón 5 Estrellas */
+    --cda-gold-light: #fdefa3;
+    --cda-gold-dark: #b38e22;
+
+    --cda-rose: #f179c5;       /* Identidad Femenina CDA */
+    --cda-rose-dark: #a82c79;
+    --cda-rose-surface: #fdf2f9;
+
+    --cda-dark: #111417;       /* Obsidiana Profunda */
+    --cda-dark-surface: #1a1e22;
+    --cda-dark-card: #22282e;
+
+    /* Sombras y Luces Ambientales */
+    --cda-shadow-subtle: 0 4px 14px 0 rgba(0, 0, 0, 0.04);
+    --cda-shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.07), 0 4px 10px -2px rgba(0, 0, 0, 0.03);
+    --cda-shadow-hover: 0 20px 35px -8px rgba(4, 106, 56, 0.16), 0 8px 16px -4px rgba(0, 0, 0, 0.05);
+    --cda-glow-green: 0 0 25px rgba(4, 106, 56, 0.4);
+    --cda-glow-gold: 0 0 25px rgba(212, 175, 55, 0.45);
+
+    /* Curvas de aceleración */
+    --cda-ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    --cda-ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ==========================================
+   1. RESET Y ESTRUCTURA BASE
+   ========================================== */
 html, body {
     max-width: 100vw;
     overflow-x: hidden;
     margin: 0;
     padding: 0;
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
 }
 
-/* Trama sutil para la sección de plantillas */
+/* Selección de texto con colores del club */
+::selection {
+    background-color: var(--cda-green-700);
+    color: #ffffff;
+}
+
+/* ==========================================
+   2. HERO SECTION & EFECTOS AMBIENTALES
+   ========================================== */
+.bg-hero-pattern {
+    background-image: 
+        radial-gradient(circle at 50% 20%, rgba(4, 106, 56, 0.6) 0%, rgba(18, 20, 24, 0.95) 75%),
+        url('../img/repositorio/historico/Campeonato1ra.jpg');
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/* Aura resplandeciente detrás del escudo y título del Hero */
+.hero-ambient-glow {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.22) 0%, rgba(212, 175, 55, 0.12) 40%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+    filter: blur(40px);
+    animation: ambientFloat 8s ease-in-out infinite alternate;
+}
+
+@keyframes ambientFloat {
+    0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+    100% { transform: translate(-50%, -46%) scale(1.1); opacity: 1; }
+}
+
+/* Animación sutil de levitación para insignias */
+.cda-float-anim {
+    animation: cdaFloat 4s ease-in-out infinite;
+}
+
+@keyframes cdaFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Píldora de 5 estrellas con borde metálico brillante */
+.cda-badge-stars {
+    background: rgba(17, 20, 23, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.6);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3), inset 0 0 8px rgba(212, 175, 55, 0.15);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+.cda-badge-stars:hover {
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.5), inset 0 0 12px rgba(212, 175, 55, 0.25);
+    transform: scale(1.03);
+}
+
+/* Botón con destello de luz al pasar el cursor (Shine sweep) */
+.cda-btn-shine {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s var(--cda-ease-spring);
+}
+
+.cda-btn-shine::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 40%;
+    height: 200%;
+    background: linear-gradient(
+        105deg,
+        transparent 20%,
+        rgba(255, 255, 255, 0.4) 50%,
+        transparent 80%
+    );
+    transform: rotate(25deg);
+    transition: transform 0.6s ease;
+    pointer-events: none;
+}
+
+.cda-btn-shine:hover::after {
+    transform: rotate(25deg) translate(350%, 0);
+}
+
+/* ==========================================
+   3. TRADING CARDS TCG (PLANTILLA OFICIAL)
+   ========================================== */
 .bg-pattern-dots {
-    background-image: radial-gradient(rgba(4, 106, 56, 0.08) 1.5px, transparent 1.5px);
-    background-size: 20px 20px;
+    background-image: radial-gradient(rgba(4, 106, 56, 0.1) 1.5px, transparent 1.5px);
+    background-size: 24px 24px;
 }
 
-/* Efecto Holográfico Shimmer para las Trading Cards TCG */
+/* Efecto Holográfico Prismático TCG */
 .tcg-shimmer-effect {
     position: relative;
     overflow: hidden;
-    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+    transition: transform 0.35s var(--cda-ease-spring), box-shadow 0.35s ease, border-color 0.3s ease;
+    perspective: 1000px;
 }
 
 .tcg-shimmer-effect::after {
     content: '';
     position: absolute;
-    top: -60%;
+    top: -80%;
     left: -80%;
-    width: 250%;
-    height: 220%;
+    width: 260%;
+    height: 260%;
     background: linear-gradient(
         115deg,
-        transparent 25%,
-        rgba(255, 255, 255, 0.03) 40%,
-        rgba(255, 255, 255, 0.25) 50%,
-        rgba(255, 255, 255, 0.05) 55%,
-        transparent 70%
+        transparent 20%,
+        rgba(255, 0, 128, 0.08) 32%,
+        rgba(0, 255, 255, 0.16) 42%,
+        rgba(255, 215, 0, 0.22) 50%,
+        rgba(0, 255, 128, 0.14) 58%,
+        transparent 72%
     );
-    transform: rotate(25deg) translateY(-120%);
-    transition: transform 0.8s ease-out;
+    transform: rotate(25deg) translateY(-140%);
+    transition: transform 0.9s cubic-bezier(0.19, 1, 0.22, 1);
     pointer-events: none;
     z-index: 25;
 }
 
 .tcg-shimmer-effect:hover::after {
-    transform: rotate(25deg) translateY(120%);
+    transform: rotate(25deg) translateY(140%);
 }
 
-/* Imagen de fondo Hero Section */
-.bg-hero-pattern {
-    background-image: linear-gradient(135deg, rgba(18, 18, 18, 0.88) 0%, rgba(4, 106, 56, 0.82) 55%, rgba(26, 26, 26, 0.92) 100%), url('../img/repositorio/historico/Campeonato1ra.jpg');
-    background-size: cover;
-    background-position: center;
+.tcg-shimmer-effect:hover {
+    transform: translateY(-8px) scale(1.02);
 }
 
-/* Transiciones y animaciones */
+/* Tarjeta Legendaria con Aura Dorada Pulsante */
+.tcg-legend-glow {
+    position: relative;
+}
+
+.tcg-legend-glow::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #d4af37, #fef08a, #d4af37);
+    z-index: -1;
+    opacity: 0.6;
+    filter: blur(6px);
+    animation: goldPulse 3s infinite alternate;
+}
+
+@keyframes goldPulse {
+    0% { opacity: 0.4; filter: blur(4px); }
+    100% { opacity: 0.9; filter: blur(8px); }
+}
+
+/* Barras de Atributos TCG */
+.tcg-stat-bar-fill {
+    transition: width 0.8s var(--cda-ease-spring);
+    box-shadow: 0 0 8px currentColor;
+}
+
+/* ==========================================
+   4. REPOSITORIO GRÁFICO (MEMORIA VIVA)
+   ========================================== */
+
+/* Efecto de Pila de Fotografías Reales para las Carpetas de Álbumes */
+.cda-album-stack {
+    position: relative;
+    background: #ffffff;
+    border-radius: 1.25rem;
+    transition: transform 0.35s var(--cda-ease-spring), box-shadow 0.35s ease;
+    z-index: 2;
+}
+
+/* Capa fotográfica inferior 1 (inclinada hacia la izquierda) */
+.cda-album-stack::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 1.25rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    transform: rotate(-2.5deg) scale(0.98);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    z-index: -1;
+    transition: transform 0.35s var(--cda-ease-spring), background-color 0.3s ease;
+    pointer-events: none;
+}
+
+/* Capa fotográfica inferior 2 (inclinada hacia la derecha) */
+.cda-album-stack::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 1.25rem;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    transform: rotate(2.5deg) scale(0.98);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    z-index: -2;
+    transition: transform 0.35s var(--cda-ease-spring), background-color 0.3s ease;
+    pointer-events: none;
+}
+
+.cda-album-stack:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--cda-shadow-hover);
+}
+
+.cda-album-stack:hover::before {
+    transform: rotate(-4.5deg) scale(0.97) translateY(4px);
+    background: #ffffff;
+    border-color: rgba(4, 106, 56, 0.2);
+}
+
+.cda-album-stack:hover::after {
+    transform: rotate(4.5deg) scale(0.97) translateY(4px);
+    background: #ffffff;
+    border-color: rgba(212, 175, 55, 0.3);
+}
+
+/* Tarjeta fotográfica individual de la galería */
+.cda-photo-card {
+    transition: transform 0.3s var(--cda-ease-spring), box-shadow 0.3s ease, border-color 0.3s ease;
+    background: #ffffff;
+    border-radius: 1rem;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+
+.cda-photo-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px -8px rgba(4, 106, 56, 0.16);
+    border-color: rgba(4, 106, 56, 0.35);
+}
+
+.cda-photo-card img {
+    transition: transform 0.5s var(--cda-ease-smooth);
+}
+
+.cda-photo-card:hover img {
+    transform: scale(1.05);
+}
+
+/* ==========================================
+   5. TIENDA OFICIAL E-COMMERCE
+   ========================================== */
+.cda-product-card {
+    background: #ffffff;
+    border-radius: 1.25rem;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.3s var(--cda-ease-spring), box-shadow 0.3s ease, border-color 0.3s ease;
+    overflow: hidden;
+}
+
+.cda-product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 35px -8px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(4, 106, 56, 0.2);
+    border-color: rgba(4, 106, 56, 0.3);
+}
+
+/* Botón de WhatsApp Oficial con Pulso Verde */
+.cda-btn-whatsapp {
+    background: linear-gradient(135deg, #25D366 0%, #1da851 100%);
+    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+    transition: all 0.25s var(--cda-ease-spring);
+}
+
+.cda-btn-whatsapp:hover {
+    background: linear-gradient(135deg, #28e06d 0%, #1fba59 100%);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+    transform: translateY(-2px);
+}
+
+.cda-btn-whatsapp:active {
+    transform: scale(0.97);
+}
+
+/* Animación de rebote al añadir al carrito */
+@keyframes cdaCartBounce {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.3) rotate(-8deg); }
+    60% { transform: scale(0.9) rotate(8deg); }
+    80% { transform: scale(1.1); }
+}
+
+.cda-cart-badge-bounce {
+    animation: cdaCartBounce 0.5s var(--cda-ease-spring);
+}
+
+/* ==========================================
+   6. GLASSMORPHISM & MODALES
+   ========================================== */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.glass-panel-dark {
+    background: rgba(18, 21, 24, 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Transiciones modales fluidas */
 .fade-transition {
-    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: opacity 0.3s var(--cda-ease-smooth), transform 0.3s var(--cda-ease-spring);
 }
 
 @keyframes slideInUp {
     from { 
-        transform: translateY(20px) scale(0.97); 
+        transform: translateY(24px) scale(0.96); 
         opacity: 0; 
     }
     to { 
@@ -72,20 +377,23 @@ html, body {
 }
 
 .chat-anim-in {
-    animation: slideInUp 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: slideInUp 0.3s var(--cda-ease-spring) forwards;
 }
 
-/* Barra de desplazamiento personalizada */
+/* ==========================================
+   7. BARRA DE DESPLAZAMIENTO ELEGANTE
+   ========================================== */
 ::-webkit-scrollbar { 
-    width: 5px; 
+    width: 6px; 
+    height: 6px;
 }
 ::-webkit-scrollbar-track { 
-    background: #f8fafc; 
+    background: #f1f5f9; 
 }
 ::-webkit-scrollbar-thumb { 
-    background: #cbd5e1; 
-    border-radius: 3px; 
+    background: #94a3b8; 
+    border-radius: 9999px; 
 }
 ::-webkit-scrollbar-thumb:hover { 
-    background: #046a38; 
+    background: var(--cda-green-700); 
 }
