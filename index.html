@@ -1102,10 +1102,10 @@
 
             <!-- Barra Inferior del Modal con Información -->
             <div class="w-full text-center pt-3 border-t border-white/10 z-10" onclick="event.stopPropagation()">
-                <h4 id="lightbox-titulo" class="font-serif font-bold text-base sm:text-lg text-white">Título de la fotografía</h4>
-                <p id="modal-caption" class="text-xs text-slate-300 max-w-2xl mx-auto mt-0.5 line-clamp-2 sm:line-clamp-none"></p>
-                <div class="flex items-center justify-center gap-3 text-[10px] text-slate-400 mt-1">
-                    <span id="lightbox-codigo" class="font-mono">ID: M_M_2026_1021</span>
+                <h4 id="lightbox-titulo" class="font-serif font-bold text-base sm:text-lg text-white">Nombre del Torneo</h4>
+                <p id="modal-caption" class="text-xs sm:text-sm text-slate-200 max-w-2xl mx-auto mt-1 leading-relaxed"></p>
+                <div class="flex items-center justify-center gap-2 text-[11px] text-slate-400 mt-2">
+                    <span class="text-slate-300 font-semibold">Club Deportivo Amazonas</span>
                     <span>•</span>
                     <span>Usa las flechas ⬅️ ➡️ del teclado para navegar</span>
                 </div>
@@ -1142,17 +1142,6 @@
                 `).join('');
             }
 
-            function extraerAnioRepo(nombreArchivo, desc) {
-                const texto = (nombreArchivo || '') + ' ' + (desc || '');
-                const match4 = texto.match(/\b(19\d\d|20\d\d)\b/);
-                if (match4) return match4[1];
-                const match2 = (nombreArchivo || '').match(/(?:Maxima|Femenino|consuelo|repo|o|a|M)(\d{2})(?:\d|\.|$)/i);
-                if (match2 && Number(match2[1]) >= 20 && Number(match2[1]) <= 30) {
-                    return '20' + match2[1];
-                }
-                return '';
-            }
-
             function resolverImagenRepo(urlRaw, equipo, imgName) {
                 const input = (urlRaw || imgName || '').trim();
                 if (!input) return 'assets/img/branding/Amazonas PGN.png';
@@ -1180,70 +1169,69 @@
                     const r = filas[i];
                     if (!r || r.length < 3 || !r.some(c => c && c.trim())) continue;
 
-                    const id = (r[0] || `FOTO-${i}`).trim();
-                    const eqRaw = (r[1] || 'masculino').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                    let equipo = 'masculino';
-                    if (eqRaw.includes('fem')) equipo = 'femenino';
-                    else if (eqRaw.includes('hist') || eqRaw.includes('retro')) equipo = 'historico';
-
+                    const codigo = (r[0] || '').trim();
+                    const eqRaw = (r[1] || '').trim();
                     const catRaw = (r[2] || '').trim();
-                    const catNorm = catRaw.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-                    let categoria = catRaw || 'Oficial';
+                    const imgRaw = (r[3] || '').trim();
+                    const descRaw = (r[4] || '').trim();
 
-                    if (equipo === 'masculino') {
-                        if (catNorm.includes('max')) categoria = 'Máxima';
-                        else if (catNorm.includes('prim')) categoria = 'Primera';
-                        else if (catNorm.includes('seg')) categoria = 'Segunda';
-                        else categoria = 'Máxima';
-                    } else if (equipo === 'femenino') {
-                        if (catNorm.includes('consuelo') || (r[3] || '').toLowerCase().includes('consuelo')) {
-                            categoria = 'Torneo Consuelo';
-                        } else {
-                            categoria = 'Torneo Oficial';
-                        }
-                    } else {
-                        categoria = 'Archivo Histórico';
+                    // Descomponer código según convención: [Equipo]_[Categoria]_[Año]_[Numero]
+                    const parts = codigo.split('_');
+
+                    // 1. Determinar Equipo
+                    let equipo = 'masculino';
+                    const prefEquipo = (parts[0] || '').toUpperCase();
+                    if (prefEquipo === 'F' || eqRaw.toLowerCase().includes('fem')) {
+                        equipo = 'femenino';
+                    } else if (prefEquipo === 'H' || eqRaw.toLowerCase().includes('hist') || eqRaw.toLowerCase().includes('retro')) {
+                        equipo = 'historico';
                     }
 
-                    const imgRaw = (r[3] || '').trim();
-                    const desc = (r[4] || '').trim() || `${categoria} - Club Deportivo Amazonas`;
-                    const anio = extraerAnioRepo(imgRaw, desc) || (equipo === 'historico' ? '1987-1999' : '2026');
+                    // 2. Determinar Categoría / Torneo
+                    let categoria = catRaw;
+                    if (equipo === 'masculino') {
+                        const prefCat = (parts[1] || '').toUpperCase();
+                        if (prefCat === 'M' || catRaw.toLowerCase().includes('max')) {
+                            categoria = 'Máxima';
+                        } else if (prefCat === 'P' || catRaw.toLowerCase().includes('prim')) {
+                            categoria = 'Primera';
+                        } else if (prefCat === 'S' || catRaw.toLowerCase().includes('seg')) {
+                            categoria = 'Segunda';
+                        } else {
+                            categoria = catRaw || 'Máxima';
+                        }
+                    } else if (equipo === 'femenino') {
+                        // En femenino toma directamente la categoría registrada en el Sheet (ej: Liga Malchinguí, Copa consuelo)
+                        categoria = catRaw || 'Torneo Oficial';
+                    } else {
+                        categoria = catRaw || 'Histórico';
+                    }
+
+                    // 3. Determinar Año (desde la 3ra sección del código)
+                    // Si contiene 'N' significa sin año registrado
+                    let anio = '';
+                    if (parts.length >= 3) {
+                        const pAnio = parts[2].trim().toUpperCase();
+                        if (pAnio !== 'N' && /^\d{4}$/.test(pAnio)) {
+                            anio = pAnio;
+                        }
+                    }
+
+                    // 4. Descripción
+                    const desc = descRaw || `${categoria} • C.D. Amazonas`;
+
+                    // 5. Ruta de imagen (no se usa para deducir categorías ni años)
                     const url = resolverImagenRepo(imgRaw, equipo, imgRaw);
 
                     resultado.push({
-                        id,
+                        id: codigo || `FOTO-${i}`,
+                        codigo,
                         equipo,
                         categoria,
-                        imgRaw,
-                        desc,
                         anio,
+                        desc,
+                        imgRaw,
                         url
-                    });
-                }
-
-                // Asegurar que si faltan postales históricas del repositorio local (1.png, 2.png) estén incluidas
-                const tiene1 = resultado.some(item => item.imgRaw === '1.png');
-                if (!tiene1) {
-                    resultado.push({
-                        id: 'H_LOCAL_01',
-                        equipo: 'historico',
-                        categoria: 'Archivo Histórico',
-                        imgRaw: '1.png',
-                        desc: 'Postal fundacional del Club Deportivo Amazonas',
-                        anio: '1987',
-                        url: 'assets/img/repositorio/historico/1.png'
-                    });
-                }
-                const tiene2 = resultado.some(item => item.imgRaw === '2.png');
-                if (!tiene2) {
-                    resultado.push({
-                        id: 'H_LOCAL_02',
-                        equipo: 'historico',
-                        categoria: 'Archivo Histórico',
-                        imgRaw: '2.png',
-                        desc: 'Plantel de época dorada C.D. Amazonas',
-                        anio: '1992',
-                        url: 'assets/img/repositorio/historico/2.png'
                     });
                 }
 
@@ -1342,11 +1330,19 @@
                     if (categoriasMap['Máxima']) subCategorias.push({ id: 'Máxima', label: '🏆 División Máxima', count: categoriasMap['Máxima'] });
                     if (categoriasMap['Primera']) subCategorias.push({ id: 'Primera', label: '🥇 Categoría Primera', count: categoriasMap['Primera'] });
                     if (categoriasMap['Segunda']) subCategorias.push({ id: 'Segunda', label: '🥈 Categoría Segunda', count: categoriasMap['Segunda'] });
+                    Object.keys(categoriasMap).forEach(cat => {
+                        if (!['Máxima', 'Primera', 'Segunda'].includes(cat)) {
+                            subCategorias.push({ id: cat, label: `⚽ ${cat}`, count: categoriasMap[cat] });
+                        }
+                    });
                 } else if (equipoRepoActual === 'femenino') {
-                    if (categoriasMap['Torneo Oficial']) subCategorias.push({ id: 'Torneo Oficial', label: '🌸 Torneo Oficial', count: categoriasMap['Torneo Oficial'] });
-                    if (categoriasMap['Torneo Consuelo']) subCategorias.push({ id: 'Torneo Consuelo', label: '🏅 Torneo Consuelo', count: categoriasMap['Torneo Consuelo'] });
+                    Object.keys(categoriasMap).forEach(cat => {
+                        subCategorias.push({ id: cat, label: `🌸 ${cat}`, count: categoriasMap[cat] });
+                    });
                 } else {
-                    subCategorias.push({ id: 'Archivo Histórico', label: '📜 Época Fundacional (1987)', count: fotosEquipo.length });
+                    Object.keys(categoriasMap).forEach(cat => {
+                        subCategorias.push({ id: cat, label: `📜 ${cat}`, count: categoriasMap[cat] });
+                    });
                 }
 
                 subCategorias.forEach(sub => {
@@ -1579,10 +1575,10 @@
 
                         <!-- Detalle inferior de la postal -->
                         <div class="p-3 flex flex-col justify-between flex-grow">
-                            <p class="text-xs font-bold text-brand-dark line-clamp-1 group-hover:text-brand-green transition-colors">${item.desc}</p>
-                            <div class="flex items-center justify-between text-[10px] text-slate-400 mt-2 pt-1 border-t border-slate-100">
-                                <span class="font-mono">${item.id}</span>
-                                <span class="font-medium text-brand-green">Ver postal →</span>
+                            <p class="text-xs font-bold text-brand-dark line-clamp-2 group-hover:text-brand-green transition-colors">${item.desc}</p>
+                            <div class="flex items-center justify-between text-[11px] text-slate-500 mt-2 pt-1.5 border-t border-slate-100">
+                                <span class="font-semibold text-slate-700">${item.categoria}${item.anio ? ' • ' + item.anio : ''}</span>
+                                <span class="font-bold text-brand-green">Ver postal →</span>
                             </div>
                         </div>
                     `;
@@ -1612,20 +1608,20 @@
                 const tituloEl = document.getElementById('lightbox-titulo');
                 const counterEl = document.getElementById('lightbox-counter');
                 const badgeEl = document.getElementById('lightbox-badge-categoria');
-                const codigoEl = document.getElementById('lightbox-codigo');
                 const btnDescargar = document.getElementById('lightbox-btn-descargar');
                 const btnAbrir = document.getElementById('lightbox-btn-abrir');
 
                 if (imgEl) imgEl.src = item.url;
                 if (captionEl) captionEl.textContent = item.desc;
-                if (tituloEl) tituloEl.textContent = `${item.categoria} • ${item.anio || 'C.D. Amazonas'}`;
+                if (tituloEl) {
+                    tituloEl.textContent = `${item.categoria}${item.anio ? ' • Temporada ' + item.anio : ''}`;
+                }
                 if (counterEl) counterEl.textContent = `Fotografía ${lightboxIndexActual + 1} de ${total}`;
                 if (badgeEl) badgeEl.textContent = item.categoria;
-                if (codigoEl) codigoEl.textContent = `ID: ${item.id} • Archivo: ${item.imgRaw}`;
 
                 if (btnDescargar) {
                     btnDescargar.href = item.url;
-                    btnDescargar.setAttribute('download', item.imgRaw || `CDA_Postal_${item.id}.jpg`);
+                    btnDescargar.setAttribute('download', `${item.categoria}_${item.anio || 'Amazonas'}.jpg`);
                 }
                 if (btnAbrir) {
                     btnAbrir.href = item.url;
