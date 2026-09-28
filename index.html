@@ -1241,48 +1241,857 @@
                 cargarRepositorioGoogleSheets();
             });
         </script>
-        <!-- ==================== 6. TIENDA ==================== -->
-        <section id="tienda" class="hidden py-16 md:py-24 bg-brand-white w-full flex-grow border-b border-slate-200">
-            <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
-                <div class="text-center mb-12">
-                    <span class="text-xs font-bold text-brand-green tracking-widest uppercase block mb-1">Apoya al club</span>
-                    <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">Tienda Oficial</h3>
+        <!-- ==================== 6. TIENDA OFICIAL DINAMICA ==================== -->
+        <section id="tienda" class="hidden py-12 md:py-20 bg-slate-50 w-full flex-grow border-b border-slate-200">
+            <div class="container mx-auto px-4 lg:px-8 max-w-7xl">
+                
+                <!-- Encabezado de la Tienda -->
+                <div class="text-center max-w-3xl mx-auto mb-10">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-extrabold uppercase tracking-widest bg-brand-green/10 text-brand-green border border-brand-green/30 mb-3">
+                        ⭐ Indumentaria Oficial • Apoya al Club
+                    </span>
+                    <h3 class="font-serif text-3xl sm:text-4xl md:text-5xl font-black text-brand-dark tracking-tight mb-3">
+                        Tienda Oficial C.D. Amazonas
+                    </h3>
+                    <p class="text-xs sm:text-sm text-slate-600 font-light leading-relaxed">
+                        Viste con orgullo los colores históricos de Malchinguí. Cada compra financia directamente el desarrollo deportivo de nuestras formativas y primeros planteles.
+                    </p>
                     <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
                 </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                    <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 flex flex-col justify-between">
-                        <div class="h-52 bg-white flex items-center justify-center p-4">
-                            <img src="assets/img/tienda/Camisetao26.png" alt="Camiseta" class="max-h-full object-contain">
+
+                <!-- Barra de Ventajas de Compra -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10 max-w-4xl mx-auto">
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-50 text-brand-green flex items-center justify-center text-xl flex-shrink-0">
+                            🚚
                         </div>
-                        <div class="p-5 bg-white border-t border-slate-100 text-center">
-                            <h4 class="font-bold text-brand-dark text-sm mb-1">Camiseta oficial '26</h4>
-                            <p class="text-brand-green font-bold text-base mb-3">$14,99</p>
-                            <button onclick="mostrarSeccion('contacto'); document.getElementById('mensaje').value='Hola, deseo consultar tallas para la Camiseta Oficial.'; return false;" class="w-full bg-brand-green text-brand-white py-2 rounded text-xs font-semibold uppercase tracking-wider">Consultar</button>
-                        </div>
-                    </div>
-                    <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 flex flex-col justify-between">
-                        <div class="h-52 bg-white flex items-center justify-center p-4">
-                            <img src="assets/img/tienda/Chaquetadr.png" class="max-h-full object-contain">
-                        </div>
-                        <div class="p-5 bg-white border-t border-slate-100 text-center">
-                            <h4 class="font-bold text-brand-dark text-sm mb-1">Chaqueta deportiva retro</h4>
-                            <p class="text-brand-green font-bold text-base mb-3">$24,99</p>
-                            <button onclick="mostrarSeccion('contacto'); document.getElementById('mensaje').value='Hola, deseo consultar tallas para el Calentador.'; return false;" class="w-full bg-brand-green text-brand-white py-2 rounded text-xs font-semibold uppercase tracking-wider">Consultar</button>
+                        <div>
+                            <h5 class="text-xs font-bold text-brand-dark">Entregas & Envíos</h5>
+                            <p class="text-[11px] text-slate-500">En Malchinguí y a todo Ecuador</p>
                         </div>
                     </div>
-                    <div class="bg-slate-50 rounded-xl overflow-hidden border border-slate-200 flex flex-col justify-between">
-                        <div class="h-52 bg-white flex items-center justify-center p-4">
-                            <img src="assets/img/tienda/Camisap.png" alt="Polo" class="max-h-full object-contain">
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-amber-50 text-brand-gold flex items-center justify-center text-xl flex-shrink-0">
+                            🛡️
                         </div>
-                        <div class="p-5 bg-white border-t border-slate-100 text-center">
-                            <h4 class="font-bold text-brand-dark text-sm mb-1">Camisa polo</h4>
-                            <p class="text-brand-green font-bold text-base mb-3">$15,99</p>
-                            <button onclick="mostrarSeccion('contacto'); document.getElementById('mensaje').value='Hola, deseo consultar tallas para el Polo.'; return false;" class="w-full bg-brand-green text-brand-white py-2 rounded text-xs font-semibold uppercase tracking-wider">Consultar</button>
+                        <div>
+                            <h5 class="text-xs font-bold text-brand-dark">100% Producto Oficial</h5>
+                            <p class="text-[11px] text-slate-500">Confección premium con escudo bordado</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-50 text-[#25D366] flex items-center justify-center text-xl flex-shrink-0">
+                            💬
+                        </div>
+                        <div>
+                            <h5 class="text-xs font-bold text-brand-dark">Atención Directa</h5>
+                            <p class="text-[11px] text-slate-500">Pedidos personalizados por WhatsApp</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Barra de Control: Categorías, Buscador y Botón de Carrito -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <!-- Filtros de Categoría -->
+                    <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none" id="tienda-categorias-container">
+                        <button class="px-4 py-1.5 rounded-full text-xs font-bold bg-brand-green text-white shadow-xs">Todos</button>
+                    </div>
+
+                    <!-- Buscador & Carrito -->
+                    <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
+                        <!-- Buscador -->
+                        <div class="relative flex-grow md:w-64">
+                            <span class="absolute inset-y-0 left-3 flex items-center text-slate-400 text-xs pointer-events-none">🔍</span>
+                            <input type="text" id="tienda-buscador" oninput="filtrarProductosTienda()" placeholder="Buscar camiseta, polo..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-green outline-none transition-all">
+                        </div>
+
+                        <!-- Botón del Carrito de Pedido -->
+                        <button onclick="abrirModalCarrito()" class="relative flex items-center gap-2 px-3.5 py-1.5 bg-brand-dark hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex-shrink-0">
+                            <span>🛒 Mi Pedido</span>
+                            <span id="tienda-badge-carrito" class="bg-brand-gold text-brand-dark text-[10px] font-black px-1.5 py-0.2 rounded-full">0</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Cuadrícula Dinámica de Productos -->
+                <div id="tienda-grid-dinamico" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                    <!-- Inyección dinámica desde Google Sheets -->
+                </div>
+
+                <!-- Banner Informativo Inferior -->
+                <div class="mt-14 bg-gradient-to-r from-brand-dark via-emerald-950 to-brand-dark text-white rounded-2xl p-6 sm:p-8 border border-brand-gold/30 shadow-lg text-center max-w-4xl mx-auto">
+                    <span class="text-2xl block mb-2">👕</span>
+                    <h4 class="font-serif text-lg sm:text-xl font-black text-white mb-2">¿Deseas personalizar tu indumentaria con tu nombre y dorsal?</h4>
+                    <p class="text-xs text-slate-300 max-w-2xl mx-auto mb-4 font-light leading-relaxed">
+                        Coordinamos el estampado oficial personalizado para hinchas, familias y empresas auspiciantes. Escríbenos directamente y te ayudamos con el diseño y la talla exacta.
+                    </p>
+                    <button onclick="pedirPersonalizacionWhatsApp()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-md">
+                        <span>💬 Consultar Personalización por WhatsApp</span>
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ==================== MODAL DETALLE DE PRODUCTO ==================== -->
+        <div id="modal-producto-tienda" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-4">
+            <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 relative animate-fade-in flex flex-col md:flex-row">
+                <!-- Botón Cerrar -->
+                <button onclick="cerrarModalProducto()" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-base transition-colors">
+                    ✕
+                </button>
+
+                <!-- Imagen del Producto en Modal -->
+                <div class="md:w-1/2 p-6 bg-slate-50 flex flex-col items-center justify-center border-b md:border-b-0 md:border-r border-slate-200 relative">
+                    <div class="relative w-full aspect-square max-h-72 flex items-center justify-center">
+                        <img id="modal-prod-img" src="" alt="Producto" class="max-h-full max-w-full object-contain drop-shadow-md">
+                        <span id="modal-prod-badge" class="absolute top-2 left-2 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-brand-gold text-brand-dark shadow-sm"></span>
+                    </div>
+                </div>
+
+                <!-- Info y Controles del Modal -->
+                <div class="md:w-1/2 p-6 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-1">
+                            <span id="modal-prod-cat" class="text-[10px] font-extrabold uppercase tracking-widest text-brand-green"></span>
+                            <span id="modal-prod-stock" class="text-[10px] font-bold px-2 py-0.5 rounded-full"></span>
+                        </div>
+                        <h4 id="modal-prod-titulo" class="font-serif text-xl font-black text-brand-dark mb-1"></h4>
+                        <p id="modal-prod-id" class="text-[10px] text-slate-400 font-mono mb-3"></p>
+
+                        <!-- Precios -->
+                        <div class="flex items-baseline gap-2 mb-4">
+                            <span id="modal-prod-precio" class="text-2xl font-black text-brand-green"></span>
+                            <span id="modal-prod-precio-reg" class="text-sm text-slate-400 line-through"></span>
+                            <span id="modal-prod-descuento" class="text-[10px] font-extrabold text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full"></span>
+                        </div>
+
+                        <p id="modal-prod-desc" class="text-xs text-slate-600 font-light leading-relaxed mb-4"></p>
+
+                        <!-- Selector de Tallas -->
+                        <div class="mb-4">
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Selecciona tu Talla:</label>
+                            <div id="modal-prod-tallas" class="flex flex-wrap gap-1.5"></div>
+                        </div>
+
+                        <!-- Selector de Cantidad -->
+                        <div class="mb-6">
+                            <label class="block text-xs font-bold text-slate-700 mb-1.5">Cantidad:</label>
+                            <div class="inline-flex items-center border border-slate-300 rounded-lg overflow-hidden bg-white">
+                                <button onclick="ajustarCantidadModal(-1)" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">-</button>
+                                <span id="modal-prod-cantidad" class="px-4 py-1 text-xs font-bold text-brand-dark min-w-[2.5rem] text-center">1</span>
+                                <button onclick="ajustarCantidadModal(1)" class="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">+</button>
+                            </div>
+                            <span class="text-xs text-slate-500 ml-3">Subtotal: <strong id="modal-prod-subtotal" class="text-brand-dark font-black"></strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Botones de Acción -->
+                    <div class="space-y-2 pt-2 border-t border-slate-100">
+                        <button id="modal-btn-whatsapp" onclick="pedirProductoModalWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-sm">
+                            <span>💬 Pedir por WhatsApp</span>
+                        </button>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="agregarAlCarritoDesdeModal()" class="w-full bg-brand-dark hover:bg-slate-800 text-white py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5">
+                                <span>🛒 Añadir a Pedido</span>
+                            </button>
+                            <button onclick="consultarPorFormularioModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-colors">
+                                <span>✉️ Formulario Web</span>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <!-- ==================== DRAWER / MODAL DEL CARRITO DE COMPRAS ==================== -->
+        <div id="modal-carrito-tienda" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs hidden items-center justify-end">
+            <div class="bg-white h-full w-full max-w-md shadow-2xl flex flex-col justify-between p-6">
+                <!-- Header Carrito -->
+                <div>
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-200 mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl">🛒</span>
+                            <h4 class="font-serif text-lg font-black text-brand-dark">Mi Pedido C.D. Amazonas</h4>
+                        </div>
+                        <button onclick="cerrarModalCarrito()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-sm">
+                            ✕
+                        </button>
+                    </div>
+
+                    <!-- Lista de Ítems del Carrito -->
+                    <div id="carrito-items-container" class="space-y-3 overflow-y-auto max-h-[55vh] pr-1">
+                        <!-- Inyección dinámica -->
+                    </div>
+                </div>
+
+                <!-- Footer del Carrito -->
+                <div class="border-t border-slate-200 pt-4 mt-4 space-y-3">
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="font-medium text-slate-600">Total Estimado:</span>
+                        <span id="carrito-total-precio" class="font-black text-xl text-brand-green">$0.00</span>
+                    </div>
+                    <p class="text-[10px] text-slate-400 leading-tight">
+                        * Los pedidos se coordinan formalmente por WhatsApp o correo institucional antes de la entrega en cancha o despacho.
+                    </p>
+                    <button onclick="enviarPedidoCompletoWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-md">
+                        <span>💬 Confirmar Pedido por WhatsApp</span>
+                    </button>
+                    <div class="flex gap-2">
+                        <button onclick="enviarPedidoCompletoFormulario()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-colors">
+                            ✉️ Por Correo
+                        </button>
+                        <button onclick="vaciarCarrito()" class="w-1/2 bg-red-50 hover:bg-red-100 text-red-600 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-colors">
+                            🗑️ Vaciar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== LOGICA TIENDA OFICIAL DINAMICA ==================== -->
+        <script>
+            const SPREADSHEET_TIENDA_ID = "1GxnHehS9i4QAPCiyVlf3cWfmK1QWqWsQy8juukoZ754";
+            const TIENDA_GID = "436016728";
+            // 👇 COLOCA AQUÍ TU NÚMERO DE WHATSAPP CON CÓDIGO DE PAÍS (ej: "593987654321" para Ecuador)
+            const WHATSAPP_CLUB_NUMERO = ""; 
+
+            let tiendaProductos = [];
+            let tiendaCargada = false;
+            let categoriaTiendaActual = 'todos';
+            let productoModalActual = null;
+            let tallaModalSeleccionada = '';
+            let cantidadModal = 1;
+            let carritoTienda = [];
+
+            try {
+                carritoTienda = JSON.parse(localStorage.getItem('cda_carrito_tienda') || '[]');
+            } catch (e) {
+                carritoTienda = [];
+            }
+
+            function renderizarSkeletonsTienda() {
+                const grid = document.getElementById('tienda-grid-dinamico');
+                if (!grid) return;
+                grid.innerHTML = Array.from({ length: 3 }).map(() => `
+                    <div class="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm animate-pulse flex flex-col justify-between h-[450px]">
+                        <div class="w-full h-56 bg-slate-200 rounded-xl mb-4"></div>
+                        <div class="space-y-2 mb-4">
+                            <div class="h-3 w-20 bg-slate-200 rounded"></div>
+                            <div class="h-5 w-44 bg-slate-300 rounded"></div>
+                            <div class="h-3 w-full bg-slate-100 rounded"></div>
+                        </div>
+                        <div class="flex gap-2 mb-4">
+                            <div class="h-7 w-8 bg-slate-200 rounded-lg"></div>
+                            <div class="h-7 w-8 bg-slate-200 rounded-lg"></div>
+                            <div class="h-7 w-8 bg-slate-200 rounded-lg"></div>
+                        </div>
+                        <div class="h-10 w-full bg-slate-200 rounded-xl"></div>
+                    </div>
+                `).join('');
+            }
+
+            async function cargarTiendaGoogleSheets() {
+                if (tiendaCargada && tiendaProductos.length > 0) return;
+                renderizarSkeletonsTienda();
+                actualizarBadgeCarrito();
+
+                try {
+                    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_TIENDA_ID}/export?format=csv&gid=${TIENDA_GID}`;
+                    const resp = await fetch(url);
+                    if (!resp.ok) throw new Error("No se pudo conectar con la hoja de cálculo de la Tienda");
+                    const csvText = await resp.text();
+                    tiendaProductos = parsearCSVTienda(csvText);
+                    tiendaCargada = true;
+
+                    if (tiendaProductos.length === 0) {
+                        const grid = document.getElementById('tienda-grid-dinamico');
+                        if (grid) grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No hay productos disponibles en este momento.</div>`;
+                        return;
+                    }
+
+                    actualizarFiltrosCategoriasTienda();
+                    renderizarTienda();
+                } catch (error) {
+                    console.error("Error al cargar tienda:", error);
+                    const grid = document.getElementById('tienda-grid-dinamico');
+                    if (grid) {
+                        grid.innerHTML = `
+                            <div class="col-span-full bg-amber-50 border border-amber-200 rounded-2xl p-8 text-center max-w-lg mx-auto">
+                                <span class="text-3xl block mb-2">⚠️</span>
+                                <h4 class="font-serif font-bold text-brand-dark text-base mb-1">Catálogo en sincronización</h4>
+                                <p class="text-xs text-slate-600 mb-4">No se pudo cargar el catálogo en vivo. Por favor verifica que la pestaña Tienda sea pública.</p>
+                                <button onclick="tiendaCargada=false; cargarTiendaGoogleSheets()" class="px-4 py-2 bg-brand-green text-white text-xs font-bold rounded-lg hover:bg-brand-green-hover transition-colors">Reintentar Conexión</button>
+                            </div>
+                        `;
+                    }
+                }
+            }
+
+            function resolverImagenTienda(urlRaw, id, producto) {
+                if (!urlRaw || typeof urlRaw !== 'string') urlRaw = '';
+                urlRaw = urlRaw.trim();
+                const matchDrive1 = urlRaw.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+                const matchDrive2 = urlRaw.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+                const fileId = (matchDrive1 && matchDrive1[1]) || (matchDrive2 && matchDrive2[1]);
+                if (fileId) return `https://drive.google.com/thumbnail?id=${fileId}&sz=w1000`;
+
+                if ((urlRaw.startsWith('http://') || urlRaw.startsWith('https://')) && !urlRaw.includes('...')) {
+                    return urlRaw;
+                }
+                if (urlRaw.startsWith('assets/')) return urlRaw;
+
+                const idUpper = (id || '').toUpperCase();
+                const nom = (producto || '').toLowerCase();
+
+                if (idUpper.includes('CHA') || nom.includes('chaqueta') || nom.includes('chompa') || nom.includes('retro')) {
+                    return 'assets/img/tienda/Chaquetadr.png';
+                }
+                if (idUpper.includes('POL') || nom.includes('polo')) {
+                    return 'assets/img/tienda/Camisap.png';
+                }
+                if (idUpper.includes('CAM') || nom.includes('camiseta') || nom.includes('titular')) {
+                    return 'assets/img/tienda/Camisetao26.png';
+                }
+
+                if (urlRaw && !urlRaw.includes('...') && !urlRaw.toLowerCase().includes('principal')) {
+                    return `assets/img/tienda/${urlRaw}`;
+                }
+
+                return 'assets/img/tienda/Camisetao26.png';
+            }
+
+            function limpiarPrecioTienda(val) {
+                if (!val) return 0;
+                const limpio = val.toString().replace('$', '').replace(/\s/g, '').replace(',', '.');
+                const num = parseFloat(limpio);
+                return isNaN(num) ? 0 : num;
+            }
+
+            function parsearCSVTienda(csvText) {
+                const filas = parsearCSV(csvText);
+                const resultado = [];
+
+                for (let i = 1; i < filas.length; i++) {
+                    const c = filas[i];
+                    if (!c || c.length < 3 || !c.some(x => x && x.trim())) continue;
+
+                    const id = (c[1] || `AMZ-PROD-${i}`).trim();
+                    let nombre = (c[2] || 'Producto Oficial').trim();
+
+                    if (id === 'AMZ-POL-01' && (nombre.toLowerCase().includes('camiseta') && !nombre.toLowerCase().includes('polo'))) {
+                        nombre = 'Camisa Polo Oficial';
+                    } else if (id === 'AMZ-CHA-01' && (nombre.toLowerCase().includes('camiseta') && !nombre.toLowerCase().includes('chaqueta'))) {
+                        nombre = 'Chaqueta Deportiva Retro';
+                    }
+
+                    const categoria = (c[3] || 'Indumentaria').trim();
+                    const descripcion = (c[4] || 'Indumentaria oficial conmemorativa de C.D. Amazonas. Confección de alta calidad con escudo bordado.').trim();
+                    const imgPrincipal = resolverImagenTienda(c[5], id, nombre);
+                    const imgSecundaria = (c[6] && !c[6].includes('...') && !c[6].toLowerCase().includes('secundaria')) ? resolverImagenTienda(c[6], id, nombre) : '';
+
+                    const tallasRaw = (c[7] || 'S, M, L, XL, 2XL').trim();
+                    const tallas = tallasRaw.split(',').map(t => t.trim()).filter(Boolean);
+
+                    const precioReg = limpiarPrecioTienda(c[8]);
+                    const precioDesc = limpiarPrecioTienda(c[9]);
+                    const precioFinal = precioDesc > 0 ? precioDesc : (precioReg > 0 ? precioReg : 14.99);
+                    const tieneDescuento = precioDesc > 0 && precioReg > precioDesc;
+                    const pctDescuento = tieneDescuento ? Math.round(((precioReg - precioDesc) / precioReg) * 100) : 0;
+
+                    let stock = (c[10] || 'Disponible').trim();
+                    let stockEstado = 'Disponible';
+                    if (stock.toLowerCase().includes('bajo')) {
+                        stockEstado = 'Bajo Pedido';
+                    } else if (stock.toLowerCase().includes('agotado') && !stock.toLowerCase().includes('disponible')) {
+                        stockEstado = 'Agotado';
+                    }
+
+                    const destacado = (c[11] || '').trim().toUpperCase() === 'SI';
+                    const badge = (c[12] || '').trim() || (destacado ? 'Destacado' : (tieneDescuento ? `${pctDescuento}% OFF` : 'Oficial'));
+                    const activo = (c[13] || '').trim().toUpperCase() !== 'NO';
+
+                    if (activo) {
+                        resultado.push({
+                            id,
+                            nombre,
+                            categoria,
+                            descripcion,
+                            imgPrincipal,
+                            imgSecundaria,
+                            tallas: tallas.length > 0 ? tallas : ['Única'],
+                            tallaSeleccionada: tallas[0] || 'M',
+                            precioReg,
+                            precioDesc,
+                            precioFinal,
+                            tieneDescuento,
+                            pctDescuento,
+                            stockEstado,
+                            destacado,
+                            badge
+                        });
+                    }
+                }
+                return resultado;
+            }
+
+            function actualizarFiltrosCategoriasTienda() {
+                const container = document.getElementById('tienda-categorias-container');
+                if (!container) return;
+
+                const categorias = ['Todos'];
+                tiendaProductos.forEach(p => {
+                    if (p.categoria && !categorias.includes(p.categoria)) {
+                        categorias.push(p.categoria);
+                    }
+                });
+
+                container.innerHTML = categorias.map(cat => {
+                    const esActivo = cat.toLowerCase() === categoriaTiendaActual.toLowerCase();
+                    const btnClass = esActivo 
+                        ? 'bg-brand-green text-white shadow-xs' 
+                        : 'bg-slate-100 hover:bg-slate-200 text-slate-700';
+                    return `
+                        <button onclick="seleccionarCategoriaTienda('${cat}')" class="px-3.5 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap ${btnClass}">
+                            ${cat}
+                        </button>
+                    `;
+                }).join('');
+            }
+
+            function seleccionarCategoriaTienda(cat) {
+                categoriaTiendaActual = cat.toLowerCase();
+                actualizarFiltrosCategoriasTienda();
+                renderizarTienda();
+            }
+
+            function filtrarProductosTienda() {
+                renderizarTienda();
+            }
+
+            function seleccionarTallaProducto(prodId, talla, btnEl) {
+                const prod = tiendaProductos.find(p => p.id === prodId);
+                if (prod) {
+                    prod.tallaSeleccionada = talla;
+                    const parent = btnEl.parentElement;
+                    if (parent) {
+                        parent.querySelectorAll('button').forEach(b => {
+                            b.className = 'px-2.5 py-0.5 text-[11px] font-bold rounded border bg-white text-slate-700 border-slate-300 hover:border-brand-green';
+                        });
+                        btnEl.className = 'px-2.5 py-0.5 text-[11px] font-bold rounded border bg-brand-green text-white border-brand-green shadow-xs';
+                    }
+                }
+            }
+
+            function renderizarTienda() {
+                const grid = document.getElementById('tienda-grid-dinamico');
+                if (!grid) return;
+
+                const query = (document.getElementById('tienda-buscador')?.value || '').toLowerCase().trim();
+
+                const filtrados = tiendaProductos.filter(p => {
+                    const matchCat = categoriaTiendaActual === 'todos' || p.categoria.toLowerCase() === categoriaTiendaActual;
+                    const matchQuery = !query || p.nombre.toLowerCase().includes(query) || p.descripcion.toLowerCase().includes(query) || p.id.toLowerCase().includes(query);
+                    return matchCat && matchQuery;
+                });
+
+                if (filtrados.length === 0) {
+                    grid.innerHTML = `
+                        <div class="col-span-full py-16 text-center bg-white rounded-2xl border border-slate-200 p-8 shadow-xs">
+                            <span class="text-4xl block mb-2">🔍</span>
+                            <h4 class="font-serif font-bold text-brand-dark text-base mb-1">No se encontraron productos</h4>
+                            <p class="text-xs text-slate-500">Prueba ajustando el término de búsqueda o seleccionando otra categoría.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                grid.innerHTML = filtrados.map(prod => {
+                    let stockBadge = '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">● En Stock</span>';
+                    if (prod.stockEstado === 'Bajo Pedido') {
+                        stockBadge = '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">⏳ Bajo Pedido</span>';
+                    } else if (prod.stockEstado === 'Agotado') {
+                        stockBadge = '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200">✕ Agotado</span>';
+                    }
+
+                    const esAgotado = prod.stockEstado === 'Agotado';
+
+                    return `
+                        <div class="group bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                            
+                            <!-- Cabecera de Imagen y Badges -->
+                            <div class="relative bg-gradient-to-b from-slate-50 to-slate-100/60 p-6 flex items-center justify-center h-64 overflow-hidden border-b border-slate-100">
+                                <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-brand-gold text-brand-dark shadow-xs z-10">
+                                    ${prod.badge}
+                                </span>
+                                <div class="absolute top-3 right-3 z-10">
+                                    ${stockBadge}
+                                </div>
+                                <img src="${prod.imgPrincipal}" alt="${prod.nombre}" loading="lazy" class="max-h-full max-w-full object-contain drop-shadow-md group-hover:scale-108 transition-transform duration-500" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
+                            </div>
+
+                            <!-- Contenido del Producto -->
+                            <div class="p-5 flex flex-col flex-grow justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between gap-2 mb-1.5">
+                                        <span class="text-[10px] font-black uppercase tracking-widest text-brand-green">${prod.categoria}</span>
+                                        <span class="text-[10px] font-mono text-slate-400 font-medium">${prod.id}</span>
+                                    </div>
+                                    <h4 class="font-serif text-lg font-black text-brand-dark group-hover:text-brand-green transition-colors leading-snug mb-2 cursor-pointer" onclick="abrirModalProducto('${prod.id}')">
+                                        ${prod.nombre}
+                                    </h4>
+                                    <p class="text-xs text-slate-600 font-light leading-relaxed line-clamp-2 mb-4">
+                                        ${prod.descripcion}
+                                    </p>
+
+                                    <!-- Selector de Tallas Rápido -->
+                                    <div class="mb-4">
+                                        <span class="block text-[11px] font-bold text-slate-500 mb-1.5">Talla:</span>
+                                        <div class="flex flex-wrap gap-1.5" id="tallas-${prod.id}">
+                                            ${prod.tallas.map((t, idx) => {
+                                                const esSel = (prod.tallaSeleccionada === t) || (!prod.tallaSeleccionada && idx === 0);
+                                                const btnSt = esSel 
+                                                    ? 'bg-brand-green text-white border-brand-green shadow-xs' 
+                                                    : 'bg-white text-slate-700 border-slate-300 hover:border-brand-green';
+                                                return `
+                                                    <button type="button" onclick="seleccionarTallaProducto('${prod.id}', '${t}', this)" class="px-2.5 py-0.5 text-[11px] font-bold rounded border transition-all ${btnSt}">
+                                                        ${t}
+                                                    </button>
+                                                `;
+                                            }).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Precios y Botones de Acción -->
+                                <div class="pt-3 border-t border-slate-100">
+                                    <div class="flex items-baseline justify-between mb-3">
+                                        <div class="flex items-baseline gap-2">
+                                            <span class="text-xl font-black text-brand-dark tracking-tight">$${prod.precioFinal.toFixed(2)}</span>
+                                            ${prod.tieneDescuento ? `<span class="text-xs text-slate-400 line-through">$${prod.precioReg.toFixed(2)}</span>` : ''}
+                                        </div>
+                                        ${prod.tieneDescuento ? `<span class="text-[10px] font-black text-amber-700 bg-amber-100 px-2 py-0.5 rounded-full">-${prod.pctDescuento}%</span>` : ''}
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <button onclick="pedirProductoDirectoWhatsApp('${prod.id}')" ${esAgotado ? 'disabled' : ''} class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-50 disabled:cursor-not-allowed">
+                                            <span>💬 Pedir</span>
+                                        </button>
+                                        <button onclick="abrirModalProducto('${prod.id}')" class="w-full bg-slate-100 hover:bg-brand-dark hover:text-white text-slate-700 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1">
+                                            <span>Detalles →</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            function abrirModalProducto(prodId) {
+                const prod = tiendaProductos.find(p => p.id === prodId);
+                if (!prod) return;
+
+                productoModalActual = prod;
+                tallaModalSeleccionada = prod.tallaSeleccionada || prod.tallas[0] || 'M';
+                cantidadModal = 1;
+
+                document.getElementById('modal-prod-img').src = prod.imgPrincipal;
+                document.getElementById('modal-prod-badge').textContent = prod.badge;
+                document.getElementById('modal-prod-cat').textContent = prod.categoria;
+                document.getElementById('modal-prod-id').textContent = `Código Ref: ${prod.id}`;
+                document.getElementById('modal-prod-titulo').textContent = prod.nombre;
+                document.getElementById('modal-prod-desc').textContent = prod.descripcion;
+
+                document.getElementById('modal-prod-precio').textContent = `$${prod.precioFinal.toFixed(2)}`;
+                const elReg = document.getElementById('modal-prod-precio-reg');
+                const elDesc = document.getElementById('modal-prod-descuento');
+                if (prod.tieneDescuento) {
+                    elReg.textContent = `$${prod.precioReg.toFixed(2)}`;
+                    elReg.classList.remove('hidden');
+                    elDesc.textContent = `-${prod.pctDescuento}% OFF`;
+                    elDesc.classList.remove('hidden');
+                } else {
+                    elReg.classList.add('hidden');
+                    elDesc.classList.add('hidden');
+                }
+
+                const elStock = document.getElementById('modal-prod-stock');
+                if (prod.stockEstado === 'Disponible') {
+                    elStock.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-200';
+                    elStock.textContent = '● En Stock';
+                } else if (prod.stockEstado === 'Bajo Pedido') {
+                    elStock.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-200';
+                    elStock.textContent = '⏳ Bajo Pedido';
+                } else {
+                    elStock.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-200';
+                    elStock.textContent = '✕ Agotado';
+                }
+
+                const contTallas = document.getElementById('modal-prod-tallas');
+                contTallas.innerHTML = prod.tallas.map(t => {
+                    const sel = t === tallaModalSeleccionada;
+                    const st = sel ? 'bg-brand-green text-white border-brand-green shadow-xs' : 'bg-white text-slate-700 border-slate-300 hover:border-brand-green';
+                    return `
+                        <button type="button" onclick="seleccionarTallaModal('${t}', this)" class="btn-talla-modal px-3 py-1 text-xs font-bold rounded-lg border transition-all ${st}">
+                            ${t}
+                        </button>
+                    `;
+                }).join('');
+
+                actualizarSubtotalModal();
+
+                const modal = document.getElementById('modal-producto-tienda');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function cerrarModalProducto() {
+                const modal = document.getElementById('modal-producto-tienda');
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = 'auto';
+            }
+
+            function seleccionarTallaModal(talla, btn) {
+                tallaModalSeleccionada = talla;
+                if (productoModalActual) productoModalActual.tallaSeleccionada = talla;
+                document.querySelectorAll('.btn-talla-modal').forEach(b => {
+                    b.className = 'btn-talla-modal px-3 py-1 text-xs font-bold rounded-lg border bg-white text-slate-700 border-slate-300 hover:border-brand-green';
+                });
+                btn.className = 'btn-talla-modal px-3 py-1 text-xs font-bold rounded-lg border bg-brand-green text-white border-brand-green shadow-xs';
+            }
+
+            function ajustarCantidadModal(delta) {
+                cantidadModal = Math.max(1, cantidadModal + delta);
+                document.getElementById('modal-prod-cantidad').textContent = cantidadModal;
+                actualizarSubtotalModal();
+            }
+
+            function actualizarSubtotalModal() {
+                if (!productoModalActual) return;
+                const subtotal = productoModalActual.precioFinal * cantidadModal;
+                document.getElementById('modal-prod-subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            }
+
+            function generarEnlaceWhatsApp(mensaje) {
+                const msgEncoded = encodeURIComponent(mensaje);
+                const numLimpio = (WHATSAPP_CLUB_NUMERO || "").replace(/[^0-9]/g, '');
+                if (numLimpio) {
+                    return `https://wa.me/${numLimpio}?text=${msgEncoded}`;
+                }
+                return `https://api.whatsapp.com/send?text=${msgEncoded}`;
+            }
+
+            function pedirProductoDirectoWhatsApp(prodId) {
+                const prod = tiendaProductos.find(p => p.id === prodId);
+                if (!prod) return;
+                const talla = prod.tallaSeleccionada || prod.tallas[0] || 'M';
+                const msg = `¡Hola Club Deportivo Amazonas! Deseo encargar el siguiente producto oficial:\n\n👕 Producto: ${prod.nombre}\n🏷️ Código: ${prod.id}\n📏 Talla: ${talla}\n💰 Precio: $${prod.precioFinal.toFixed(2)}\n\n¿Por favor me indican los métodos de pago y cómo coordinamos la entrega?`;
+                window.open(generarEnlaceWhatsApp(msg), '_blank');
+            }
+
+            function pedirProductoModalWhatsApp() {
+                if (!productoModalActual) return;
+                const prod = productoModalActual;
+                const subtotal = prod.precioFinal * cantidadModal;
+                const msg = `¡Hola Club Deportivo Amazonas! Deseo ordenar el siguiente producto oficial:\n\n👕 Producto: ${prod.nombre}\n🏷️ Código: ${prod.id}\n📏 Talla: ${tallaModalSeleccionada}\n📦 Cantidad: ${cantidadModal}\n💰 Total Estimado: $${subtotal.toFixed(2)}\n\n¿Por favor me indican los datos de transferencia y fecha de entrega?`;
+                window.open(generarEnlaceWhatsApp(msg), '_blank');
+            }
+
+            function pedirPersonalizacionWhatsApp() {
+                const msg = "¡Hola Club Deportivo Amazonas! Deseo consultar sobre la indumentaria oficial con estampado personalizado (nombre y dorsal). ¿Cómo podemos coordinarlo?";
+                window.open(generarEnlaceWhatsApp(msg), '_blank');
+            }
+
+            function consultarPorFormularioModal() {
+                if (!productoModalActual) return;
+                const prod = productoModalActual;
+                cerrarModalProducto();
+                mostrarSeccion('contacto');
+                const textarea = document.getElementById('contacto-mensaje');
+                if (textarea) {
+                    textarea.value = `Hola directiva de C.D. Amazonas, deseo realizar una consulta sobre el producto "${prod.nombre}" (Código: ${prod.id}) en talla ${tallaModalSeleccionada}, cantidad: ${cantidadModal}.`;
+                    textarea.focus();
+                }
+            }
+
+            function agregarAlCarritoDesdeModal() {
+                if (!productoModalActual) return;
+                agregarAlCarrito(productoModalActual.id, tallaModalSeleccionada, cantidadModal);
+                cerrarModalProducto();
+                abrirModalCarrito();
+            }
+
+            function agregarAlCarrito(prodId, talla, cantidad) {
+                const prod = tiendaProductos.find(p => p.id === prodId);
+                if (!prod) return;
+
+                const indexExistente = carritoTienda.findIndex(item => item.id === prodId && item.talla === talla);
+                if (indexExistente !== -1) {
+                    carritoTienda[indexExistente].cantidad += cantidad;
+                } else {
+                    carritoTienda.push({
+                        id: prod.id,
+                        nombre: prod.nombre,
+                        precio: prod.precioFinal,
+                        img: prod.imgPrincipal,
+                        talla: talla,
+                        cantidad: cantidad
+                    });
+                }
+
+                guardarCarrito();
+                actualizarBadgeCarrito();
+                mostrarToast('Añadido a tu Pedido', `${prod.nombre} (Talla: ${talla}) se agregó a tu pedido.`);
+            }
+
+            function guardarCarrito() {
+                try {
+                    localStorage.setItem('cda_carrito_tienda', JSON.stringify(carritoTienda));
+                } catch (e) {}
+            }
+
+            function actualizarBadgeCarrito() {
+                const badge = document.getElementById('tienda-badge-carrito');
+                if (!badge) return;
+                const totalItems = carritoTienda.reduce((acc, item) => acc + item.cantidad, 0);
+                badge.textContent = totalItems;
+            }
+
+            function abrirModalCarrito() {
+                const modal = document.getElementById('modal-carrito-tienda');
+                const container = document.getElementById('carrito-items-container');
+                const totalEl = document.getElementById('carrito-total-precio');
+
+                if (carritoTienda.length === 0) {
+                    container.innerHTML = `
+                        <div class="py-12 text-center text-slate-500">
+                            <span class="text-4xl block mb-2">🛒</span>
+                            <p class="font-bold text-sm text-brand-dark mb-1">Tu pedido está vacío</p>
+                            <p class="text-xs text-slate-400">Selecciona algún producto de la tienda para comenzar.</p>
+                        </div>
+                    `;
+                    totalEl.textContent = '$0.00';
+                } else {
+                    let total = 0;
+                    container.innerHTML = carritoTienda.map((item, idx) => {
+                        const subtotal = item.precio * item.cantidad;
+                        total += subtotal;
+                        return `
+                            <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-12 h-12 bg-white rounded-lg p-1 border border-slate-200 flex items-center justify-center flex-shrink-0">
+                                        <img src="${item.img}" alt="${item.nombre}" class="max-h-full max-w-full object-contain">
+                                    </div>
+                                    <div>
+                                        <h5 class="text-xs font-bold text-brand-dark leading-tight">${item.nombre}</h5>
+                                        <p class="text-[11px] text-slate-500">Talla: <strong class="text-brand-dark">${item.talla}</strong> • Cant: ${item.cantidad}</p>
+                                        <span class="text-xs font-black text-brand-green">$${subtotal.toFixed(2)}</span>
+                                    </div>
+                                </div>
+                                <button onclick="eliminarItemCarrito(${idx})" class="text-slate-400 hover:text-red-500 p-1.5 transition-colors text-sm" title="Eliminar artículo">
+                                    🗑️
+                                </button>
+                            </div>
+                        `;
+                    }).join('');
+                    totalEl.textContent = `$${total.toFixed(2)}`;
+                }
+
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+
+            function cerrarModalCarrito() {
+                const modal = document.getElementById('modal-carrito-tienda');
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+
+            function eliminarItemCarrito(index) {
+                carritoTienda.splice(index, 1);
+                guardarCarrito();
+                actualizarBadgeCarrito();
+                abrirModalCarrito();
+            }
+
+            function vaciarCarrito() {
+                carritoTienda = [];
+                guardarCarrito();
+                actualizarBadgeCarrito();
+                abrirModalCarrito();
+            }
+
+            function enviarPedidoCompletoWhatsApp() {
+                if (carritoTienda.length === 0) {
+                    mostrarToast('Pedido Vacío', 'Agrega algún producto antes de enviar tu pedido.');
+                    return;
+                }
+
+                let total = 0;
+                const lineas = carritoTienda.map((item, i) => {
+                    const sub = item.precio * item.cantidad;
+                    total += sub;
+                    return `${i + 1}. ${item.nombre} (Talla: ${item.talla}) x ${item.cantidad} = $${sub.toFixed(2)}`;
+                });
+
+                const mensaje = [
+                    '¡Hola Club Deportivo Amazonas! Deseo realizar el siguiente pedido oficial:',
+                    '',
+                    ...lineas,
+                    '━━━━━━━━━━━━━━━━━━━━━━━━',
+                    `TOTAL ESTIMADO: $${total.toFixed(2)}`,
+                    '',
+                    '¿Por favor me confirman disponibilidad de tallas y datos para la transferencia bancaria?'
+                ].join('\n');
+
+                window.open(generarEnlaceWhatsApp(mensaje), '_blank');
+            }
+
+            function enviarPedidoCompletoFormulario() {
+                if (carritoTienda.length === 0) {
+                    mostrarToast('Pedido Vacío', 'Agrega algún producto antes de enviar tu pedido.');
+                    return;
+                }
+
+                let total = 0;
+                const lineas = carritoTienda.map((item, i) => {
+                    const sub = item.precio * item.cantidad;
+                    total += sub;
+                    return `${i + 1}. ${item.nombre} (Talla: ${item.talla}) x ${item.cantidad} = $${sub.toFixed(2)}`;
+                });
+
+                const resumen = [
+                    'Hola dirigentes de C.D. Amazonas, deseo realizar el siguiente pedido oficial desde la web:',
+                    '',
+                    ...lineas,
+                    '━━━━━━━━━━━━━━━━━━━━━━━━',
+                    `TOTAL ESTIMADO: $${total.toFixed(2)}`
+                ].join('\n');
+
+                cerrarModalCarrito();
+                mostrarSeccion('contacto');
+                const textarea = document.getElementById('contacto-mensaje');
+                if (textarea) {
+                    textarea.value = resumen;
+                    textarea.focus();
+                }
+            }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    cerrarModalProducto();
+                    cerrarModalCarrito();
+                }
+            });
+
+            document.addEventListener('DOMContentLoaded', () => {
+                actualizarBadgeCarrito();
+                cargarTiendaGoogleSheets();
+            });
+        </script>
         <!-- ==================== 7. ALIADOS ESTRATÉGICOS ==================== -->
         <section id="aliados" class="py-16 md:py-24 bg-brand-white w-full flex-grow border-b border-gray-200">
             <div class="container mx-auto px-4 lg:px-8 max-w-6xl">
@@ -1660,6 +2469,10 @@
                 history.pushState(null, null, '#' + idSeccion);
             } else {
                 location.hash = '#' + idSeccion;
+            }
+
+            if (idSeccion === 'tienda' && typeof cargarTiendaGoogleSheets === 'function' && (!tiendaCargada || tiendaProductos.length === 0)) {
+                cargarTiendaGoogleSheets();
             }
             
             window.scrollTo({ top: 0, behavior: 'smooth' });
