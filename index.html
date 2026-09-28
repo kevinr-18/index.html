@@ -211,26 +211,30 @@
             
             <!-- Hero Section con espaciado óptimo para evitar solapamientos -->
             <div class="bg-hero-pattern text-brand-white py-20 sm:py-28 md:py-36 relative overflow-hidden">
+                <!-- Aura de iluminación ambiental institucional -->
+                <div class="hero-ambient-glow"></div>
+
                 <div class="container mx-auto px-4 lg:px-8 text-center relative z-10 max-w-4xl">
                     
-                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-dark/70 border border-brand-gold/60 text-brand-white text-xs font-semibold tracking-wider mb-6 backdrop-blur-md shadow-badge-gold">
-                        <span class="text-brand-gold text-xs tracking-widest">★★★★★</span>
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full cda-badge-stars text-brand-white text-xs font-semibold tracking-wider mb-6 cda-float-anim cursor-default">
+                        <span class="text-brand-gold text-xs tracking-widest drop-shadow">★★★★★</span>
+                        <span class="text-[11px] text-slate-200 font-bold uppercase tracking-widest">Orgullo de Malchinguí</span>
                     </div>
 
-                    <h2 class="font-serif text-2xl sm:text-4xl md:text-6xl font-bold mb-4 tracking-tight leading-tight text-brand-white px-2">
+                    <h2 class="font-serif text-3xl sm:text-5xl md:text-6xl font-bold mb-4 tracking-tight leading-tight text-brand-white drop-shadow-md px-2">
                         Más que un equipo de pueblo
                     </h2>
                     
-                    <p class="text-xs sm:text-base md:text-xl mb-8 max-w-2xl mx-auto text-slate-200 font-light leading-relaxed px-4">
-                        Desde 1987
+                    <p class="text-sm sm:text-lg md:text-xl mb-8 max-w-2xl mx-auto text-slate-200 font-light leading-relaxed px-4 drop-shadow-xs">
+                        Fundado con pasión y garra desde 1987
                     </p>
 
                     <div class="flex flex-wrap justify-center gap-3 px-4">
-                        <button onclick="mostrarSeccion('aliados'); return false;" class="px-5 py-2.5 bg-brand-white hover:bg-slate-100 text-brand-green font-semibold text-xs tracking-wider uppercase rounded-md shadow-subtle transition-all">
+                        <button onclick="mostrarSeccion('aliados'); return false;" class="cda-btn-shine px-6 py-3 bg-brand-white hover:bg-slate-100 text-brand-green font-bold text-xs tracking-wider uppercase rounded-xl shadow-card transition-all">
                             Aliados estratégicos Premium
                         </button>
-                        <button onclick="mostrarSeccion('galeria'); return false;" class="px-5 py-2.5 bg-transparent hover:bg-white/10 border border-white/50 text-brand-white font-semibold text-xs tracking-wider uppercase rounded-md backdrop-blur-sm transition-all">
-                            Repositorio Gráfico
+                        <button onclick="mostrarSeccion('galeria'); return false;" class="cda-btn-shine px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/40 text-brand-white font-bold text-xs tracking-wider uppercase rounded-xl backdrop-blur-md transition-all">
+                            Repositorio Gráfico Oficial
                         </button>
                     </div>
                 </div>
@@ -857,7 +861,8 @@
                             const imagenFinal = (j.fotoUrl && j.fotoUrl.trim() !== '') ? j.fotoUrl : fallbackFoto;
                             const posAbrev = abreviarPosicion(j.posicion);
                             // Estructura de la Trading Card de Alta Gama
-                            tarjeta.className = `tcg-shimmer-effect group relative rounded-2xl p-[2px] bg-gradient-to-b ${borderGradient} shadow-xl ${shadowHover} transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col`;
+                            const legendGlow = (tipoTab === 'leyendas') ? 'tcg-legend-glow ' : '';
+                            tarjeta.className = `tcg-shimmer-effect ${legendGlow}group relative rounded-2xl p-[2px] bg-gradient-to-b ${borderGradient} shadow-xl ${shadowHover} transition-all duration-300 cursor-pointer flex flex-col`;
                             tarjeta.innerHTML = `
                                 <div class="${cardBg} rounded-[14px] p-3.5 flex flex-col justify-between h-full relative z-10 text-white overflow-hidden">
                                     
@@ -1511,7 +1516,7 @@
                     const grupo = carpetas[nombre];
                     const portada = grupo[0].url;
                     const tarjeta = document.createElement('div');
-                    tarjeta.className = 'bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all group cursor-pointer flex flex-col';
+                    tarjeta.className = 'cda-album-stack border border-slate-200/80 overflow-hidden shadow-sm transition-all group cursor-pointer flex flex-col';
                     tarjeta.onclick = () => {
                         cambiarModoVistaRepo('grid');
                         cambiarCategoriaRepo(nombre);
@@ -1557,7 +1562,7 @@
 
                 itemsActualmenteFiltrados.forEach((item, index) => {
                     const tarjeta = document.createElement('div');
-                    tarjeta.className = 'group relative bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col';
+                    tarjeta.className = 'cda-photo-card group relative cursor-pointer flex flex-col';
                     tarjeta.onclick = () => abrirLightboxRepo(index);
 
                     const badgeColor = (item.equipo === 'femenino' ? 'bg-pink-700' : (item.equipo === 'historico' ? 'bg-amber-600' : 'bg-brand-green'));
@@ -2143,7 +2148,7 @@
                     const esAgotado = prod.stockEstado === 'Agotado';
 
                     return `
-                        <div class="group bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden">
+                        <div class="cda-product-card group flex flex-col justify-between overflow-hidden">
                             
                             <!-- Cabecera de Imagen y Badges -->
                             <div class="relative bg-gradient-to-b from-slate-50 to-slate-100/60 p-6 flex items-center justify-center h-64 overflow-hidden border-b border-slate-100">
@@ -2200,7 +2205,7 @@
                                     </div>
 
                                     <div class="grid grid-cols-2 gap-2">
-                                        <button onclick="pedirProductoDirectoWhatsApp('${prod.id}')" ${esAgotado ? 'disabled' : ''} class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <button onclick="pedirProductoDirectoWhatsApp('${prod.id}')" ${esAgotado ? 'disabled' : ''} class="w-full cda-btn-whatsapp text-white py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-50 disabled:cursor-not-allowed">
                                             <span>💬 Pedir</span>
                                         </button>
                                         <button onclick="abrirModalProducto('${prod.id}')" class="w-full bg-slate-100 hover:bg-brand-dark hover:text-white text-slate-700 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1">
@@ -2405,6 +2410,9 @@
                 if (!badge) return;
                 const totalItems = carritoTienda.reduce((acc, item) => acc + item.cantidad, 0);
                 badge.textContent = totalItems;
+                badge.classList.remove('cda-cart-badge-bounce');
+                void badge.offsetWidth;
+                badge.classList.add('cda-cart-badge-bounce');
             }
 
             function abrirModalCarrito() {
