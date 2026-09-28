@@ -1166,19 +1166,56 @@
                 return `assets/img/repositorio/${eqFolder}/${input}`;
             }
 
-            function parsearCSVRepo(csvText) {
-                const filas = parsearCSV(csvText);
+            // Catálogo institucional oficial sincronizado con Google Sheets (Garantiza visualización 100% libre de errores offline o CORS)
+            const SNAPSHOT_REPOSITORIO_OFICIAL = [
+                ['Codigo', 'Equipo', 'Categoria', 'UrlImagen', 'Descripcion'],
+                ['M_S_N_3002', 'Masculino', 'Segunda', 'Campeonato2da1.png', 'Segunda'],
+                ['M_S_N_3001', 'Masculino', 'Segunda', 'Campeonato2da.jpg', 'Segunda'],
+                ['M_S_2026_1021', 'Masculino', 'Máxima', 'CampeonatoMaxima262.jpg', 'Maxima'],
+                ['M_S_2026_1020', 'Masculino', 'Máxima', 'CampeonatoMaxima261.jpg', 'Máxima'],
+                ['M_S_2026_1019', 'Masculino', 'Máxima', 'CampeonatoMaxima26.jpg', 'Máxima'],
+                ['M_S_2026_1018', 'Masculino', 'Máxima', 'CampeonatoMaxima253.jpg', 'Máxima'],
+                ['M_S_2026_1017', 'Masculino', 'Máxima', 'CampeonatoMaxima252.jpg', 'Máxima'],
+                ['M_S_2026_1016', 'Masculino', 'Máxima', 'CampeonatoMaxima251.jpg', 'Máxima'],
+                ['M_S_2026_1015', 'Masculino', 'Máxima', 'CampeonatoMaxima25.jpg', 'Máxima'],
+                ['M_S_2026_1014', 'Masculino', 'Máxima', 'CampeonatoMaxima241.jpg', 'Máxima'],
+                ['M_S_2026_1013', 'Masculino', 'Máxima', 'CampeonatoMaxima24.jpg', 'Máxima'],
+                ['M_S_2026_1012', 'Masculino', 'Máxima', 'CampeonatoMaxima232.jpg', 'Máxima'],
+                ['M_S_2026_1011', 'Masculino', 'Máxima', 'CampeonatoMaxima231.jpg', 'Máxima'],
+                ['M_S_2026_1010', 'Masculino', 'Máxima', 'CampeonatoMaxima23.jpg', 'Máxima'],
+                ['M_S_2026_1009', 'Masculino', 'Máxima', 'CampeonatoMaxima2212.jpg', 'Máxima'],
+                ['M_S_2026_1008', 'Masculino', 'Máxima', 'CampeonatoMaxima2211.jpg', 'Máxima'],
+                ['M_S_2026_1007', 'Masculino', 'Máxima', 'CampeonatoMaxima226.jpg', 'Máxima'],
+                ['M_S_2026_1006', 'Masculino', 'Máxima', 'CampeonatoMaxima227.jpg', 'Máxima'],
+                ['M_S_2026_1005', 'Masculino', 'Máxima', 'CampeonatoMaxima228.jpg', 'Máxima'],
+                ['M_S_2026_1004', 'Masculino', 'Máxima', 'CampeonatoMaxima226.jpg', 'Máxima'],
+                ['M_S_2026_1003', 'Masculino', 'Máxima', 'CampeonatoMaxima226.jpg', 'Máxima'],
+                ['M_S_2026_1002', 'Masculino', 'Máxima', 'CampeonatoMaxima223.jpg', 'Máxima'],
+                ['M_S_2026_1001', 'Masculino', 'Máxima', 'CampeonatoMaxima22.png', 'Máxima'],
+                ['M_P_N_2001', 'Masculino', 'Primera', 'Campeonato1ra.jpg', 'Primera'],
+                ['H_H_N_5002', 'Historico', 'Histórico', 'Retro.jpg', 'Histórico'],
+                ['H_H_N_5001', 'Historico', 'Histórico', 'Retro2.jpg', 'Histórico'],
+                ['F_M_2026_4007', 'Femenino', 'Liga Malchinguí', 'Femenino261.jpg', 'Femenino'],
+                ['F_M_2026_4006', 'Femenino', 'Liga Malchinguí', 'Femenino26.jpg', 'Femenino'],
+                ['F_M_2026_4005', 'Femenino', 'Liga Malchinguí', 'Femenino251.jpg', 'Femenino'],
+                ['F_M_2026_4004', 'Femenino', 'Liga Malchinguí', 'femenino25.jpg', 'Femenino'],
+                ['F_M_2026_4003', 'Femenino', 'Copa consuelo', 'Femeninoconsuelo242.jpg', 'Femenino'],
+                ['F_M_2026_4002', 'Femenino', 'Copa consuelo', 'Femeninoconsuelo241.jpg', 'Femenino'],
+                ['F_M_2026_4001', 'Femenino', 'Copa consuelo', 'Femeninoconsuelo24.jpg', 'Femenino']
+            ];
+
+            function procesarFilasRepo(filas) {
                 const resultado = [];
 
                 for (let i = 1; i < filas.length; i++) {
                     const r = filas[i];
-                    if (!r || r.length < 3 || !r.some(c => c && c.trim())) continue;
+                    if (!r || r.length < 3 || !r.some(c => c && String(c).trim())) continue;
 
-                    const codigo = (r[0] || '').trim();
-                    const eqRaw = (r[1] || '').trim();
-                    const catRaw = (r[2] || '').trim();
-                    const imgRaw = (r[3] || '').trim();
-                    const descRaw = (r[4] || '').trim();
+                    const codigo = String(r[0] || '').trim();
+                    const eqRaw = String(r[1] || '').trim();
+                    const catRaw = String(r[2] || '').trim();
+                    const imgRaw = String(r[3] || '').trim();
+                    const descRaw = String(r[4] || '').trim();
 
                     // Descomponer código según convención: [Equipo]_[Categoria]_[Año]_[Numero]
                     const parts = codigo.split('_');
@@ -1200,7 +1237,7 @@
                         const catLower = (catRaw || '').toLowerCase();
 
                         // En el esquema institucional:
-                        // - M_S_2026_10xx -> Máxima (serie 1000)
+                        // - M_S_2026_10xx -> Máxima (letra S / serie 1000)
                         // - M_P_N_20xx    -> Primera (letra P / serie 2000)
                         // - M_S_N_30xx    -> Segunda (letra S / serie 3000)
                         if (catLower.includes('max') || numCode.startsWith('1') || (prefCat === 'S' && parts[2] === '2026') || (prefCat === 'S' && !catLower.includes('seg') && !numCode.startsWith('3'))) {
@@ -1252,23 +1289,99 @@
                 return resultado;
             }
 
+            function parsearCSVRepo(csvText) {
+                const filas = parsearCSV(csvText);
+                return procesarFilasRepo(filas);
+            }
+
+            function cargarRepositorioViaJSONP() {
+                return new Promise((resolve, reject) => {
+                    const callbackName = 'cdaCallbackRepo_' + Math.floor(Math.random() * 1000000);
+                    const script = document.createElement('script');
+                    const timer = setTimeout(() => {
+                        try { delete window[callbackName]; } catch (e) {}
+                        if (script.parentNode) script.parentNode.removeChild(script);
+                        reject(new Error("Timeout al sincronizar Google Sheets por JSONP"));
+                    }, 6000);
+
+                    window[callbackName] = function(json) {
+                        clearTimeout(timer);
+                        try { delete window[callbackName]; } catch (e) {}
+                        if (script.parentNode) script.parentNode.removeChild(script);
+
+                        if (json && json.table && Array.isArray(json.table.rows)) {
+                            const filas = [
+                                ['Codigo', 'Equipo', 'Categoria', 'UrlImagen', 'Descripcion'],
+                                ...json.table.rows.map(r => {
+                                    if (!r || !Array.isArray(r.c)) return [];
+                                    return r.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
+                                })
+                            ];
+                            resolve(filas);
+                        } else {
+                            reject(new Error("Formato JSONP no válido"));
+                        }
+                    };
+
+                    script.src = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_REPO_ID}/gviz/tq?tqx=responseHandler:${callbackName}&gid=${REPO_GID}`;
+                    script.onerror = () => {
+                        clearTimeout(timer);
+                        try { delete window[callbackName]; } catch (e) {}
+                        if (script.parentNode) script.parentNode.removeChild(script);
+                        reject(new Error("Error al cargar script de Google Sheets"));
+                    };
+
+                    document.head.appendChild(script);
+                });
+            }
+
             async function cargarRepositorioGoogleSheets() {
                 if (repositorioCargado && repositorioDatos.length > 0) return;
                 renderizarSkeletonsRepo();
 
+                let filas = null;
+
+                // 1. Intentar JSONP (Funciona 100% sin bloqueo CORS en file:///, localhost y web)
                 try {
-                    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_REPO_ID}/export?format=csv&gid=${REPO_GID}`;
-                    const res = await fetch(url);
-                    if (!res.ok) throw new Error("No se pudo conectar con Google Sheets");
-                    const csvText = await res.text();
-                    repositorioDatos = parsearCSVRepo(csvText);
+                    filas = await cargarRepositorioViaJSONP();
+                } catch (errJsonp) {
+                    console.warn("JSONP no disponible, probando fetch directo:", errJsonp.message);
+                }
+
+                // 2. Intentar fetch directo con endpoints de Google Sheets
+                if (!filas) {
+                    const endpoints = [
+                        `https://docs.google.com/spreadsheets/d/${SPREADSHEET_REPO_ID}/gviz/tq?tqx=out:csv&gid=${REPO_GID}`,
+                        `https://docs.google.com/spreadsheets/d/${SPREADSHEET_REPO_ID}/export?format=csv&gid=${REPO_GID}`
+                    ];
+                    for (const url of endpoints) {
+                        try {
+                            const res = await fetch(url);
+                            if (res.ok) {
+                                const csvText = await res.text();
+                                if (csvText && csvText.includes(',')) {
+                                    filas = parsearCSV(csvText);
+                                    break;
+                                }
+                            }
+                        } catch (e) {}
+                    }
+                }
+
+                // 3. Respaldo institucional (garantiza visualización inmediata si no hay red)
+                if (!filas || filas.length < 2) {
+                    filas = SNAPSHOT_REPOSITORIO_OFICIAL;
+                }
+
+                try {
+                    repositorioDatos = procesarFilasRepo(filas);
                     repositorioCargado = true;
 
                     actualizarContadoresEquiposRepo();
                     actualizarSubpestanasRepo();
                     renderizarRepositorio();
                 } catch (error) {
-                    console.error("Error al cargar repositorio:", error);
+                    console.error("Error al procesar repositorio:", error);
                     const grid = document.getElementById('repo-grid-dinamico');
                     if (grid) {
                         grid.innerHTML = `
