@@ -15,10 +15,29 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     
+    <!-- Cabeceras y metadatos de seguridad del navegador -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Web3Forms Script Oficial (Soporte nativo hCaptcha anti-spam) -->
+    <script src="https://web3forms.com/client/script.js" async defer></script>
+    
     <!-- Hoja de estilos personalizada -->
     <link rel="stylesheet" href="assets/css/styles.css">
     
     <script>
+        // Sanitizador global seguro contra vulnerabilidades XSS
+        function escapeHTML(str) {
+            if (str === null || str === undefined) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+        window.escapeHTML = escapeHTML;
+
         tailwind.config = {
             theme: {
                 extend: {
@@ -708,10 +727,10 @@
                                 ${tecnicos.map(t => `
                                     <div class="bg-white/5 backdrop-blur-md p-4 rounded-xl border border-white/10 hover:border-brand-green/60 transition-colors flex flex-col items-center">
                                         <div class="w-20 h-20 rounded-full overflow-hidden mb-3 bg-brand-dark border-2 border-brand-gold shadow-md">
-                                            <img src="${t.fotoUrl || 'assets/img/plantilla/masculino/Jugador_Generico.png'}" alt="${t.nombre} ${t.apellido}" loading="lazy" class="w-full h-full object-cover" onerror="this.src='assets/img/plantilla/masculino/Jugador_Generico.png'">
+                                            <img src="${t.fotoUrl || 'assets/img/plantilla/masculino/Jugador_Generico.png'}" alt="${escapeHTML(t.nombre)} ${escapeHTML(t.apellido)}" loading="lazy" class="w-full h-full object-cover" onerror="this.src='assets/img/plantilla/masculino/Jugador_Generico.png'">
                                         </div>
-                                        <span class="text-[10px] font-black tracking-wider uppercase text-brand-gold bg-brand-gold/15 px-2 py-0.5 rounded-full mb-1.5">${t.cargo || 'Dirección Técnica'}</span>
-                                        <span class="text-sm font-bold text-white">${t.nombre} ${t.apellido}</span>
+                                        <span class="text-[10px] font-black tracking-wider uppercase text-brand-gold bg-brand-gold/15 px-2 py-0.5 rounded-full mb-1.5">${escapeHTML(t.cargo || 'Dirección Técnica')}</span>
+                                        <span class="text-sm font-bold text-white">${escapeHTML(t.nombre)} ${escapeHTML(t.apellido)}</span>
                                     </div>
                                 `).join('')}
                             </div>
@@ -869,34 +888,34 @@
                                     <!-- Cabecera de la Trading Card: OVR, Posición y Dorsal -->
                                     <div class="flex justify-between items-center pb-2.5 mb-2.5 border-b border-white/10">
                                         <div class="flex items-center gap-1.5">
-                                            <span class="text-lg font-black font-sans tracking-tight ${ovrColor} drop-shadow">${j.ovr}</span>
+                                            <span class="text-lg font-black font-sans tracking-tight ${ovrColor} drop-shadow">${escapeHTML(j.ovr)}</span>
                                             <span class="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border ${posBadgeColor}">
-                                                ${posAbrev}
+                                                ${escapeHTML(posAbrev)}
                                             </span>
                                         </div>
                                         <div class="flex items-center gap-1">
                                             <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">DORSAL</span>
                                             <span class="text-xs font-black px-2 py-0.5 rounded-md border ${dorsalBg}">
-                                                #${j.num}
+                                                #${escapeHTML(j.num)}
                                             </span>
                                         </div>
                                     </div>
                                     <!-- Retrato del Jugador Integrado con Marco Biselado -->
                                     <div class="relative h-44 sm:h-48 w-full rounded-xl overflow-hidden bg-gradient-to-b from-black/40 via-black/20 to-black/70 border border-white/10 flex items-center justify-center p-1 mb-3">
-                                        <img src="${imagenFinal}" alt="${j.nombres} ${j.apellidos}" loading="lazy" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" onerror="this.src='${fallbackFoto}'; this.classList.remove('object-cover'); this.classList.add('object-contain', 'p-2');">
+                                        <img src="${imagenFinal}" alt="${escapeHTML(j.nombres)} ${escapeHTML(j.apellidos)}" loading="lazy" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" onerror="this.src='${fallbackFoto}'; this.classList.remove('object-cover'); this.classList.add('object-contain', 'p-2');">
                                         <div class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/90 to-transparent pointer-events-none"></div>
                                         <img src="assets/img/branding/Amazonas PGN.png" class="absolute bottom-1 right-1.5 h-5 w-auto opacity-30 pointer-events-none" alt="Escudo Watermark">
                                     </div>
                                     <!-- Identificación del Jugador (Nombre y APELLIDO EN MAYÚSCULAS) -->
                                     <div class="text-center mb-3">
-                                        <p class="text-[11px] font-medium text-slate-300 truncate tracking-wide">${j.nombres || 'Jugador'}</p>
+                                        <p class="text-[11px] font-medium text-slate-300 truncate tracking-wide">${escapeHTML(j.nombres || 'Jugador')}</p>
                                         <h5 class="text-sm sm:text-base font-black font-serif text-white tracking-wide uppercase truncate drop-shadow-sm">
-                                            ${j.apellidos || j.nombres}
+                                            ${escapeHTML(j.apellidos || j.nombres)}
                                         </h5>
                                         <div class="flex items-center justify-center gap-2 mt-1 text-[10px] text-slate-400">
-                                            <span class="truncate">📅 ${j.fechaNac}</span>
+                                            <span class="truncate">📅 ${escapeHTML(j.fechaNac)}</span>
                                             <span>•</span>
-                                            <span class="truncate font-medium text-slate-300">📍 ${j.observacion}</span>
+                                            <span class="truncate font-medium text-slate-300">📍 ${escapeHTML(j.observacion)}</span>
                                         </div>
                                     </div>
                                     <!-- Rejilla de Atributos Deportivos (0-99): RIT | TIR | PAS | REG | DEF -->
@@ -906,41 +925,41 @@
                                             <!-- RIT (Col C) -->
                                             <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
                                                 <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">RIT</span>
-                                                <span class="text-xs font-black text-white">${j.rit}</span>
+                                                <span class="text-xs font-black text-white">${escapeHTML(j.rit)}</span>
                                                 <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
-                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Number(j.rit))}%"></div>
+                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Math.max(0, Number(j.rit) || 0))}%"></div>
                                                 </div>
                                             </div>
                                             <!-- TIR (Col H) -->
                                             <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
                                                 <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">TIR</span>
-                                                <span class="text-xs font-black text-white">${j.tir}</span>
+                                                <span class="text-xs font-black text-white">${escapeHTML(j.tir)}</span>
                                                 <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
-                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Number(j.tir))}%"></div>
+                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Math.max(0, Number(j.tir) || 0))}%"></div>
                                                 </div>
                                             </div>
                                             <!-- PAS (Col I) -->
                                             <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
                                                 <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">PAS</span>
-                                                <span class="text-xs font-black text-white">${j.pas}</span>
+                                                <span class="text-xs font-black text-white">${escapeHTML(j.pas)}</span>
                                                 <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
-                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Number(j.pas))}%"></div>
+                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Math.max(0, Number(j.pas) || 0))}%"></div>
                                                 </div>
                                             </div>
                                             <!-- REG (Col K) -->
                                             <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
                                                 <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">REG</span>
-                                                <span class="text-xs font-black text-white">${j.reg}</span>
+                                                <span class="text-xs font-black text-white">${escapeHTML(j.reg)}</span>
                                                 <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
-                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Number(j.reg))}%"></div>
+                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Math.max(0, Number(j.reg) || 0))}%"></div>
                                                 </div>
                                             </div>
                                             <!-- DEF (Col J) -->
                                             <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
                                                 <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">DEF</span>
-                                                <span class="text-xs font-black text-white">${j.def}</span>
+                                                <span class="text-xs font-black text-white">${escapeHTML(j.def)}</span>
                                                 <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
-                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Number(j.def))}%"></div>
+                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Math.max(0, Number(j.def) || 0))}%"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1478,7 +1497,7 @@
                     btn.className = isActive
                         ? 'px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shadow-xs bg-brand-green text-white border border-brand-green flex items-center gap-1.5'
                         : 'px-3.5 py-1.5 rounded-full text-xs font-bold transition-all bg-white text-slate-700 hover:bg-slate-100 border border-slate-200 flex items-center gap-1.5';
-                    btn.innerHTML = `<span>${sub.label}</span><span class="text-[10px] ${isActive ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'} px-1.5 py-0.5 rounded-full font-black">${sub.count}</span>`;
+                    btn.innerHTML = `<span>${escapeHTML(sub.label)}</span><span class="text-[10px] ${isActive ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-600'} px-1.5 py-0.5 rounded-full font-black">${sub.count}</span>`;
                     btn.onclick = () => cambiarCategoriaRepo(sub.id);
                     subContainer.appendChild(btn);
                 });
@@ -1637,9 +1656,9 @@
 
                     tarjeta.innerHTML = `
                         <div class="relative w-full aspect-[4/3] bg-slate-100 overflow-hidden">
-                            <img src="${portada}" alt="${nombre}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
+                            <img src="${portada}" alt="${escapeHTML(nombre)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
                             <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-4">
-                                <span class="text-white text-xs font-black tracking-wider uppercase drop-shadow">${nombre}</span>
+                                <span class="text-white text-xs font-black tracking-wider uppercase drop-shadow">${escapeHTML(nombre)}</span>
                                 <span class="text-slate-200 text-[11px] font-medium">${grupo.length} Fotografías Oficiales</span>
                             </div>
                             <span class="absolute top-3 right-3 bg-brand-green/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
@@ -1682,14 +1701,14 @@
 
                     tarjeta.innerHTML = `
                         <div class="relative w-full aspect-[4/3] bg-slate-100 overflow-hidden">
-                            <img src="${item.url}" alt="${item.desc}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
+                            <img src="${item.url}" alt="${escapeHTML(item.desc)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
                             
                             <!-- Badges Superiores -->
                             <div class="absolute top-2 left-2 flex flex-wrap gap-1">
                                 <span class="${badgeColor} text-white text-[9px] font-black uppercase px-2 py-0.5 rounded-md shadow-sm">
-                                    ${item.categoria}
+                                    ${escapeHTML(item.categoria)}
                                 </span>
-                                ${item.anio ? `<span class="bg-black/60 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md backdrop-blur-xs">${item.anio}</span>` : ''}
+                                ${item.anio ? `<span class="bg-black/60 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md backdrop-blur-xs">${escapeHTML(item.anio)}</span>` : ''}
                             </div>
 
                             <!-- Overlay Hover -->
@@ -1702,9 +1721,9 @@
 
                         <!-- Detalle inferior de la postal -->
                         <div class="p-3 flex flex-col justify-between flex-grow">
-                            <p class="text-xs font-bold text-brand-dark line-clamp-2 group-hover:text-brand-green transition-colors">${item.desc}</p>
+                            <p class="text-xs font-bold text-brand-dark line-clamp-2 group-hover:text-brand-green transition-colors">${escapeHTML(item.desc)}</p>
                             <div class="flex items-center justify-between text-[11px] text-slate-500 mt-2 pt-1.5 border-t border-slate-100">
-                                <span class="font-semibold text-slate-700">${item.categoria}${item.anio ? ' • ' + item.anio : ''}</span>
+                                <span class="font-semibold text-slate-700">${escapeHTML(item.categoria)}${item.anio ? ' • ' + escapeHTML(item.anio) : ''}</span>
                                 <span class="font-bold text-brand-green">Ver postal →</span>
                             </div>
                         </div>
@@ -2195,9 +2214,10 @@
                     const btnClass = esActivo 
                         ? 'bg-brand-green text-white shadow-xs' 
                         : 'bg-slate-100 hover:bg-slate-200 text-slate-700';
+                    const catSegura = escapeHTML(cat);
                     return `
-                        <button onclick="seleccionarCategoriaTienda('${cat}')" class="px-3.5 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap ${btnClass}">
-                            ${cat}
+                        <button onclick="seleccionarCategoriaTienda('${catSegura.replace(/'/g, "\\'")}')" class="px-3.5 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap ${btnClass}">
+                            ${catSegura}
                         </button>
                     `;
                 }).join('');
@@ -2259,6 +2279,7 @@
                     }
 
                     const esAgotado = prod.stockEstado === 'Agotado';
+                    const idSeguro = encodeURIComponent(prod.id);
 
                     return `
                         <div class="cda-product-card group flex flex-col justify-between overflow-hidden">
@@ -2266,40 +2287,41 @@
                             <!-- Cabecera de Imagen y Badges -->
                             <div class="relative bg-gradient-to-b from-slate-50 to-slate-100/60 p-6 flex items-center justify-center h-64 overflow-hidden border-b border-slate-100">
                                 <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-brand-gold text-brand-dark shadow-xs z-10">
-                                    ${prod.badge}
+                                    ${escapeHTML(prod.badge)}
                                 </span>
                                 <div class="absolute top-3 right-3 z-10">
                                     ${stockBadge}
                                 </div>
-                                <img src="${prod.imgPrincipal}" alt="${prod.nombre}" loading="lazy" class="max-h-full max-w-full object-contain drop-shadow-md group-hover:scale-108 transition-transform duration-500" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
+                                <img src="${prod.imgPrincipal}" alt="${escapeHTML(prod.nombre)}" loading="lazy" class="max-h-full max-w-full object-contain drop-shadow-md group-hover:scale-108 transition-transform duration-500" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
                             </div>
 
                             <!-- Contenido del Producto -->
                             <div class="p-5 flex flex-col flex-grow justify-between">
                                 <div>
                                     <div class="flex items-center justify-between gap-2 mb-1.5">
-                                        <span class="text-[10px] font-black uppercase tracking-widest text-brand-green">${prod.categoria}</span>
-                                        <span class="text-[10px] font-mono text-slate-400 font-medium">${prod.id}</span>
+                                        <span class="text-[10px] font-black uppercase tracking-widest text-brand-green">${escapeHTML(prod.categoria)}</span>
+                                        <span class="text-[10px] font-mono text-slate-400 font-medium">${escapeHTML(prod.id)}</span>
                                     </div>
-                                    <h4 class="font-serif text-lg font-black text-brand-dark group-hover:text-brand-green transition-colors leading-snug mb-2 cursor-pointer" onclick="abrirModalProducto('${prod.id}')">
-                                        ${prod.nombre}
+                                    <h4 class="font-serif text-lg font-black text-brand-dark group-hover:text-brand-green transition-colors leading-snug mb-2 cursor-pointer" onclick="abrirModalProducto('${idSeguro}')">
+                                        ${escapeHTML(prod.nombre)}
                                     </h4>
                                     <p class="text-xs text-slate-600 font-light leading-relaxed line-clamp-2 mb-4">
-                                        ${prod.descripcion}
+                                        ${escapeHTML(prod.descripcion)}
                                     </p>
 
                                     <!-- Selector de Tallas Rápido -->
                                     <div class="mb-4">
                                         <span class="block text-[11px] font-bold text-slate-500 mb-1.5">Talla:</span>
-                                        <div class="flex flex-wrap gap-1.5" id="tallas-${prod.id}">
+                                        <div class="flex flex-wrap gap-1.5" id="tallas-${escapeHTML(prod.id)}">
                                             ${prod.tallas.map((t, idx) => {
                                                 const esSel = (prod.tallaSeleccionada === t) || (!prod.tallaSeleccionada && idx === 0);
                                                 const btnSt = esSel 
                                                     ? 'bg-brand-green text-white border-brand-green shadow-xs' 
                                                     : 'bg-white text-slate-700 border-slate-300 hover:border-brand-green';
+                                                const tSegura = escapeHTML(t);
                                                 return `
-                                                    <button type="button" onclick="seleccionarTallaProducto('${prod.id}', '${t}', this)" class="px-2.5 py-0.5 text-[11px] font-bold rounded border transition-all ${btnSt}">
-                                                        ${t}
+                                                    <button type="button" onclick="seleccionarTallaProducto('${idSeguro}', '${tSegura.replace(/'/g, "\\'")}', this)" class="px-2.5 py-0.5 text-[11px] font-bold rounded border transition-all ${btnSt}">
+                                                        ${tSegura}
                                                     </button>
                                                 `;
                                             }).join('')}
@@ -2318,10 +2340,10 @@
                                     </div>
 
                                     <div class="grid grid-cols-2 gap-2">
-                                        <button onclick="pedirProductoDirectoWhatsApp('${prod.id}')" ${esAgotado ? 'disabled' : ''} class="w-full cda-btn-whatsapp text-white py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-50 disabled:cursor-not-allowed">
+                                        <button onclick="pedirProductoDirectoWhatsApp('${idSeguro}')" ${esAgotado ? 'disabled' : ''} class="w-full cda-btn-whatsapp text-white py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-50 disabled:cursor-not-allowed">
                                             <span>💬 Pedir</span>
                                         </button>
-                                        <button onclick="abrirModalProducto('${prod.id}')" class="w-full bg-slate-100 hover:bg-brand-dark hover:text-white text-slate-700 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1">
+                                        <button onclick="abrirModalProducto('${idSeguro}')" class="w-full bg-slate-100 hover:bg-brand-dark hover:text-white text-slate-700 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1">
                                             <span>Detalles →</span>
                                         </button>
                                     </div>
@@ -2376,9 +2398,10 @@
                 contTallas.innerHTML = prod.tallas.map(t => {
                     const sel = t === tallaModalSeleccionada;
                     const st = sel ? 'bg-brand-green text-white border-brand-green shadow-xs' : 'bg-white text-slate-700 border-slate-300 hover:border-brand-green';
+                    const tSegura = escapeHTML(t);
                     return `
-                        <button type="button" onclick="seleccionarTallaModal('${t}', this)" class="btn-talla-modal px-3 py-1 text-xs font-bold rounded-lg border transition-all ${st}">
-                            ${t}
+                        <button type="button" onclick="seleccionarTallaModal('${tSegura.replace(/'/g, "\\'")}', this)" class="btn-talla-modal px-3 py-1 text-xs font-bold rounded-lg border transition-all ${st}">
+                            ${tSegura}
                         </button>
                     `;
                 }).join('');
@@ -2446,7 +2469,7 @@
                     }
                 }
                 
-                window.open(url, '_blank');
+                window.open(url, '_blank', 'noopener,noreferrer');
             }
 
             function pedirProductoDirectoWhatsApp(prodId) {
@@ -2528,6 +2551,26 @@
                 badge.classList.add('cda-cart-badge-bounce');
             }
 
+            function obtenerItemValidado(rawItem) {
+                if (!rawItem) return null;
+                const prodReal = tiendaProductos.find(p => p.id === rawItem.id);
+                const precioReal = (prodReal && typeof prodReal.precioFinal === 'number' && prodReal.precioFinal > 0)
+                    ? prodReal.precioFinal
+                    : (typeof rawItem.precio === 'number' && rawItem.precio > 0 ? rawItem.precio : 0);
+                const nombreReal = prodReal ? prodReal.nombre : (rawItem.nombre || 'Producto Oficial');
+                const imgReal = prodReal ? prodReal.imgPrincipal : (rawItem.img || 'assets/img/branding/Amazonas PGN.png');
+                const cantReal = Math.max(1, Math.min(99, parseInt(rawItem.cantidad, 10) || 1));
+                const tallaReal = rawItem.talla ? String(rawItem.talla).trim() : 'M';
+                return {
+                    id: rawItem.id,
+                    nombre: nombreReal,
+                    precio: precioReal,
+                    img: imgReal,
+                    talla: tallaReal,
+                    cantidad: cantReal
+                };
+            }
+
             function abrirModalCarrito() {
                 const modal = document.getElementById('modal-carrito-tienda');
                 const container = document.getElementById('carrito-items-container');
@@ -2544,18 +2587,19 @@
                     totalEl.textContent = '$0.00';
                 } else {
                     let total = 0;
-                    container.innerHTML = carritoTienda.map((item, idx) => {
+                    container.innerHTML = carritoTienda.map((rawItem, idx) => {
+                        const item = obtenerItemValidado(rawItem);
                         const subtotal = item.precio * item.cantidad;
                         total += subtotal;
                         return `
                             <div class="flex items-center justify-between p-3 bg-slate-50 rounded-xl border border-slate-200">
                                 <div class="flex items-center gap-3">
                                     <div class="w-12 h-12 bg-white rounded-lg p-1 border border-slate-200 flex items-center justify-center flex-shrink-0">
-                                        <img src="${item.img}" alt="${item.nombre}" class="max-h-full max-w-full object-contain">
+                                        <img src="${item.img}" alt="${escapeHTML(item.nombre)}" class="max-h-full max-w-full object-contain">
                                     </div>
                                     <div>
-                                        <h5 class="text-xs font-bold text-brand-dark leading-tight">${item.nombre}</h5>
-                                        <p class="text-[11px] text-slate-500">Talla: <strong class="text-brand-dark">${item.talla}</strong> • Cant: ${item.cantidad}</p>
+                                        <h5 class="text-xs font-bold text-brand-dark leading-tight">${escapeHTML(item.nombre)}</h5>
+                                        <p class="text-[11px] text-slate-500">Talla: <strong class="text-brand-dark">${escapeHTML(item.talla)}</strong> • Cant: ${item.cantidad}</p>
                                         <span class="text-xs font-black text-brand-green">$${subtotal.toFixed(2)}</span>
                                     </div>
                                 </div>
@@ -2599,7 +2643,8 @@
                 }
 
                 let total = 0;
-                const lineas = carritoTienda.map((item, i) => {
+                const lineas = carritoTienda.map((rawItem, i) => {
+                    const item = obtenerItemValidado(rawItem);
                     const sub = item.precio * item.cantidad;
                     total += sub;
                     return `${i + 1}. ${item.nombre} (Talla: ${item.talla}) x ${item.cantidad} = $${sub.toFixed(2)}`;
@@ -2625,7 +2670,8 @@
                 }
 
                 let total = 0;
-                const lineas = carritoTienda.map((item, i) => {
+                const lineas = carritoTienda.map((rawItem, i) => {
+                    const item = obtenerItemValidado(rawItem);
                     const sub = item.precio * item.cantidad;
                     total += sub;
                     return `${i + 1}. ${item.nombre} (Talla: ${item.talla}) x ${item.cantidad} = $${sub.toFixed(2)}`;
@@ -2839,16 +2885,10 @@
                                 </div>
                             </div>
 
-                            <!-- Control Anti-Trolls / Captcha Aritmético Dinámico -->
-                            <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200">
-                                <div class="flex items-center justify-between gap-3">
-                                    <div class="flex items-center gap-2 text-xs text-slate-700">
-                                        <span class="text-base">🛡️</span>
-                                        <span>Control de seguridad: ¿Cuánto es <strong id="captcha-pregunta" class="text-brand-dark font-mono text-sm px-1.5 py-0.5 bg-white rounded border border-slate-200"></strong>?</span>
-                                    </div>
-                                    <input type="number" id="contacto-captcha" class="w-16 p-1.5 border border-slate-300 rounded text-center font-bold text-brand-dark focus:ring-2 focus:ring-brand-green outline-none text-xs" required placeholder="?" autocomplete="off">
-                                </div>
-                                <p id="captcha-error" class="text-[11px] text-red-600 font-medium hidden mt-1.5">❌ Respuesta incorrecta. Resuelve la suma para verificar que eres humano.</p>
+                            <!-- Protección Anti-Spam Oficial hCaptcha (Web3Forms) -->
+                            <div class="my-2 flex flex-col items-center justify-center">
+                                <div class="h-captcha" data-captcha="true"></div>
+                                <p id="captcha-error" class="text-[11px] text-red-600 font-medium hidden mt-1.5">❌ Por favor completa la verificación de seguridad (hCaptcha) para continuar.</p>
                             </div>
 
                             <!-- Alerta de Cooldown / Enfriamiento Anti-Spam -->
@@ -3109,20 +3149,18 @@
             MAX_ENVIOS_DIARIOS: 3             // Máximo 3 consultas al día por dispositivo para proteger la cuota
         };
 
-        let captchaOperacion = { num1: 0, num2: 0, resultado: 0 };
         let intervaloCooldown = null;
 
-        function generarNuevoCaptcha() {
-            captchaOperacion.num1 = Math.floor(Math.random() * 8) + 2; // Número entre 2 y 9
-            captchaOperacion.num2 = Math.floor(Math.random() * 7) + 1; // Número entre 1 y 7
-            captchaOperacion.resultado = captchaOperacion.num1 + captchaOperacion.num2;
-            
-            const preguntaEl = document.getElementById('captcha-pregunta');
-            if (preguntaEl) {
-                preguntaEl.textContent = `${captchaOperacion.num1} + ${captchaOperacion.num2}`;
+        function resetearCaptcha() {
+            if (typeof hcaptcha !== 'undefined' && hcaptcha && typeof hcaptcha.reset === 'function') {
+                try { hcaptcha.reset(); } catch (err) {}
             }
-            const inputCaptcha = document.getElementById('contacto-captcha');
-            if (inputCaptcha) inputCaptcha.value = '';
+            const errorCaptcha = document.getElementById('captcha-error');
+            if (errorCaptcha) errorCaptcha.classList.add('hidden');
+        }
+
+        function generarNuevoCaptcha() {
+            resetearCaptcha();
         }
 
         function obtenerEnviosHoy() {
@@ -3278,18 +3316,7 @@
                 }
             } catch (err) {}
 
-            // 3. Validación de Captcha Matemático
-            const inputCaptcha = document.getElementById('contacto-captcha');
-            const valorCaptcha = parseInt(inputCaptcha.value, 10);
-            if (isNaN(valorCaptcha) || valorCaptcha !== captchaOperacion.resultado) {
-                if (errorCaptcha) errorCaptcha.classList.remove('hidden');
-                generarNuevoCaptcha();
-                inputCaptcha.focus();
-                return;
-            }
-            if (errorCaptcha) errorCaptcha.classList.add('hidden');
-
-            // 4. Validación de campos de contacto (Email O Teléfono)
+            // 3. Validación de campos de contacto (Email O Teléfono)
             const inputNombre = document.getElementById('contacto-nombre');
             const inputEmail = document.getElementById('contacto-email');
             const inputTelefono = document.getElementById('contacto-telefono');
@@ -3313,7 +3340,17 @@
                 return;
             }
 
-            // 5. Preparar envío a Web3Forms
+            // 4. Verificación de hCaptcha Oficial (Anti-Spam Web3Forms)
+            const formData = new FormData(form);
+            const hCaptchaResponse = formData.get('h-captcha-response');
+            if (!hCaptchaResponse) {
+                if (errorCaptcha) errorCaptcha.classList.remove('hidden');
+                mostrarToast('Verificación Requerida', 'Por favor completa la casilla de verificación de seguridad (hCaptcha) antes de enviar.');
+                return;
+            }
+            if (errorCaptcha) errorCaptcha.classList.add('hidden');
+
+            // 5. Preparar envío seguro a Web3Forms
             const originalText = btnSubmit.innerHTML;
             btnSubmit.disabled = true;
             btnSubmit.innerHTML = `
@@ -3325,8 +3362,6 @@
                     Validando y enviando...
                 </span>
             `;
-
-            const formData = new FormData(form);
 
             // Si el usuario no proporcionó correo electrónico pero sí teléfono:
             // Asignamos un correo remitente seguro para que Web3Forms acepte la petición
@@ -3362,15 +3397,17 @@
                 if (response.ok && data.success) {
                     registrarEnvioExitoso();
                     form.reset();
-                    generarNuevoCaptcha();
+                    resetearCaptcha();
                     const canalRespuesta = telefono && !email ? 'a tu número de WhatsApp / teléfono' : 'a tu medio de contacto';
                     mostrarToast('¡Mensaje Enviado con Éxito!', `Muchas gracias, ${nombre}. Tu consulta fue entregada a la dirigencia de C.D. Amazonas y te responderemos pronto ${canalRespuesta}.`);
                 } else {
+                    resetearCaptcha();
                     throw new Error(data.message || 'Error en la respuesta del servicio');
                 }
             } catch (error) {
                 console.error('Error al enviar formulario:', error);
-                mostrarToast('Aviso de Contacto', 'No se pudo completar el envío automático en este momento. Por favor comunícate directamente a cdamazonass@gmail.com.');
+                resetearCaptcha();
+                mostrarToast('Aviso de Contacto', error.message || 'No se pudo completar el envío en este momento. Por favor comunícate directamente a cdamazonass@gmail.com.');
                 btnSubmit.disabled = false;
                 btnSubmit.innerHTML = originalText;
             }
