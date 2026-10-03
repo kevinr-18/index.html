@@ -3239,6 +3239,25 @@
                                 <p id="captcha-error" class="text-[11px] text-red-600 font-medium hidden mt-1.5">❌ Por favor completa la verificación de seguridad (hCaptcha) para continuar.</p>
                             </div>
 
+                            <!-- Casillas de Consentimiento Legal y Privacidad (RGPD / LOPDP) -->
+                            <div class="my-3 space-y-2.5 pt-1 border-t border-slate-100">
+                                <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                                    <input type="checkbox" id="contacto-consentimiento-legal" name="consentimiento_legal" required class="mt-0.5 h-4 w-4 rounded border-slate-300 text-brand-green focus:ring-brand-green cursor-pointer flex-shrink-0">
+                                    <span class="text-xs text-slate-600 leading-snug">
+                                        He leído y acepto la <button type="button" onclick="abrirModalLegal('privacidad')" class="text-brand-green font-semibold underline hover:text-brand-green-hover transition-colors">Política de Privacidad</button> y el <button type="button" onclick="abrirModalLegal('aviso')" class="text-brand-green font-semibold underline hover:text-brand-green-hover transition-colors">Aviso Legal</button>. <span class="text-red-500">*</span>
+                                    </span>
+                                </label>
+                                <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                                    <input type="checkbox" id="contacto-consentimiento-marketing" name="consentimiento_marketing" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-brand-green focus:ring-brand-green cursor-pointer flex-shrink-0">
+                                    <span class="text-xs text-slate-500 leading-snug">
+                                        Acepto recibir comunicaciones institucionales, novedades deportivas y promociones de C.D. Amazonas por correo electrónico o WhatsApp.
+                                    </span>
+                                </label>
+                                <p id="contacto-aviso-consentimiento" class="text-[11px] text-red-600 font-medium hidden">
+                                    ❌ Debes marcar la casilla aceptando la Política de Privacidad y el Aviso Legal para enviar tu mensaje.
+                                </p>
+                            </div>
+
                             <!-- Alerta de Cooldown / Enfriamiento Anti-Spam -->
                             <div id="contacto-cooldown-alerta" class="hidden p-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg text-xs leading-relaxed">
                                 ⏳ <strong>Envío temporalmente en pausa:</strong> Ya enviaste un mensaje. Para evitar saturación y spam, por favor espera <span id="cooldown-contador" class="font-bold text-brand-dark"></span> antes de enviar otro.
@@ -3269,15 +3288,15 @@
 
     </main>
 
-    <!-- Footer Institucional con Redes Sociales -->
+    <!-- Footer Institucional con Redes Sociales y Marco Legal -->
     <footer class="bg-brand-dark text-brand-white py-10 w-full mt-auto">
-        <div class="container mx-auto px-4 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div class="container mx-auto px-4 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             <div class="space-y-3">
                 <a href="#sobre-el-club" onclick="mostrarSeccion('sobre-el-club'); return false;" class="flex items-center space-x-2.5">
                     <img src="assets/img/branding/Amazonas PGN.png" alt="C.D. Amazonas" class="h-9 w-auto opacity-90" onerror="this.src='https://placehold.co/40x40/046a38/ffffff?text=CDA'">
                     <span class="font-serif text-base font-bold text-white">C.D. Amazonas</span>
                 </a>
-                <p class="text-xs text-slate-400 leading-relaxed max-w-xs">Fomentando el deporte y valores en la parroquia desde 1987.</p>
+                <p class="text-xs text-slate-400 leading-relaxed max-w-xs">Fomentando el deporte, la pasión y los valores en la parroquia de Malchinguí desde 1987. Orgullo verdiblanco con 5 estrellas.</p>
             </div>
             <div>
                 <h4 class="font-serif font-bold text-white text-sm mb-3">Navegación</h4>
@@ -3286,6 +3305,20 @@
                     <li><a href="#noticias" onclick="mostrarSeccion('noticias'); return false;" class="hover:text-brand-gold transition-colors">Noticias</a></li>
                     <li><a href="#plantilla" onclick="mostrarSeccion('plantilla'); return false;" class="hover:text-brand-gold transition-colors">Plantilla Oficial</a></li>
                     <li><a href="#galeria" onclick="mostrarSeccion('galeria'); return false;" class="hover:text-brand-gold transition-colors">Repositorio Histórico</a></li>
+                    <li><a href="#tienda" onclick="mostrarSeccion('tienda'); return false;" class="hover:text-brand-gold transition-colors">Tienda Oficial</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-serif font-bold text-white text-sm mb-3">Marco Legal & Privacidad</h4>
+                <ul class="space-y-2 text-xs text-slate-300">
+                    <li><button type="button" onclick="abrirModalLegal('privacidad')" class="hover:text-brand-gold transition-colors text-left">Política de Privacidad</button></li>
+                    <li><button type="button" onclick="abrirModalLegal('aviso')" class="hover:text-brand-gold transition-colors text-left">Aviso Legal y Términos</button></li>
+                    <li><button type="button" onclick="abrirModalLegal('cookies')" class="hover:text-brand-gold transition-colors text-left">Política de Cookies</button></li>
+                    <li>
+                        <button type="button" onclick="abrirModalConfigCookies()" class="hover:text-brand-gold transition-colors text-left flex items-center gap-1.5 text-brand-gold font-medium">
+                            <span>🍪</span> Reconfigurar cookies
+                        </button>
+                    </li>
                 </ul>
             </div>
             <div>
@@ -3310,8 +3343,19 @@
                 </div>
             </div>
         </div>
-        <div class="container mx-auto px-4 border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
+        <div class="container mx-auto px-4 border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
             <p>© 2026 Club Deportivo Amazonas. Todos los derechos reservados • Malchinguí, Ecuador.</p>
+            <div class="flex items-center gap-3 flex-wrap justify-center text-[11px]">
+                <button type="button" onclick="abrirModalLegal('privacidad')" class="hover:text-slate-300 transition-colors">Privacidad</button>
+                <span>•</span>
+                <button type="button" onclick="abrirModalLegal('aviso')" class="hover:text-slate-300 transition-colors">Aviso Legal</button>
+                <span>•</span>
+                <button type="button" onclick="abrirModalLegal('cookies')" class="hover:text-slate-300 transition-colors">Cookies</button>
+                <span>•</span>
+                <button type="button" onclick="abrirModalConfigCookies()" class="hover:text-brand-gold text-slate-400 inline-flex items-center gap-1 transition-colors">
+                    <span>🍪</span> Configurar Cookies
+                </button>
+            </div>
         </div>
     </footer>
 
@@ -3381,6 +3425,397 @@
                     </svg>
                 </button>
             </form>
+        </div>
+    </div>
+
+    <!-- ==================== BANNER DE COOKIES FLOTANTE (RGPD / LOPDP) ==================== -->
+    <div id="cda-cookie-banner" class="fixed bottom-4 left-4 right-4 md:left-6 md:right-auto md:max-w-xl bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200/90 p-5 sm:p-6 z-50 hidden cookie-banner-anim" role="dialog" aria-modal="true" aria-labelledby="cookie-banner-title">
+        <div class="flex items-start gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-brand-green/10 text-brand-green flex items-center justify-center text-xl flex-shrink-0 shadow-inner">
+                🍪
+            </div>
+            <div class="flex-grow space-y-2">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <h3 id="cookie-banner-title" class="font-serif font-bold text-sm sm:text-base text-brand-dark">
+                        Tu privacidad nos importa
+                    </h3>
+                    <span class="text-[10px] font-sans font-bold bg-emerald-100 text-brand-green px-2 py-0.5 rounded-full uppercase tracking-wider">Cumplimiento RGPD / LOPDP</span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    En el <strong>Club Deportivo Amazonas</strong> empleamos cookies técnicas esenciales y almacenamiento local para el funcionamiento del carrito de compras de la tienda oficial y la seguridad anti-spam de nuestros formularios. También utilizamos herramientas de analítica y personalización para mejorar la experiencia de nuestra hinchada.
+                </p>
+                <p class="text-[11px] text-slate-500">
+                    Consulta los detalles en nuestra <button type="button" onclick="abrirModalLegal('cookies')" class="text-brand-green font-semibold underline hover:text-brand-green-hover transition-colors">Política de Cookies</button> y <button type="button" onclick="abrirModalLegal('privacidad')" class="text-brand-green font-semibold underline hover:text-brand-green-hover transition-colors">Política de Privacidad</button>.
+                </p>
+            </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 text-xs font-bold">
+            <button type="button" onclick="CDA_COOKIES.configurar()" class="px-3.5 py-2 rounded-xl text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
+                ⚙️ Configurar
+            </button>
+            <button type="button" onclick="CDA_COOKIES.rechazarNoEsenciales()" class="px-3.5 py-2 rounded-xl text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
+                Rechazar no esenciales
+            </button>
+            <button type="button" onclick="CDA_COOKIES.aceptarTodas()" class="px-4 py-2 rounded-xl text-white bg-brand-green hover:bg-brand-green-hover transition-colors shadow-subtle text-center">
+                Aceptar todas
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL CENTRO DE PREFERENCIAS DE COOKIES ==================== -->
+    <div id="modal-config-cookies" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="modal-config-title" onclick="cerrarModalConfigCookies()">
+        <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh] chat-anim-in" onclick="event.stopPropagation()">
+            <!-- Cabecera -->
+            <div class="p-4 sm:p-5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <span class="text-xl">⚙️</span>
+                    <div>
+                        <h3 id="modal-config-title" class="font-serif font-bold text-base text-brand-dark">Centro de Preferencias de Privacidad</h3>
+                        <p class="text-[11px] text-slate-500">Gestión de cookies y tecnologías de almacenamiento (RGPD / LOPDP Ecuador)</p>
+                    </div>
+                </div>
+                <button type="button" onclick="cerrarModalConfigCookies()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-200 transition-colors" aria-label="Cerrar modal">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <!-- Cuerpo scrolleable -->
+            <div class="p-4 sm:p-6 overflow-y-auto space-y-4 text-xs">
+                <p class="text-slate-600 leading-relaxed">
+                    Al navegar por nuestro portal web, se almacena información en tu navegador mediante LocalStorage y cookies. Respetamos tu privacidad y te permitimos elegir qué categorías activar de forma independiente:
+                </p>
+
+                <!-- Grupo 1: Técnicas y Necesarias -->
+                <div class="p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-brand-dark text-sm">Cookies Técnicas y Esenciales</span>
+                            <span class="bg-emerald-200 text-brand-dark px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">Siempre activas</span>
+                        </div>
+                        <input type="checkbox" checked disabled class="h-4 w-4 text-brand-green rounded border-slate-300 opacity-80 cursor-not-allowed">
+                    </div>
+                    <p class="text-slate-600 leading-relaxed text-[11px]">
+                        Imprescindibles para el funcionamiento operativo del sitio: persistencia de productos y tallas en el carrito de compras (<code class="font-mono bg-white px-1 py-0.5 rounded border border-emerald-200">cda_carrito_tienda</code>), mecanismos anti-spam y token de hCaptcha en el formulario de contacto, y resguardo de tus elecciones de privacidad.
+                    </p>
+                </div>
+
+                <!-- Grupo 2: Analítica y Rendimiento -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-brand-dark text-sm">Cookies de Análisis y Rendimiento</span>
+                            <span class="block text-[10px] text-slate-500 font-normal">Estadísticas anónimas de tráfico</span>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="cookie-opt-analiticas" class="sr-only peer">
+                            <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-green"></div>
+                        </label>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed text-[11px]">
+                        Nos permiten cuantificar las visitas a cada sección (noticias, repositorio histórico, nómina deportiva) para medir el rendimiento técnico y mejorar la experiencia de los aficionados. Toda la información se recopila de manera agregada y anónima.
+                    </p>
+                </div>
+
+                <!-- Grupo 3: Preferencias y Personalización -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-brand-dark text-sm">Cookies de Preferencias y Funcionalidad</span>
+                            <span class="block text-[10px] text-slate-500 font-normal">Personalización de navegación</span>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="cookie-opt-preferencias" class="sr-only peer">
+                            <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-green"></div>
+                        </label>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed text-[11px]">
+                        Permiten recordar tus selecciones de interfaz, como filtros preferidos en la plantilla oficial o la última categoría de productos explorada en la tienda.
+                    </p>
+                </div>
+            </div>
+            <!-- Pie con acciones -->
+            <div class="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 text-xs font-bold">
+                <button type="button" onclick="CDA_COOKIES.rechazarNoEsenciales()" class="px-3.5 py-2 rounded-xl text-slate-600 bg-white border border-slate-300 hover:bg-slate-100 transition-colors text-center">
+                    Rechazar opcionales
+                </button>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="CDA_COOKIES.guardarPreferencias()" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-brand-dark bg-brand-gold hover:bg-yellow-400 transition-colors text-center shadow-xs">
+                        Guardar mis preferencias
+                    </button>
+                    <button type="button" onclick="CDA_COOKIES.aceptarTodas()" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-white bg-brand-green hover:bg-brand-green-hover transition-colors text-center shadow-subtle">
+                        Aceptar todas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL DE DOCUMENTACIÓN LEGAL ==================== -->
+    <div id="modal-documento-legal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-5" role="dialog" aria-modal="true" aria-labelledby="modal-legal-titulo" onclick="cerrarModalLegal()">
+        <div class="bg-white rounded-2xl max-w-3xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh] chat-anim-in" onclick="event.stopPropagation()">
+            <!-- Cabecera Institucional y Pestañas -->
+            <div class="bg-slate-50 border-b border-slate-200 flex-shrink-0">
+                <div class="p-4 sm:px-6 sm:py-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <img src="assets/img/branding/Amazonas PGN.png" alt="C.D. Amazonas" class="h-8 w-auto" onerror="this.src='https://placehold.co/32x32/046a38/ffffff?text=CDA'">
+                        <div>
+                            <h3 id="modal-legal-titulo" class="font-serif font-bold text-base text-brand-dark">Marco Legal y Cumplimiento Digital</h3>
+                            <p class="text-[11px] text-slate-500">Club Deportivo Amazonas • Malchinguí, Ecuador</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="cerrarModalLegal()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-200 transition-colors" aria-label="Cerrar documento legal">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <!-- Barra de Pestañas Legales -->
+                <div class="flex items-center border-t border-slate-200 px-4 sm:px-6 overflow-x-auto">
+                    <button type="button" id="tab-btn-legal-privacidad" onclick="cambiarTabLegal('privacidad')" class="tab-btn-legal px-4 py-2.5 text-xs font-bold border-b-2 border-brand-green text-brand-green bg-emerald-50/50 transition-all whitespace-nowrap">
+                        🔒 Política de Privacidad
+                    </button>
+                    <button type="button" id="tab-btn-legal-aviso" onclick="cambiarTabLegal('aviso')" class="tab-btn-legal px-4 py-2.5 text-xs font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">
+                        ⚖️ Aviso Legal y Términos
+                    </button>
+                    <button type="button" id="tab-btn-legal-cookies" onclick="cambiarTabLegal('cookies')" class="tab-btn-legal px-4 py-2.5 text-xs font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">
+                        🍪 Política de Cookies
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenedor scrolleable de los textos legales -->
+            <div id="legal-scroll-container" class="p-5 sm:p-7 overflow-y-auto legal-prose flex-grow">
+                
+                <!-- 1. POLÍTICA DE PRIVACIDAD -->
+                <div id="legal-content-privacidad" class="space-y-4">
+                    <div class="border-b border-slate-200 pb-3 mb-4">
+                        <h4 class="text-base font-bold text-brand-dark !mt-0">Política de Privacidad y Protección de Datos Personales</h4>
+                        <p class="text-xs text-slate-500">Última actualización: Octubre 2026 • Conforme a la Ley Orgánica de Protección de Datos Personales (LOPDP de Ecuador) y el RGPD (UE 2016/679).</p>
+                    </div>
+
+                    <p>
+                        En el <strong>Club Deportivo Amazonas</strong>, entidad deportiva fundada el 12 de febrero de 1987 en Malchinguí, Pedro Moncayo, Ecuador, la salvaguarda de tu privacidad y la confidencialidad de tus datos personales es un compromiso institucional prioritario. A través de la presente política, te informamos de manera transparente y clara cómo tratamos tus datos personales.
+                    </p>
+
+                    <h4>1. Responsable del Tratamiento de Datos</h4>
+                    <ul>
+                        <li><strong>Identidad:</strong> Club Deportivo Amazonas</li>
+                        <li><strong>Ubicación institucional:</strong> Barrio El Hospital, Parroquia Malchinguí, Cantón Pedro Moncayo, Provincia de Pichincha, República del Ecuador.</li>
+                        <li><strong>Correo electrónico de privacidad y contacto:</strong> <a href="mailto:cdamazonass@gmail.com" class="text-brand-green font-semibold underline">cdamazonass@gmail.com</a></li>
+                        <li><strong>Representación institucional:</strong> Directiva Oficial C.D. Amazonas 2026.</li>
+                    </ul>
+
+                    <h4>2. Datos Personales Recopilados</h4>
+                    <p>
+                        A través de este sitio web únicamente recopilamos los datos que tú nos proporcionas de manera voluntaria e informada:
+                    </p>
+                    <ul>
+                        <li><strong>Formulario de Contacto:</strong> Nombre y apellidos, dirección de correo electrónico, número telefónico/WhatsApp y el contenido del mensaje o consulta formulada.</li>
+                        <li><strong>Tienda Oficial:</strong> Información de contacto requerida para coordinar la entrega y confirmación de pedidos de indumentaria deportiva institucional vía WhatsApp o correo.</li>
+                        <li><strong>Datos de Navegación y Técnicos:</strong> Dirección IP anonimizada, identificadores técnicos de sesión para prevención de ataques informáticos y registros de consentimiento almacenados localmente en tu dispositivo.</li>
+                    </ul>
+
+                    <h4>3. Finalidad y Usos del Tratamiento</h4>
+                    <p>Tratamos tus datos con las siguientes finalidades explícitas:</p>
+                    <ul>
+                        <li><strong>Atención de Consultas:</strong> Responder a mensajes, inquietudes y peticiones remitidas a través de nuestro formulario de contacto.</li>
+                        <li><strong>Gestión de la Tienda Institucional:</strong> Coordinar y procesar solicitudes de adquisición de indumentaria oficial del club.</li>
+                        <li><strong>Comunicaciones Novedades (Opcional):</strong> Remitir avisos deportivos, boletines de partidos y promociones únicamente a los usuarios que hayan marcado voluntariamente la casilla correspondiente.</li>
+                        <li><strong>Seguridad y Prevención de Abusos:</strong> Prevenir ataques automatizados, saturación de servidores y spam mediante el sistema de verificación hCaptcha y límites de frecuencia.</li>
+                    </ul>
+
+                    <h4>4. Base Jurídica de Legitimación</h4>
+                    <p>La base legal que legitima el tratamiento de tus datos es:</p>
+                    <ul>
+                        <li><strong>Consentimiento explícito e inequívoco del interesado</strong> (Art. 7 de la LOPDP del Ecuador y Art. 6.1.a del RGPD) al marcar las casillas obligatorias de aceptación antes del envío del formulario.</li>
+                        <li><strong>Ejecución de medidas precontractuales o relación contractual</strong> (Art. 7 num. 5 LOPDP / Art. 6.1.b RGPD) en las solicitudes y reservas de indumentaria en la tienda.</li>
+                        <li><strong>Interés legítimo en la ciberseguridad</strong> (Art. 6.1.f RGPD) para la protección de la integridad de la plataforma digital.</li>
+                    </ul>
+
+                    <h4>5. Destinatarios y Proveedores de Servicios</h4>
+                    <p>
+                        El Club Deportivo Amazonas no vende, alquila ni cede tus datos personales a empresas comerciales ajenas. Para el funcionamiento tecnológico del portal, nos apoyamos en prestadores de servicios que actúan como encargados del tratamiento bajo rigurosos acuerdos de confidencialidad y seguridad:
+                    </p>
+                    <ul>
+                        <li><strong>Web3Forms:</strong> Proveedor para la transmisión cifrada y entrega segura de formularios de contacto a nuestro correo institucional.</li>
+                        <li><strong>Intuition Machines, Inc. (hCaptcha):</strong> Servicio de protección anti-bots y prevención de spam.</li>
+                        <li><strong>Alojamiento Web (GitHub Pages):</strong> Infraestructura segura para la entrega de contenido estático del portal.</li>
+                    </ul>
+
+                    <h4>6. Plazo de Conservación</h4>
+                    <p>
+                        Tus datos se conservarán durante el tiempo estrictamente necesario para atender y resolver tu consulta o gestionar la solicitud formulada. Una vez concluida la gestión, se conservarán bloqueados únicamente durante los plazos legalmente exigibles para la atención de responsabilidades, procediéndose posteriormente a su eliminación definitiva y segura.
+                    </p>
+
+                    <h4>7. Tus Derechos de Protección de Datos (ARCO y Digitales)</h4>
+                    <p>
+                        De conformidad con la LOPDP ecuatoriana y el RGPD, puedes ejercer en cualquier momento y de forma totalmente gratuita los siguientes derechos:
+                    </p>
+                    <ul>
+                        <li><strong>Acceso:</strong> Conocer qué datos personales tuyos estamos tratando.</li>
+                        <li><strong>Rectificación:</strong> Solicitar la corrección de datos inexactos, desactualizados o incompletos.</li>
+                        <li><strong>Eliminación / Supresión:</strong> Solicitar que borremos tus datos cuando ya no sean necesarios para los fines recabados.</li>
+                        <li><strong>Oposición:</strong> Oponerte al tratamiento de tus datos personales para determinadas finalidades (por ejemplo, comunicaciones comerciales).</li>
+                        <li><strong>Limitación del tratamiento y Portabilidad:</strong> Solicitar la restricción o transferencia estructurada de tus datos.</li>
+                        <li><strong>Revocación del consentimiento:</strong> Retirar tu consentimiento otorgado previamente en cualquier momento, sin que ello afecte la licitud del tratamiento anterior.</li>
+                    </ul>
+                    <p class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                        Para ejercer cualquiera de estos derechos, envía un correo electrónico a <a href="mailto:cdamazonass@gmail.com" class="text-brand-green font-bold underline">cdamazonass@gmail.com</a> con el asunto <em>"Protección de Datos - Ejercicio de Derechos"</em>, indicando tu solicitud específica y adjuntando copia de tu cédula o documento de identidad para verificación del titular.
+                    </p>
+                </div>
+
+                <!-- 2. AVISO LEGAL Y CONDICIONES DE USO -->
+                <div id="legal-content-aviso" class="space-y-4 hidden">
+                    <div class="border-b border-slate-200 pb-3 mb-4">
+                        <h4 class="text-base font-bold text-brand-dark !mt-0">Aviso Legal y Condiciones de Uso del Portal Web</h4>
+                        <p class="text-xs text-slate-500">Condiciones aplicables a la navegación y uso del portal oficial de C.D. Amazonas.</p>
+                    </div>
+
+                    <h4>1. Información General y Titularidad</h4>
+                    <p>
+                        El presente portal web oficial (<a href="https://cdamazonas.com" class="text-brand-green font-semibold">cdamazonas.com</a>) es propiedad y está administrado por el <strong>Club Deportivo Amazonas</strong>, organización deportiva sin fines de lucro con sede en el Barrio El Hospital, Parroquia Malchinguí, Cantón Pedro Moncayo, Provincia de Pichincha, República del Ecuador. Contacto: <a href="mailto:cdamazonass@gmail.com" class="text-brand-green font-semibold underline">cdamazonass@gmail.com</a>.
+                    </p>
+
+                    <h4>2. Términos y Condiciones de Acceso</h4>
+                    <p>
+                        El acceso y utilización de este sitio web confiere la condición de usuario e implica la aceptación plena de todas las disposiciones contenidas en este Aviso Legal. El usuario se compromete a:
+                    </p>
+                    <ul>
+                        <li>Hacer un uso diligente, correcto y lícito de todos los contenidos, módulos interactivos, asistente virtual Drak y formularios del sitio.</li>
+                        <li>No introducir programas maliciosos, virus, macros o cualquier dispositivo lógico que pueda causar daños a los sistemas informáticos del club o de terceros.</li>
+                        <li>No realizar envíos masivos, spam o conductas que saturen los formularios de contacto o el asistente institucional.</li>
+                        <li>No suplantar la identidad de jugadores, dirigentes, socios o patrocinadores de la institución.</li>
+                    </ul>
+
+                    <h4>3. Propiedad Intelectual e Industrial</h4>
+                    <p>
+                        Todos los elementos distintivos de este portal web, incluyendo pero sin limitarse a:
+                    </p>
+                    <ul>
+                        <li>El nombre institucional <strong>Club Deportivo Amazonas</strong> y su escudo oficial con 5 estrellas.</li>
+                        <li>Las fotografías del repositorio histórico y acervo documental recopilado por Don Carlos Eliécer Rodríguez Navarrete y sus continuadores.</li>
+                        <li>Los textos descriptivos, crónicas, diseño visual, logotipos de patrocinadores autorizados y código de la aplicación.</li>
+                    </ul>
+                    <p>
+                        Están protegidos por las leyes de propiedad intelectual y derechos de autor vigentes en el Ecuador y tratados internacionales. Queda terminantemente prohibida su reproducción total o parcial, distribución o comunicación pública con fines comerciales sin la expresa autorización por escrito de la directiva de C.D. Amazonas.
+                    </p>
+
+                    <h4>4. Exclusión de Responsabilidad y Enlaces</h4>
+                    <p>
+                        El Club Deportivo Amazonas procura mantener la información deportiva (nóminas, noticias, indumentaria) constantemente actualizada. Sin embargo, no se responsabiliza de posibles inexactitudes transitorias ni de fallos técnicos imputables a redes de telecomunicaciones externas.
+                    </p>
+                    <p>
+                        El portal puede incluir enlaces hacia plataformas externas (como WhatsApp, Facebook e Instagram). C.D. Amazonas no ejerce control sobre los contenidos o políticas de privacidad de dichas plataformas de terceros.
+                    </p>
+
+                    <h4>5. Legislación y Jurisdicción</h4>
+                    <p>
+                        Para la resolución de cualquier controversia judicial o extrajudicial derivada de la utilización de este sitio web, las partes se someten expresamente a la legislación vigente de la República del Ecuador y a los juzgados y tribunales competentes de la provincia de Pichincha.
+                    </p>
+                </div>
+
+                <!-- 3. POLÍTICA DE COOKIES -->
+                <div id="legal-content-cookies" class="space-y-4 hidden">
+                    <div class="border-b border-slate-200 pb-3 mb-4">
+                        <h4 class="text-base font-bold text-brand-dark !mt-0">Política de Cookies y Tecnologías de Almacenamiento Local</h4>
+                        <p class="text-xs text-slate-500">Transparencia técnica completa sobre el uso de cookies y LocalStorage en cdamazonas.com.</p>
+                    </div>
+
+                    <p>
+                        En esta sección te explicamos qué son las cookies, qué tecnologías de almacenamiento local empleamos en este portal institucional, con qué finalidad y cómo puedes administrarlas o revocar tu consentimiento en cualquier momento.
+                    </p>
+
+                    <h4>1. ¿Qué son las Cookies y el Almacenamiento Local (LocalStorage)?</h4>
+                    <p>
+                        Las <strong>cookies</strong> son pequeños archivos de texto que se descargan en tu navegador web al acceder a determinadas páginas. El <strong>almacenamiento local (LocalStorage)</strong> es una tecnología estándar de la web que permite almacenar datos directamente en tu navegador de forma segura y eficiente sin enviarlos en cada solicitud de red, lo que mejora la rapidez de la página.
+                    </p>
+
+                    <h4>2. Inventario Detallado de Cookies y Almacenamiento en este Sitio</h4>
+                    <p>
+                        En estricto cumplimiento del principio de transparencia del RGPD y la LOPDP, a continuación se desglosan todas las tecnologías de almacenamiento presentes en el portal:
+                    </p>
+
+                    <div class="overflow-x-auto">
+                        <table class="cda-table-cookies">
+                            <thead>
+                                <tr>
+                                    <th>Nombre / Clave</th>
+                                    <th>Tipo y Proveedor</th>
+                                    <th>Duración</th>
+                                    <th>Finalidad y Justificación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code class="font-mono font-bold text-brand-dark">cda_cookie_consent</code></td>
+                                    <td>Propia • LocalStorage (Técnica / Esencial)</td>
+                                    <td>12 meses</td>
+                                    <td>Guarda de forma persistente tus elecciones en el centro de preferencias de cookies para no solicitarlo reiteradamente en cada visita.</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="font-mono font-bold text-brand-dark">cda_carrito_tienda</code></td>
+                                    <td>Propia • LocalStorage (Técnica / Esencial)</td>
+                                    <td>Persistente</td>
+                                    <td>Conserva los artículos, tallas y cantidades seleccionados en el carrito de compras de la tienda oficial mientras navegas por las diferentes pestañas.</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="font-mono font-bold text-brand-dark">cda_ultimo_envio</code></td>
+                                    <td>Propia • LocalStorage (Seguridad / Esencial)</td>
+                                    <td>5 minutos (cooldown)</td>
+                                    <td>Control de enfriamiento temporal entre envíos de formulario para evitar spam repetitivo y denegación de servicio.</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="font-mono font-bold text-brand-dark">cda_envios_hoy</code></td>
+                                    <td>Propia • LocalStorage (Seguridad / Esencial)</td>
+                                    <td>24 horas</td>
+                                    <td>Límite de seguridad diario por dispositivo para preservar la cuota del servicio de atención de mensajes institucionales.</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="font-mono font-bold text-brand-dark">h-captcha-response / __cf_bm</code></td>
+                                    <td>Terceros (Intuition Machines / hCaptcha) • Esencial</td>
+                                    <td>Sesión a 30 días</td>
+                                    <td>Verificación anti-bots para distinguir entre usuarios humanos y tráfico automatizado malicioso en los formularios.</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="font-mono font-bold text-brand-dark">Analíticas agregadas (_ga, _gid)</code></td>
+                                    <td>Terceros (Analítica web si se habilita) • Opcional</td>
+                                    <td>Hasta 13 meses</td>
+                                    <td>Métricas de audiencia y rendimiento agregadas y anónimas. <strong>Bloqueadas por defecto</strong> hasta que el usuario otorgue consentimiento afirmativo.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>3. Cómo Gestionar o Revocar tu Consentimiento en este Sitio</h4>
+                    <p>
+                        Puedes cambiar tus preferencias o retirar tu consentimiento en cualquier momento mediante nuestro botón interactivo:
+                    </p>
+                    <div class="my-3">
+                        <button type="button" onclick="cerrarModalLegal(); abrirModalConfigCookies();" class="inline-flex items-center gap-2 px-4 py-2 bg-brand-green hover:bg-brand-green-hover text-white rounded-xl text-xs font-bold transition-colors shadow-subtle">
+                            <span>🍪</span> Abrir Centro de Preferencias de Cookies
+                        </button>
+                    </div>
+
+                    <h4>4. Cómo Deshabilitar Cookies en tu Navegador</h4>
+                    <p>
+                        También puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de las opciones de tu navegador:
+                    </p>
+                    <ul>
+                        <li><strong>Google Chrome:</strong> Menú > Configuración > Privacidad y seguridad > Cookies y otros datos de sitios.</li>
+                        <li><strong>Mozilla Firefox:</strong> Menú > Ajustes > Privacidad y seguridad > Cookies y datos del sitio.</li>
+                        <li><strong>Apple Safari:</strong> Preferencias > Privacidad > Bloquear todas las cookies.</li>
+                        <li><strong>Microsoft Edge:</strong> Menú > Configuración > Cookies y permisos del sitio.</li>
+                    </ul>
+                    <p class="text-[11px] text-slate-500 italic">
+                        Nota: Si deshabilitas las cookies técnicas y el almacenamiento local, ciertas funciones interactivas del portal (como el carrito de la tienda) podrían no funcionar correctamente.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Pie del Modal con botón cerrar -->
+            <div class="p-3.5 bg-slate-50 border-t border-slate-200 flex justify-end flex-shrink-0">
+                <button type="button" onclick="cerrarModalLegal()" class="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl text-xs font-bold transition-colors">
+                    Cerrar Documento
+                </button>
+            </div>
         </div>
     </div>
 
@@ -3480,6 +3915,8 @@
                 if (typeof cerrarModalProducto === 'function') cerrarModalProducto();
                 if (typeof cerrarModalCarrito === 'function') cerrarModalCarrito();
                 if (typeof cerrarModalRepo === 'function') cerrarModalRepo();
+                if (typeof cerrarModalLegal === 'function') cerrarModalLegal();
+                if (typeof cerrarModalConfigCookies === 'function') cerrarModalConfigCookies();
             }
         });
 
@@ -3704,6 +4141,21 @@
                 }
             } catch (err) {}
 
+            // 2.1 Verificación de Consentimiento Obligatorio de Privacidad (RGPD / LOPDP)
+            const checkLegal = document.getElementById('contacto-consentimiento-legal');
+            const avisoConsentimiento = document.getElementById('contacto-aviso-consentimiento');
+            if (!checkLegal || !checkLegal.checked) {
+                if (avisoConsentimiento) avisoConsentimiento.classList.remove('hidden');
+                if (checkLegal) {
+                    checkLegal.focus();
+                    checkLegal.classList.add('ring-2', 'ring-red-500');
+                    setTimeout(() => checkLegal.classList.remove('ring-2', 'ring-red-500'), 3000);
+                }
+                mostrarToast('Consentimiento Requerido', 'Debes marcar la casilla aceptando la Política de Privacidad y el Aviso Legal para enviar tu mensaje.');
+                return;
+            }
+            if (avisoConsentimiento) avisoConsentimiento.classList.add('hidden');
+
             // 3. Validación de campos de contacto (Email O Teléfono)
             const inputNombre = document.getElementById('contacto-nombre');
             const inputEmail = document.getElementById('contacto-email');
@@ -3751,6 +4203,12 @@
                 </span>
             `;
 
+            // Consentimiento legal y preferencias comerciales
+            const checkMarketing = document.getElementById('contacto-consentimiento-marketing');
+            const aceptoMarketing = checkMarketing && checkMarketing.checked;
+            formData.set('consentimiento_legal', 'Aceptado (RGPD / LOPDP Ecuador)');
+            formData.set('consentimiento_marketing', aceptoMarketing ? 'Aceptado (Comunicaciones comerciales y novedades)' : 'No aceptado');
+
             // Si el usuario no proporcionó correo electrónico pero sí teléfono:
             // Asignamos un correo remitente seguro para que Web3Forms acepte la petición
             if (!email && telefono) {
@@ -3765,6 +4223,8 @@
                 `👤 REMITENTE: ${nombre}`,
                 email ? `📧 CORREO ELECTRÓNICO: ${email}` : `📧 CORREO: (No proporcionado - Prefiere contacto telefónico)`,
                 telefono ? `📱 TELÉFONO / WHATSAPP: ${telefono}` : `📱 TELÉFONO: (No proporcionado)`,
+                `📜 PRIVACIDAD: Aceptó Política de Privacidad y Aviso Legal (Obligatorio)`,
+                `📢 COMUNICACIONES: ${aceptoMarketing ? 'SÍ (Aceptó recibir novedades y promociones)' : 'NO (Solo respuesta a esta consulta)'}`,
                 `📅 FECHA Y HORA: ${new Date().toLocaleString('es-EC', { timeZone: 'America/Guayaquil' })}`,
                 `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
                 `💬 MENSAJE:`,
@@ -3942,6 +4402,165 @@
             contenedor.scrollTop = contenedor.scrollHeight;
         }
 
+        // ==========================================
+        // GESTIÓN DE COOKIES Y CUMPLIMIENTO LEGAL (RGPD / LOPDP)
+        // ==========================================
+        const CDA_COOKIES = {
+            STORAGE_KEY: 'cda_cookie_consent',
+            
+            getConsent() {
+                try {
+                    const raw = localStorage.getItem(this.STORAGE_KEY);
+                    return raw ? JSON.parse(raw) : null;
+                } catch (e) {
+                    return null;
+                }
+            },
+
+            hasAnswered() {
+                const c = this.getConsent();
+                return !!(c && c.timestamp);
+            },
+
+            setConsent(opts) {
+                const consent = {
+                    timestamp: Date.now(),
+                    tecnicas: true,
+                    analiticas: !!opts.analiticas,
+                    preferencias: !!opts.preferencias
+                };
+                try {
+                    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(consent));
+                } catch (e) {
+                    console.warn('No se pudo guardar la configuración de cookies en LocalStorage:', e);
+                }
+                this.aplicarConsentimiento(consent);
+                this.ocultarBanner();
+                return consent;
+            },
+
+            aceptarTodas() {
+                this.setConsent({ analiticas: true, preferencias: true });
+                this.cerrarConfig();
+                mostrarToast('Preferencias Guardadas', 'Has aceptado todas las cookies. ¡Gracias por apoyar la experiencia digital de C.D. Amazonas!');
+            },
+
+            rechazarNoEsenciales() {
+                this.setConsent({ analiticas: false, preferencias: false });
+                this.cerrarConfig();
+                mostrarToast('Preferencias Guardadas', 'Solo se mantendrán activas las cookies técnicas y de seguridad necesarias para la web.');
+            },
+
+            configurar() {
+                this.ocultarBanner();
+                abrirModalConfigCookies();
+            },
+
+            guardarPreferencias() {
+                const an = document.getElementById('cookie-opt-analiticas');
+                const pref = document.getElementById('cookie-opt-preferencias');
+                this.setConsent({
+                    analiticas: an ? an.checked : false,
+                    preferencias: pref ? pref.checked : false
+                });
+                this.cerrarConfig();
+                mostrarToast('Preferencias Actualizadas', 'Tus preferencias de cookies y privacidad han sido guardadas correctamente.');
+            },
+
+            cerrarConfig() {
+                cerrarModalConfigCookies();
+            },
+
+            ocultarBanner() {
+                const banner = document.getElementById('cda-cookie-banner');
+                if (banner) banner.classList.add('hidden');
+            },
+
+            aplicarConsentimiento(consent) {
+                if (consent && consent.analiticas) {
+                    window['cda_analiticas_permitidas'] = true;
+                    window.dispatchEvent(new CustomEvent('cda:analiticas:activadas'));
+                } else {
+                    window['cda_analiticas_permitidas'] = false;
+                    window.dispatchEvent(new CustomEvent('cda:analiticas:desactivadas'));
+                }
+            },
+
+            iniciar() {
+                const consent = this.getConsent();
+                if (!consent) {
+                    setTimeout(() => {
+                        const banner = document.getElementById('cda-cookie-banner');
+                        if (banner) banner.classList.remove('hidden');
+                    }, 500);
+                } else {
+                    this.aplicarConsentimiento(consent);
+                }
+            }
+        };
+
+        function abrirModalConfigCookies() {
+            const modal = document.getElementById('modal-config-cookies');
+            const consent = CDA_COOKIES.getConsent() || { analiticas: false, preferencias: false };
+            const chkAn = document.getElementById('cookie-opt-analiticas');
+            const chkPref = document.getElementById('cookie-opt-preferencias');
+            if (chkAn) chkAn.checked = !!consent.analiticas;
+            if (chkPref) chkPref.checked = !!consent.preferencias;
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function cerrarModalConfigCookies() {
+            const modal = document.getElementById('modal-config-cookies');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function abrirModalLegal(seccion = 'privacidad') {
+            const modal = document.getElementById('modal-documento-legal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                cambiarTabLegal(seccion);
+            }
+        }
+
+        function cerrarModalLegal() {
+            const modal = document.getElementById('modal-documento-legal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function cambiarTabLegal(tabId) {
+            const tabs = ['privacidad', 'aviso', 'cookies'];
+            tabs.forEach(t => {
+                const content = document.getElementById(`legal-content-${t}`);
+                const btn = document.getElementById(`tab-btn-legal-${t}`);
+                if (content) {
+                    if (t === tabId) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                }
+                if (btn) {
+                    if (t === tabId) {
+                        btn.className = 'tab-btn-legal px-4 py-2.5 text-xs font-bold border-b-2 border-brand-green text-brand-green bg-emerald-50/50 transition-all whitespace-nowrap';
+                    } else {
+                        btn.className = 'tab-btn-legal px-4 py-2.5 text-xs font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap';
+                    }
+                }
+            });
+            const scrollCont = document.getElementById('legal-scroll-container');
+            if (scrollCont) scrollCont.scrollTop = 0;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             let hash = window.location.hash.substring(1);
             
@@ -3953,6 +4572,9 @@
 
             // Inicializar controles de seguridad, captcha y estado anti-spam del formulario
             verificarEstadoSeguridadInicial();
+
+            // Inicializar controles de cookies y privacidad RGPD / LOPDP
+            CDA_COOKIES.iniciar();
         });
     </script>
 </body>
