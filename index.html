@@ -2294,40 +2294,108 @@
                 `).join('');
             }
 
+            const SNAPSHOT_TIENDA_OFICIAL = [
+                ['Columna','id (Clave única)','producto','categoria','descripcion_corta','imagen_principal','imagen_secundaria','tallas','precio_regular','precio_descuento','stock_estado','destacado','etiqueta_badge','activo'],
+                ['1','AMZ-CAM-01','Camiseta Oficial Titular 2026','Indumentaria','Poliester, completamente sublimado.','Camisetao26.png','Camisetao26.png','S, M, L, XL, 2XL','15.99','12.99','Bajo pedido','SI','Nueva Temporada','SI'],
+                ['2','AMZ-POL-01','Camisa Polo Oficial','Indumentaria','Poliester, utilizando tejidos de punto','Camisap.png','Camisap.png','S, M, L, XL, 2XL','16.99','13.99','Bajo pedido','NO','Nueva Temporada','SI'],
+                ['3','AMZ-CHA-01','Chaqueta Deportiva Retro','Indumentaria','Materiales sintéticos de trama cerrada que bloquean el paso del aire y mantienen la ligereza','Chaquetadr.png','Chaquetadr.png','M, L, XL, 2XL','49.99','26.99','Bajo pedido','NO','Nueva Temporada','SI']
+            ];
+
+            function cargarTiendaViaJSONP() {
+                return new Promise((resolve, reject) => {
+                    const callbackName = 'cdaCallbackTienda_' + Math.floor(Math.random() * 1000000);
+                    const script = document.createElement('script');
+                    const timer = setTimeout(() => {
+                        try { delete window[callbackName]; } catch (e) {}
+                        if (script.parentNode) script.parentNode.removeChild(script);
+                        reject(new Error("Timeout al sincronizar Google Sheets Tienda por JSONP"));
+                    }, 6000);
+
+                    window[callbackName] = function(json) {
+                        clearTimeout(timer);
+                        try { delete window[callbackName]; } catch (e) {}
+                        if (script.parentNode) script.parentNode.removeChild(script);
+
+                        if (json && json.table && Array.isArray(json.table.rows)) {
+                            const filas = [
+                                ['Columna', 'id', 'producto', 'categoria', 'descripcion_corta', 'imagen_principal', 'imagen_secundaria', 'tallas', 'precio_regular', 'precio_descuento', 'stock_estado', 'destacado', 'etiqueta_badge', 'activo'],
+                                ...json.table.rows.map(r => {
+                                    if (!r || !Array.isArray(r.c)) return [];
+                                    return r.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
+                                })
+                            ];
+                            resolve(filas);
+                        } else {
+                            reject(new Error("Formato JSONP Tienda no válido"));
+                        }
+                    };
+
+                    script.src = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_TIENDA_ID}/gviz/tq?tqx=responseHandler:${callbackName}&gid=${TIENDA_GID}`;
+                    script.onerror = () => {
+                        clearTimeout(timer);
+                        try { delete window[callbackName]; } catch (e) {}
+                        if (script.parentNode) script.parentNode.removeChild(script);
+                        reject(new Error("Error al cargar script de Google Sheets Tienda"));
+                    };
+
+                    document.head.appendChild(script);
+                });
+            }
+
             async function cargarTiendaGoogleSheets() {
                 if (tiendaCargada && tiendaProductos.length > 0) return;
                 renderizarSkeletonsTienda();
                 actualizarBadgeCarrito();
 
+                let filas = null;
+
+                // 1. Intentar JSONP (100% compatible sin bloqueo CORS)
                 try {
-                    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_TIENDA_ID}/export?format=csv&gid=${TIENDA_GID}`;
-                    const resp = await fetch(url);
-                    if (!resp.ok) throw new Error("No se pudo conectar con la hoja de cálculo de la Tienda");
-                    const csvText = await resp.text();
-                    tiendaProductos = parsearCSVTienda(csvText);
+                    filas = await cargarTiendaViaJSONP();
+                } catch (errJsonp) {
+                    console.warn("JSONP Tienda no disponible, probando fetch directo:", errJsonp.message);
+                }
+
+                // 2. Intentar fetch directo con endpoints de Google Sheets
+                if (!filas) {
+                    const endpoints = [
+                        `https://docs.google.com/spreadsheets/d/${SPREADSHEET_TIENDA_ID}/gviz/tq?tqx=out:csv&gid=${TIENDA_GID}`,
+                        `https://docs.google.com/spreadsheets/d/${SPREADSHEET_TIENDA_ID}/export?format=csv&gid=${TIENDA_GID}`
+                    ];
+                    for (const url of endpoints) {
+                        try {
+                            const resp = await fetch(url);
+                            if (resp.ok) {
+                                const csvText = await resp.text();
+                                if (csvText && csvText.includes(',')) {
+                                    filas = parsearCSV(csvText);
+                                    break;
+                                }
+                            }
+                        } catch (e) {}
+                    }
+                }
+
+                // 3. Fallback de respaldo institucional oficial (garantiza visualización inmediata)
+                if (!filas || filas.length < 2) {
+                    filas = SNAPSHOT_TIENDA_OFICIAL;
+                }
+
+                try {
+                    tiendaProductos = procesarFilasTienda(filas);
                     tiendaCargada = true;
 
                     if (tiendaProductos.length === 0) {
-                        const grid = document.getElementById('tienda-grid-dinamico');
-                        if (grid) grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No hay productos disponibles en este momento.</div>`;
-                        return;
+                        tiendaProductos = procesarFilasTienda(SNAPSHOT_TIENDA_OFICIAL);
                     }
 
                     actualizarFiltrosCategoriasTienda();
                     renderizarTienda();
                 } catch (error) {
-                    console.error("Error al cargar tienda:", error);
-                    const grid = document.getElementById('tienda-grid-dinamico');
-                    if (grid) {
-                        grid.innerHTML = `
-                            <div class="col-span-full bg-amber-50 border border-amber-200 rounded-2xl p-8 text-center max-w-lg mx-auto">
-                                <span class="text-3xl block mb-2">⚠️</span>
-                                <h4 class="font-serif font-bold text-brand-dark text-base mb-1">Catálogo en sincronización</h4>
-                                <p class="text-xs text-slate-600 mb-4">No se pudo cargar el catálogo en vivo. Por favor verifica que la pestaña Tienda sea pública.</p>
-                                <button onclick="tiendaCargada=false; cargarTiendaGoogleSheets()" class="px-4 py-2 bg-brand-green text-white text-xs font-bold rounded-lg hover:bg-brand-green-hover transition-colors">Reintentar Conexión</button>
-                            </div>
-                        `;
-                    }
+                    console.error("Error al procesar catálogo de Tienda:", error);
+                    tiendaProductos = procesarFilasTienda(SNAPSHOT_TIENDA_OFICIAL);
+                    actualizarFiltrosCategoriasTienda();
+                    renderizarTienda();
                 }
             }
 
@@ -2371,16 +2439,15 @@
                 return isNaN(num) ? 0 : num;
             }
 
-            function parsearCSVTienda(csvText) {
-                const filas = parsearCSV(csvText);
+            function procesarFilasTienda(filas) {
                 const resultado = [];
 
                 for (let i = 1; i < filas.length; i++) {
                     const c = filas[i];
-                    if (!c || c.length < 3 || !c.some(x => x && x.trim())) continue;
+                    if (!c || c.length < 3 || !c.some(x => x && String(x).trim())) continue;
 
-                    const id = (c[1] || `AMZ-PROD-${i}`).trim();
-                    let nombre = (c[2] || 'Producto Oficial').trim();
+                    const id = String(c[1] || `AMZ-PROD-${i}`).trim();
+                    let nombre = String(c[2] || 'Producto Oficial').trim();
 
                     if (id === 'AMZ-POL-01' && (nombre.toLowerCase().includes('camiseta') && !nombre.toLowerCase().includes('polo'))) {
                         nombre = 'Camisa Polo Oficial';
@@ -2388,12 +2455,12 @@
                         nombre = 'Chaqueta Deportiva Retro';
                     }
 
-                    const categoria = (c[3] || 'Indumentaria').trim();
-                    const descripcion = (c[4] || 'Indumentaria oficial conmemorativa de C.D. Amazonas. Confección de alta calidad con escudo bordado.').trim();
-                    const imgPrincipal = resolverImagenTienda(c[5], id, nombre);
-                    const imgSecundaria = (c[6] && !c[6].includes('...') && !c[6].toLowerCase().includes('secundaria')) ? resolverImagenTienda(c[6], id, nombre) : '';
+                    const categoria = String(c[3] || 'Indumentaria').trim();
+                    const descripcion = String(c[4] || 'Indumentaria oficial conmemorativa de C.D. Amazonas. Confección de alta calidad con escudo bordado.').trim();
+                    const imgPrincipal = resolverImagenTienda(String(c[5] || ''), id, nombre);
+                    const imgSecundaria = (c[6] && !String(c[6]).includes('...') && !String(c[6]).toLowerCase().includes('secundaria')) ? resolverImagenTienda(String(c[6]), id, nombre) : '';
 
-                    const tallasRaw = (c[7] || 'S, M, L, XL, 2XL').trim();
+                    const tallasRaw = String(c[7] || 'S, M, L, XL, 2XL').trim();
                     const tallas = tallasRaw.split(',').map(t => t.trim()).filter(Boolean);
 
                     const precioReg = limpiarPrecioTienda(c[8]);
@@ -2402,7 +2469,7 @@
                     const tieneDescuento = precioDesc > 0 && precioReg > precioDesc;
                     const pctDescuento = tieneDescuento ? Math.round(((precioReg - precioDesc) / precioReg) * 100) : 0;
 
-                    let stock = (c[10] || 'Disponible').trim();
+                    let stock = String(c[10] || 'Disponible').trim();
                     let stockEstado = 'Disponible';
                     if (stock.toLowerCase().includes('bajo')) {
                         stockEstado = 'Bajo Pedido';
@@ -2410,9 +2477,9 @@
                         stockEstado = 'Agotado';
                     }
 
-                    const destacado = (c[11] || '').trim().toUpperCase() === 'SI';
-                    const badge = (c[12] || '').trim() || (destacado ? 'Destacado' : (tieneDescuento ? `${pctDescuento}% OFF` : 'Oficial'));
-                    const activo = (c[13] || '').trim().toUpperCase() !== 'NO';
+                    const destacado = String(c[11] || '').trim().toUpperCase() === 'SI';
+                    const badge = String(c[12] || '').trim() || (destacado ? 'Destacado' : (tieneDescuento ? `${pctDescuento}% OFF` : 'Oficial'));
+                    const activo = String(c[13] || '').trim().toUpperCase() !== 'NO';
 
                     if (activo) {
                         resultado.push({
@@ -2436,6 +2503,11 @@
                     }
                 }
                 return resultado;
+            }
+
+            function parsearCSVTienda(csvText) {
+                const filas = parsearCSV(csvText);
+                return procesarFilasTienda(filas);
             }
 
             function actualizarFiltrosCategoriasTienda() {
@@ -3323,14 +3395,21 @@
     </div>
 
     <!-- JavaScript Principal -->
+    <script>
         function mostrarSeccion(idSeccion, updateHash = true) {
             const main = document.querySelector('main');
             const secciones = Array.from(main.children).filter(child => child.tagName === 'SECTION' && child.id !== '');
 
-            secciones.forEach(sec => sec.classList.add('hidden'));
+            secciones.forEach(sec => {
+                sec.classList.add('hidden');
+                sec.classList.remove('block');
+            });
 
             const seccionMostrar = document.getElementById(idSeccion);
-            if (seccionMostrar) seccionMostrar.classList.remove('hidden');
+            if (seccionMostrar) {
+                seccionMostrar.classList.remove('hidden');
+                seccionMostrar.classList.add('block');
+            }
 
             const enlaces = document.querySelectorAll('#menu-principal a');
             enlaces.forEach(enlace => {
