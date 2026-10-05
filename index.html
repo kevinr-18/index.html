@@ -1,11 +1,22 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth overflow-x-hidden">
+<html lang="es" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Club Deportivo Amazonas</title>
+    <title>Club Deportivo Amazonas — Pasión y Gloria de Malchinguí (1987)</title>
     <link rel="icon" type="image/png" href="assets/img/branding/Amazonas PGN.png">
-    <meta name="description" content="Sitio web institucional del Club Deportivo Amazonas, fundado en 1987 en Malchinguí, Ecuador. Historia, plantilla oficial, fixture y repositorio gráfico.">
+    <meta name="description" content="Sitio web institucional del Club Deportivo Amazonas, fundado en 1987 en Malchinguí, Ecuador. Historia, plantilla oficial, tienda deportiva y archivo fotográfico histórico.">
+
+    <!-- Metadatos Open Graph para WhatsApp, Facebook y Redes Sociales -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Club Deportivo Amazonas — Orgullo de Malchinguí">
+    <meta property="og:description" content="Conoce la historia, plantilla oficial, indumentaria deportiva y repositorio fotográfico del Club Deportivo Amazonas.">
+    <meta property="og:image" content="assets/img/branding/Amazonas PGN.png">
+    <meta property="og:locale" content="es_EC">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Club Deportivo Amazonas">
+    <meta name="twitter:description" content="Sitio oficial del Club Deportivo Amazonas, fundado en 1987 en Malchinguí.">
+    <meta name="twitter:image" content="assets/img/branding/Amazonas PGN.png">
     
     <!-- Google Fonts: Playfair Display (Editorial Serif) & Inter (Modern Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -85,10 +96,15 @@
     </script>
     
     <style>
-        /* Prevención estricta de desbordamiento horizontal */
-        html, body {
-            max-width: 100vw;
-            overflow-x: hidden;
+        /* Prevención estricta de desbordamiento horizontal sin romper position: sticky */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 4.5rem;
+        }
+
+        body {
+            max-width: 100%;
+            overflow-x: clip;
             margin: 0;
             padding: 0;
         }
@@ -163,9 +179,9 @@
             <a href="#sobre-el-club" onclick="mostrarSeccion('sobre-el-club'); return false;" class="flex items-center space-x-2 sm:space-x-3 group z-50">
                 <img src="assets/img/branding/Amazonas PGN.png" alt="Escudo Oficial Club Deportivo Amazonas" class="h-9 sm:h-11 w-auto transition-transform duration-300 group-hover:scale-105 drop-shadow-sm flex-shrink-0" onerror="this.src='https://placehold.co/100x100/046a38/ffffff?text=CDA'">
                 <div class="leading-tight">
-                    <h1 class="font-serif text-sm sm:text-lg text-brand-white font-bold tracking-normal group-hover:text-slate-100 transition-colors whitespace-nowrap">
+                    <span class="font-serif text-sm sm:text-lg text-brand-white font-bold tracking-normal group-hover:text-slate-100 transition-colors whitespace-nowrap block">
                         Amazonas
-                    </h1>
+                    </span>
                     <p class="text-[10px] sm:text-xs text-brand-white/80 font-normal tracking-wide flex items-center gap-1 mt-0.5">
                         <span class="inline-block w-1.5 h-1.5 rounded-full bg-brand-gold flex-shrink-0"></span>
                         <span class="truncate">Malchinguí, 1987</span>
@@ -173,48 +189,61 @@
                 </div>
             </a>
             
-            <!-- Botón de menú móvil limpio -->
-            <button class="md:hidden text-brand-white p-1.5 rounded-lg hover:bg-white/10 transition-colors z-50 focus:outline-none flex-shrink-0" onclick="toggleMenu()" aria-label="Abrir menú de navegación">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
+            <div class="flex items-center gap-1.5 sm:gap-2 z-50">
+                <!-- Botón de Carrito Rápido en Navbar -->
+                <button onclick="mostrarSeccion('tienda'); abrirModalCarrito(); return false;" class="relative p-2 text-brand-white hover:text-brand-gold hover:bg-white/10 rounded-lg transition-colors flex items-center gap-1.5 focus:outline-none" title="Ver Carrito de Compras" aria-label="Ver Carrito de Compras">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                    <span id="nav-cart-badge" class="hidden absolute -top-1 -right-1 bg-brand-gold text-brand-dark font-black text-[10px] w-5 h-5 rounded-full items-center justify-center shadow-md">0</span>
+                </button>
+
+                <!-- Botón de menú móvil limpio con estado animado Hamburger / X -->
+                <button id="btn-toggle-menu" class="md:hidden text-brand-white p-2 rounded-lg hover:bg-white/15 transition-colors focus:outline-none flex-shrink-0" onclick="toggleMenu()" aria-label="Abrir menú de navegación" aria-expanded="false">
+                    <svg id="icon-menu-open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 block" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                    <svg id="icon-menu-close" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
 
             <!-- Menú Desplegable Móvil -->
-            <nav id="menu-principal" class="hidden md:block absolute md:relative top-full left-0 w-full md:w-auto bg-brand-dark md:bg-transparent shadow-2xl md:shadow-none border-t border-white/10 md:border-none">
+            <nav id="menu-principal" class="hidden md:block absolute md:relative top-full left-0 w-full md:w-auto bg-brand-green md:bg-transparent shadow-2xl md:shadow-none border-t border-brand-green-light/20 md:border-none z-50">
                 <ul class="flex flex-col md:flex-row md:items-center space-y-1 md:space-y-0 md:space-x-1 lg:space-x-2 text-brand-white/90 text-xs font-semibold tracking-wider uppercase p-3 md:p-0">
                     <li>
-                        <a href="#sobre-el-club" onclick="mostrarSeccion('sobre-el-club'); return false;" id="nav-sobre-el-club" class="nav-link block px-3 py-2 rounded-md transition-all text-brand-white bg-white/15 font-bold">
+                        <a href="#sobre-el-club" onclick="mostrarSeccion('sobre-el-club'); return false;" id="nav-sobre-el-club" class="nav-link block px-3 py-2.5 md:py-2 rounded-md transition-all text-brand-white bg-white/15 font-bold">
                             El Club
                         </a>
                     </li>
                     <li>
-                        <a href="#noticias" onclick="mostrarSeccion('noticias'); return false;" id="nav-noticias" class="nav-link block px-3 py-2 rounded-md hover:text-brand-white hover:bg-white/10 transition-all">
+                        <a href="#noticias" onclick="mostrarSeccion('noticias'); return false;" id="nav-noticias" class="nav-link block px-3 py-2.5 md:py-2 rounded-md hover:text-brand-white hover:bg-white/10 transition-all">
                             Noticias
                         </a>
                     </li>
                     <li>
-                        <a href="#plantilla" onclick="mostrarSeccion('plantilla'); return false;" id="nav-plantilla" class="nav-link block px-3 py-2 rounded-md hover:text-brand-white hover:bg-white/10 transition-all">
+                        <a href="#plantilla" onclick="mostrarSeccion('plantilla'); return false;" id="nav-plantilla" class="nav-link block px-3 py-2.5 md:py-2 rounded-md hover:text-brand-white hover:bg-white/10 transition-all">
                             Plantilla
                         </a>
                     </li>
                     <li>
-                        <a href="#galeria" onclick="mostrarSeccion('galeria'); return false;" id="nav-galeria" class="nav-link block px-3 py-2 rounded-md hover:text-brand-white hover:bg-white/10 transition-all">
+                        <a href="#galeria" onclick="mostrarSeccion('galeria'); return false;" id="nav-galeria" class="nav-link block px-3 py-2.5 md:py-2 rounded-md hover:text-brand-white hover:bg-white/10 transition-all">
                             Repositorio
                         </a>
                     </li>
                     <li>
-                        <a href="#tienda" onclick="mostrarSeccion('tienda'); return false;" id="nav-tienda" class="nav-link block px-3 py-2 rounded-md hover:text-brand-white hover:bg-white/10 transition-all">
+                        <a href="#tienda" onclick="mostrarSeccion('tienda'); return false;" id="nav-tienda" class="nav-link block px-3 py-2.5 md:py-2 rounded-md hover:text-brand-white hover:bg-white/10 transition-all">
                             Tienda
                         </a>
                     </li>
                     <li>
-                        <a href="#aliados" onclick="mostrarSeccion('aliados'); return false;" id="nav-aliados" class="nav-link block px-3 py-2 rounded-md text-brand-gold font-bold hover:bg-white/10 transition-all">
+                        <a href="#aliados" onclick="mostrarSeccion('aliados'); return false;" id="nav-aliados" class="nav-link block px-3 py-2.5 md:py-2 rounded-md text-brand-gold font-bold hover:bg-white/10 transition-all">
                             Aliados estratégicos
                         </a>
                     </li>
                     <li>
-                        <a href="#contacto" onclick="mostrarSeccion('contacto'); return false;" id="nav-contacto" class="nav-link block px-3.5 py-2 rounded-md bg-brand-white text-brand-green font-bold hover:bg-slate-100 transition-all shadow-subtle ml-0 md:ml-2 text-center">
+                        <a href="#contacto" onclick="mostrarSeccion('contacto'); return false;" id="nav-contacto" class="nav-link block px-3.5 py-2.5 md:py-2 rounded-md bg-brand-white text-brand-green font-bold hover:bg-slate-100 transition-all shadow-subtle ml-0 md:ml-2 text-center">
                             Contacto
                         </a>
                     </li>
@@ -222,6 +251,9 @@
             </nav>
         </div>
     </header>
+
+    <!-- Overlay de Fondo para Menú Móvil -->
+    <div id="menu-backdrop" class="fixed inset-0 bg-black/60 backdrop-blur-xs z-40 hidden md:hidden transition-opacity" onclick="toggleMenu(false)"></div>
 
     <main class="flex-grow flex flex-col relative w-full overflow-hidden">
 
@@ -235,12 +267,12 @@
 
                 <div class="container mx-auto px-4 lg:px-8 text-center relative z-10 max-w-4xl">
                     
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full cda-badge-stars text-brand-white text-xs font-semibold tracking-wider mb-6 cda-float-anim cursor-default">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full cda-badge-stars text-brand-white text-xs font-semibold tracking-wider mb-6 cda-float-anim cursor-default" title="Club Deportivo Amazonas · Malchinguí 1987 - 2026">
                         <span class="text-brand-gold text-xs tracking-widest drop-shadow">1987 ★</span>
                         <span class="text-[11px] text-slate-200 font-bold uppercase tracking-widest">2026</span>
                     </div>
 
-                    <h2 class="font-serif text-3xl sm:text-5xl md:text-6xl font-bold mb-4 tracking-tight leading-tight text-brand-white drop-shadow-md px-2">
+                    <h2 class="font-serif text-3xl sm:text-5xl md:text-6xl font-extrabold mb-4 tracking-tight leading-tight text-brand-white drop-shadow-md px-2">
                         Club Deportivo Amazonas
                     </h2>
                     
@@ -249,11 +281,17 @@
                     </p>
 
                     <div class="flex flex-wrap justify-center gap-3 px-4">
-                        <button onclick="mostrarSeccion('aliados'); return false;" class="cda-btn-shine px-6 py-3 bg-brand-white hover:bg-slate-100 text-brand-green font-bold text-xs tracking-wider uppercase rounded-xl shadow-card transition-all">
-                            Aliados estratégicos Premium
+                        <button onclick="mostrarSeccion('plantilla'); return false;" class="cda-btn-shine px-6 py-3 bg-brand-white hover:bg-slate-100 text-brand-green font-bold text-xs tracking-wider uppercase rounded-xl shadow-card transition-all inline-flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                            <span>Plantilla Oficial</span>
                         </button>
-                        <button onclick="mostrarSeccion('galeria'); return false;" class="cda-btn-shine px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/40 text-brand-white font-bold text-xs tracking-wider uppercase rounded-xl backdrop-blur-md transition-all">
-                            Repositorio Gráfico Oficial
+                        <button onclick="mostrarSeccion('galeria'); return false;" class="cda-btn-shine px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/40 text-brand-white font-bold text-xs tracking-wider uppercase rounded-xl backdrop-blur-md transition-all inline-flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <span>Repositorio Gráfico</span>
+                        </button>
+                        <button onclick="mostrarSeccion('tienda'); return false;" class="cda-btn-shine px-6 py-3 bg-brand-gold/20 hover:bg-brand-gold/30 border border-brand-gold/50 text-brand-gold font-bold text-xs tracking-wider uppercase rounded-xl backdrop-blur-md transition-all inline-flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                            <span>Tienda Oficial</span>
                         </button>
                     </div>
                 </div>
@@ -374,10 +412,14 @@
                                     Esta presente temporada ha sido la que más bajas ha tenido el equipo; la mayor parte de los jugadores se marcharon a otros planteles del pueblo en busca de nuevos aires. Ante esto, la directiva hizo un gran esfuerzo para reemplazar a dichos elementos con contrataciones de alto nivel, con la mira puesta en pelear por un nuevo campeonato. Ha sido una época complicada para mantener el club debido a la tendencia financiera que han tomado los jugadores y los clubes en la parroquia.
                                 </p>
                             </div>
-                            <button> <a href="https://www.facebook.com/share/1DDN5HnVQF/" target="_blank" rel="noopener noreferrer" class="text-xs font-semibold text-brand-green hover:underline">
-    Ver más noticias →
-</a>
-                            </button>
+                            <div class="pt-2">
+                                <a href="https://www.facebook.com/share/1DDN5HnVQF/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-brand-green hover:text-brand-green-hover transition-colors group">
+                                    <span>Ver más noticias en Facebook</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -464,6 +506,108 @@
                 </div>
             </div>
         </section>
+
+        <!-- Modal Ficha Técnica Interactiva del Jugador (TCG) -->
+        <div id="modal-ficha-jugador" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm items-center justify-center p-3 sm:p-4 overflow-y-auto" onclick="cerrarModalFichaJugador()">
+            <div class="relative w-full max-w-lg bg-brand-dark rounded-2xl border border-white/20 shadow-2xl p-5 sm:p-6 text-white my-auto overflow-hidden" onclick="event.stopPropagation()">
+                <!-- Botón de Cerrar -->
+                <button onclick="cerrarModalFichaJugador()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center font-bold text-sm transition-colors z-20" title="Cerrar (Esc)">
+                    ✕
+                </button>
+
+                <!-- Cabecera del Jugador -->
+                <div class="flex items-start gap-4 mb-5 pb-4 border-b border-white/10">
+                    <div class="relative w-24 h-28 sm:w-28 sm:h-32 rounded-xl overflow-hidden bg-slate-900 border-2 border-white/20 flex-shrink-0 flex items-center justify-center">
+                        <img id="modal-jugador-foto" src="" alt="Jugador" class="w-full h-full object-cover object-top" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
+                        <div class="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    </div>
+                    <div class="flex-grow min-w-0 pr-6">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span id="modal-jugador-ovr" class="text-2xl font-black font-sans tracking-tight text-brand-gold">90</span>
+                            <span id="modal-jugador-pos" class="text-[10px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full border border-emerald-500/50 bg-emerald-500/20 text-emerald-300">DEL</span>
+                            <span id="modal-jugador-dorsal" class="text-xs font-black px-2 py-0.5 rounded-md border border-white/20 bg-white/10 ml-auto">#10</span>
+                        </div>
+                        <p id="modal-jugador-nombres" class="text-xs text-slate-300 font-medium truncate"></p>
+                        <h4 id="modal-jugador-apellidos" class="font-serif text-lg sm:text-xl font-black uppercase text-white truncate drop-shadow-sm"></h4>
+                        <div class="mt-2 space-y-0.5 text-[11px] text-slate-300">
+                            <p id="modal-jugador-fecha" class="truncate">📅 Fecha Nac: -</p>
+                            <p id="modal-jugador-obs" class="truncate">📍 Lugar / Observación: -</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel de Atributos Deportivos TCG -->
+                <div class="mb-5">
+                    <h5 class="text-xs font-bold uppercase tracking-wider text-slate-300 mb-3 flex items-center gap-1.5">
+                        <span class="w-1.5 h-3.5 bg-brand-gold rounded-full"></span>
+                        Estadísticas de Rendimiento (0-99)
+                    </h5>
+                    <div class="space-y-2.5 bg-black/40 p-3.5 rounded-xl border border-white/10" id="modal-jugador-stats-grid">
+                        <!-- RIT -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">⚡ Ritmo (RIT)</span>
+                                <span id="modal-stat-rit-val" class="font-black text-white">0</span>
+                            </div>
+                            <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div id="modal-stat-rit-bar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <!-- TIR -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">🎯 Tiro (TIR)</span>
+                                <span id="modal-stat-tir-val" class="font-black text-white">0</span>
+                            </div>
+                            <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div id="modal-stat-tir-bar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <!-- PAS -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">👟 Pase (PAS)</span>
+                                <span id="modal-stat-pas-val" class="font-black text-white">0</span>
+                            </div>
+                            <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div id="modal-stat-pas-bar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <!-- REG -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">🪄 Regate (REG)</span>
+                                <span id="modal-stat-reg-val" class="font-black text-white">0</span>
+                            </div>
+                            <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div id="modal-stat-reg-bar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <!-- DEF -->
+                        <div>
+                            <div class="flex justify-between text-xs font-bold mb-1">
+                                <span class="text-slate-300">🛡️ Defensa (DEF)</span>
+                                <span id="modal-stat-def-val" class="font-black text-white">0</span>
+                            </div>
+                            <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
+                                <div id="modal-stat-def-bar" class="h-full bg-emerald-500 transition-all duration-500" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pie del Modal -->
+                <div class="flex items-center justify-between pt-2 border-t border-white/10 text-xs text-slate-400">
+                    <span class="flex items-center gap-1.5 font-medium">
+                        <img src="assets/img/branding/Amazonas PGN.png" class="h-4 w-auto" alt="CDA">
+                        Club Deportivo Amazonas
+                    </span>
+                    <button onclick="cerrarModalFichaJugador()" class="px-4 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold transition-colors">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+        </div>
         <!-- Script de automatización para la sección Plantilla y Trading Cards -->
         <script>
             const SPREADSHEET_ID = "1EXz8vjq4cILNs_w2S4BLydKToN_arlejavhTKvcwByY";
@@ -881,7 +1025,9 @@
                             const posAbrev = abreviarPosicion(j.posicion);
                             // Estructura de la Trading Card de Alta Gama
                             const legendGlow = (tipoTab === 'leyendas') ? 'tcg-legend-glow ' : '';
-                            tarjeta.className = `tcg-shimmer-effect ${legendGlow}group relative rounded-2xl p-[2px] bg-gradient-to-b ${borderGradient} shadow-xl ${shadowHover} transition-all duration-300 cursor-pointer flex flex-col`;
+                            tarjeta.className = `tcg-shimmer-effect ${legendGlow}group relative rounded-2xl p-[2px] bg-gradient-to-b ${borderGradient} shadow-xl ${shadowHover} transition-all duration-300 cursor-pointer flex flex-col hover:scale-[1.02]`;
+                            tarjeta.setAttribute('title', 'Toca para ver ficha técnica detallada');
+                            tarjeta.onclick = () => abrirModalFichaJugador(j, tipoTab);
                             tarjeta.innerHTML = `
                                 <div class="${cardBg} rounded-[14px] p-3.5 flex flex-col justify-between h-full relative z-10 text-white overflow-hidden">
                                     
@@ -996,6 +1142,74 @@
                     }
                 });
                 cargarDatosPlantilla(tipoTab);
+            }
+
+            function abrirModalFichaJugador(j, tipoTab) {
+                if (!j) return;
+                const modal = document.getElementById('modal-ficha-jugador');
+                if (!modal) return;
+
+                const fallbackFoto = (tipoTab === 'femenino') 
+                    ? 'assets/img/plantilla/femenino/default_femenino.png' 
+                    : (tipoTab === 'leyendas' ? 'assets/img/plantilla/leyendas/default_leyendas.png' : 'assets/img/plantilla/masculino/default_masculino.png');
+                const fotoFinal = (j.fotoUrl && j.fotoUrl.trim() !== '') ? j.fotoUrl : fallbackFoto;
+
+                const fotoEl = document.getElementById('modal-jugador-foto');
+                if (fotoEl) fotoEl.src = fotoFinal;
+
+                const ovrEl = document.getElementById('modal-jugador-ovr');
+                if (ovrEl) ovrEl.textContent = escapeHTML(j.ovr || '80');
+
+                const posEl = document.getElementById('modal-jugador-pos');
+                if (posEl) posEl.textContent = escapeHTML(abreviarPosicion(j.posicion));
+
+                const dorsalEl = document.getElementById('modal-jugador-dorsal');
+                if (dorsalEl) dorsalEl.textContent = '#' + escapeHTML(j.num || '0');
+
+                const nomEl = document.getElementById('modal-jugador-nombres');
+                if (nomEl) nomEl.textContent = escapeHTML(j.nombres || '');
+
+                const apeEl = document.getElementById('modal-jugador-apellidos');
+                if (apeEl) apeEl.textContent = escapeHTML(j.apellidos || j.nombres || 'Jugador');
+
+                const fecEl = document.getElementById('modal-jugador-fecha');
+                if (fecEl) fecEl.textContent = `📅 Fecha Nac: ${escapeHTML(j.fechaNac || 'No registrada')}`;
+
+                const obsEl = document.getElementById('modal-jugador-obs');
+                if (obsEl) obsEl.textContent = `📍 Origen: ${escapeHTML(j.observacion || 'Malchinguí')}`;
+
+                const stats = [
+                    { id: 'rit', val: Number(j.rit) || 0 },
+                    { id: 'tir', val: Number(j.tir) || 0 },
+                    { id: 'pas', val: Number(j.pas) || 0 },
+                    { id: 'reg', val: Number(j.reg) || 0 },
+                    { id: 'def', val: Number(j.def) || 0 },
+                ];
+
+                const barColor = (tipoTab === 'femenino') ? 'bg-pink-500' : (tipoTab === 'leyendas' ? 'bg-amber-400' : 'bg-emerald-500');
+
+                stats.forEach(s => {
+                    const valEl = document.getElementById(`modal-stat-${s.id}-val`);
+                    const barEl = document.getElementById(`modal-stat-${s.id}-bar`);
+                    if (valEl) valEl.textContent = s.val;
+                    if (barEl) {
+                        barEl.className = `h-full ${barColor} transition-all duration-500`;
+                        barEl.style.width = `${Math.min(100, Math.max(0, s.val))}%`;
+                    }
+                });
+
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function cerrarModalFichaJugador() {
+                const modal = document.getElementById('modal-ficha-jugador');
+                if (modal) {
+                    modal.classList.add('hidden');
+                    modal.classList.remove('flex');
+                }
+                document.body.style.overflow = 'auto';
             }
         </script>
         <!-- ==================== 5. REPOSITORIO GRÁFICO (CONECTADO A GOOGLE SHEETS) ==================== -->
@@ -1139,7 +1353,7 @@
 
         <!-- ==================== LOGICA REPOSITORIO GRAFICO DINAMICO ==================== -->
         <script>
-            const SPREADSHEET_REPO_ID = "https://wa.me/qr/T2Q4XLSSFVWLM1";
+            const SPREADSHEET_REPO_ID = "1GxnHehS9i4QAPCiyVlf3cWfmK1QWqWsQy8juukoZ754";
             const REPO_GID = "0";
 
             let repositorioDatos = [];
@@ -1799,6 +2013,32 @@
                 }
             });
 
+            // Soporte para gestos táctiles Swipe (deslizar izquierda/derecha) en móviles
+            let repoTouchStartX = 0;
+            let repoTouchEndX = 0;
+            const modalRepoDom = document.getElementById('modal-imagen');
+            if (modalRepoDom) {
+                modalRepoDom.addEventListener('touchstart', (e) => {
+                    if (e.changedTouches && e.changedTouches[0]) {
+                        repoTouchStartX = e.changedTouches[0].screenX;
+                    }
+                }, { passive: true });
+
+                modalRepoDom.addEventListener('touchend', (e) => {
+                    if (e.changedTouches && e.changedTouches[0]) {
+                        repoTouchEndX = e.changedTouches[0].screenX;
+                        const diffX = repoTouchEndX - repoTouchStartX;
+                        if (Math.abs(diffX) > 45) {
+                            if (diffX < 0) {
+                                navegarLightboxRepo(1); // Deslizar hacia la izquierda -> siguiente
+                            } else {
+                                navegarLightboxRepo(-1); // Deslizar hacia la derecha -> anterior
+                            }
+                        }
+                    }
+                }, { passive: true });
+            }
+
             document.addEventListener('DOMContentLoaded', () => {
                 cargarRepositorioGoogleSheets();
             });
@@ -2054,40 +2294,108 @@
                 `).join('');
             }
 
+            const SNAPSHOT_TIENDA_OFICIAL = [
+                ['Columna','id (Clave única)','producto','categoria','descripcion_corta','imagen_principal','imagen_secundaria','tallas','precio_regular','precio_descuento','stock_estado','destacado','etiqueta_badge','activo'],
+                ['1','AMZ-CAM-01','Camiseta Oficial Titular 2026','Indumentaria','Poliester, completamente sublimado.','Camisetao26.png','Camisetao26.png','S, M, L, XL, 2XL','15.99','12.99','Bajo pedido','SI','Nueva Temporada','SI'],
+                ['2','AMZ-POL-01','Camisa Polo Oficial','Indumentaria','Poliester, utilizando tejidos de punto','Camisap.png','Camisap.png','S, M, L, XL, 2XL','16.99','13.99','Bajo pedido','NO','Nueva Temporada','SI'],
+                ['3','AMZ-CHA-01','Chaqueta Deportiva Retro','Indumentaria','Materiales sintéticos de trama cerrada que bloquean el paso del aire y mantienen la ligereza','Chaquetadr.png','Chaquetadr.png','M, L, XL, 2XL','49.99','26.99','Bajo pedido','NO','Nueva Temporada','SI']
+            ];
+
+            function cargarTiendaViaJSONP() {
+                return new Promise((resolve, reject) => {
+                    const callbackName = 'cdaCallbackTienda_' + Math.floor(Math.random() * 1000000);
+                    const script = document.createElement('script');
+                    const timer = setTimeout(() => {
+                        try { delete window[callbackName]; } catch (e) {}
+                        if (script.parentNode) script.parentNode.removeChild(script);
+                        reject(new Error("Timeout al sincronizar Google Sheets Tienda por JSONP"));
+                    }, 6000);
+
+                    window[callbackName] = function(json) {
+                        clearTimeout(timer);
+                        try { delete window[callbackName]; } catch (e) {}
+                        if (script.parentNode) script.parentNode.removeChild(script);
+
+                        if (json && json.table && Array.isArray(json.table.rows)) {
+                            const filas = [
+                                ['Columna', 'id', 'producto', 'categoria', 'descripcion_corta', 'imagen_principal', 'imagen_secundaria', 'tallas', 'precio_regular', 'precio_descuento', 'stock_estado', 'destacado', 'etiqueta_badge', 'activo'],
+                                ...json.table.rows.map(r => {
+                                    if (!r || !Array.isArray(r.c)) return [];
+                                    return r.c.map(cell => (cell && cell.v !== null && cell.v !== undefined) ? String(cell.v).trim() : '');
+                                })
+                            ];
+                            resolve(filas);
+                        } else {
+                            reject(new Error("Formato JSONP Tienda no válido"));
+                        }
+                    };
+
+                    script.src = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_TIENDA_ID}/gviz/tq?tqx=responseHandler:${callbackName}&gid=${TIENDA_GID}`;
+                    script.onerror = () => {
+                        clearTimeout(timer);
+                        try { delete window[callbackName]; } catch (e) {}
+                        if (script.parentNode) script.parentNode.removeChild(script);
+                        reject(new Error("Error al cargar script de Google Sheets Tienda"));
+                    };
+
+                    document.head.appendChild(script);
+                });
+            }
+
             async function cargarTiendaGoogleSheets() {
                 if (tiendaCargada && tiendaProductos.length > 0) return;
                 renderizarSkeletonsTienda();
                 actualizarBadgeCarrito();
 
+                let filas = null;
+
+                // 1. Intentar JSONP (100% compatible sin bloqueo CORS)
                 try {
-                    const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_TIENDA_ID}/export?format=csv&gid=${TIENDA_GID}`;
-                    const resp = await fetch(url);
-                    if (!resp.ok) throw new Error("No se pudo conectar con la hoja de cálculo de la Tienda");
-                    const csvText = await resp.text();
-                    tiendaProductos = parsearCSVTienda(csvText);
+                    filas = await cargarTiendaViaJSONP();
+                } catch (errJsonp) {
+                    console.warn("JSONP Tienda no disponible, probando fetch directo:", errJsonp.message);
+                }
+
+                // 2. Intentar fetch directo con endpoints de Google Sheets
+                if (!filas) {
+                    const endpoints = [
+                        `https://docs.google.com/spreadsheets/d/${SPREADSHEET_TIENDA_ID}/gviz/tq?tqx=out:csv&gid=${TIENDA_GID}`,
+                        `https://docs.google.com/spreadsheets/d/${SPREADSHEET_TIENDA_ID}/export?format=csv&gid=${TIENDA_GID}`
+                    ];
+                    for (const url of endpoints) {
+                        try {
+                            const resp = await fetch(url);
+                            if (resp.ok) {
+                                const csvText = await resp.text();
+                                if (csvText && csvText.includes(',')) {
+                                    filas = parsearCSV(csvText);
+                                    break;
+                                }
+                            }
+                        } catch (e) {}
+                    }
+                }
+
+                // 3. Fallback de respaldo institucional oficial (garantiza visualización inmediata)
+                if (!filas || filas.length < 2) {
+                    filas = SNAPSHOT_TIENDA_OFICIAL;
+                }
+
+                try {
+                    tiendaProductos = procesarFilasTienda(filas);
                     tiendaCargada = true;
 
                     if (tiendaProductos.length === 0) {
-                        const grid = document.getElementById('tienda-grid-dinamico');
-                        if (grid) grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500 text-xs">No hay productos disponibles en este momento.</div>`;
-                        return;
+                        tiendaProductos = procesarFilasTienda(SNAPSHOT_TIENDA_OFICIAL);
                     }
 
                     actualizarFiltrosCategoriasTienda();
                     renderizarTienda();
                 } catch (error) {
-                    console.error("Error al cargar tienda:", error);
-                    const grid = document.getElementById('tienda-grid-dinamico');
-                    if (grid) {
-                        grid.innerHTML = `
-                            <div class="col-span-full bg-amber-50 border border-amber-200 rounded-2xl p-8 text-center max-w-lg mx-auto">
-                                <span class="text-3xl block mb-2">⚠️</span>
-                                <h4 class="font-serif font-bold text-brand-dark text-base mb-1">Catálogo en sincronización</h4>
-                                <p class="text-xs text-slate-600 mb-4">No se pudo cargar el catálogo en vivo. Por favor verifica que la pestaña Tienda sea pública.</p>
-                                <button onclick="tiendaCargada=false; cargarTiendaGoogleSheets()" class="px-4 py-2 bg-brand-green text-white text-xs font-bold rounded-lg hover:bg-brand-green-hover transition-colors">Reintentar Conexión</button>
-                            </div>
-                        `;
-                    }
+                    console.error("Error al procesar catálogo de Tienda:", error);
+                    tiendaProductos = procesarFilasTienda(SNAPSHOT_TIENDA_OFICIAL);
+                    actualizarFiltrosCategoriasTienda();
+                    renderizarTienda();
                 }
             }
 
@@ -2131,16 +2439,15 @@
                 return isNaN(num) ? 0 : num;
             }
 
-            function parsearCSVTienda(csvText) {
-                const filas = parsearCSV(csvText);
+            function procesarFilasTienda(filas) {
                 const resultado = [];
 
                 for (let i = 1; i < filas.length; i++) {
                     const c = filas[i];
-                    if (!c || c.length < 3 || !c.some(x => x && x.trim())) continue;
+                    if (!c || c.length < 3 || !c.some(x => x && String(x).trim())) continue;
 
-                    const id = (c[1] || `AMZ-PROD-${i}`).trim();
-                    let nombre = (c[2] || 'Producto Oficial').trim();
+                    const id = String(c[1] || `AMZ-PROD-${i}`).trim();
+                    let nombre = String(c[2] || 'Producto Oficial').trim();
 
                     if (id === 'AMZ-POL-01' && (nombre.toLowerCase().includes('camiseta') && !nombre.toLowerCase().includes('polo'))) {
                         nombre = 'Camisa Polo Oficial';
@@ -2148,12 +2455,12 @@
                         nombre = 'Chaqueta Deportiva Retro';
                     }
 
-                    const categoria = (c[3] || 'Indumentaria').trim();
-                    const descripcion = (c[4] || 'Indumentaria oficial conmemorativa de C.D. Amazonas. Confección de alta calidad con escudo bordado.').trim();
-                    const imgPrincipal = resolverImagenTienda(c[5], id, nombre);
-                    const imgSecundaria = (c[6] && !c[6].includes('...') && !c[6].toLowerCase().includes('secundaria')) ? resolverImagenTienda(c[6], id, nombre) : '';
+                    const categoria = String(c[3] || 'Indumentaria').trim();
+                    const descripcion = String(c[4] || 'Indumentaria oficial conmemorativa de C.D. Amazonas. Confección de alta calidad con escudo bordado.').trim();
+                    const imgPrincipal = resolverImagenTienda(String(c[5] || ''), id, nombre);
+                    const imgSecundaria = (c[6] && !String(c[6]).includes('...') && !String(c[6]).toLowerCase().includes('secundaria')) ? resolverImagenTienda(String(c[6]), id, nombre) : '';
 
-                    const tallasRaw = (c[7] || 'S, M, L, XL, 2XL').trim();
+                    const tallasRaw = String(c[7] || 'S, M, L, XL, 2XL').trim();
                     const tallas = tallasRaw.split(',').map(t => t.trim()).filter(Boolean);
 
                     const precioReg = limpiarPrecioTienda(c[8]);
@@ -2162,7 +2469,7 @@
                     const tieneDescuento = precioDesc > 0 && precioReg > precioDesc;
                     const pctDescuento = tieneDescuento ? Math.round(((precioReg - precioDesc) / precioReg) * 100) : 0;
 
-                    let stock = (c[10] || 'Disponible').trim();
+                    let stock = String(c[10] || 'Disponible').trim();
                     let stockEstado = 'Disponible';
                     if (stock.toLowerCase().includes('bajo')) {
                         stockEstado = 'Bajo Pedido';
@@ -2170,9 +2477,9 @@
                         stockEstado = 'Agotado';
                     }
 
-                    const destacado = (c[11] || '').trim().toUpperCase() === 'SI';
-                    const badge = (c[12] || '').trim() || (destacado ? 'Destacado' : (tieneDescuento ? `${pctDescuento}% OFF` : 'Oficial'));
-                    const activo = (c[13] || '').trim().toUpperCase() !== 'NO';
+                    const destacado = String(c[11] || '').trim().toUpperCase() === 'SI';
+                    const badge = String(c[12] || '').trim() || (destacado ? 'Destacado' : (tieneDescuento ? `${pctDescuento}% OFF` : 'Oficial'));
+                    const activo = String(c[13] || '').trim().toUpperCase() !== 'NO';
 
                     if (activo) {
                         resultado.push({
@@ -2196,6 +2503,11 @@
                     }
                 }
                 return resultado;
+            }
+
+            function parsearCSVTienda(csvText) {
+                const filas = parsearCSV(csvText);
+                return procesarFilasTienda(filas);
             }
 
             function actualizarFiltrosCategoriasTienda() {
@@ -2542,13 +2854,42 @@
             }
 
             function actualizarBadgeCarrito() {
+                const totalItems = carritoTienda.reduce((acc, item) => acc + (item.cantidad || 0), 0);
+                
+                // Badge en la página de Tienda
                 const badge = document.getElementById('tienda-badge-carrito');
-                if (!badge) return;
-                const totalItems = carritoTienda.reduce((acc, item) => acc + item.cantidad, 0);
-                badge.textContent = totalItems;
-                badge.classList.remove('cda-cart-badge-bounce');
-                void badge.offsetWidth;
-                badge.classList.add('cda-cart-badge-bounce');
+                if (badge) {
+                    badge.textContent = totalItems;
+                    badge.classList.remove('cda-cart-badge-bounce');
+                    void badge.offsetWidth;
+                    badge.classList.add('cda-cart-badge-bounce');
+                }
+
+                // Badge en la barra de navegación superior fija
+                const navBadge = document.getElementById('nav-cart-badge');
+                if (navBadge) {
+                    navBadge.textContent = totalItems;
+                    if (totalItems > 0) {
+                        navBadge.classList.remove('hidden');
+                        navBadge.classList.add('flex');
+                    } else {
+                        navBadge.classList.add('hidden');
+                        navBadge.classList.remove('flex');
+                    }
+                }
+            }
+
+            function modificarCantidadCarrito(index, delta) {
+                if (!carritoTienda[index]) return;
+                const nuevaCant = (carritoTienda[index].cantidad || 1) + delta;
+                if (nuevaCant <= 0) {
+                    eliminarItemCarrito(index);
+                    return;
+                }
+                carritoTienda[index].cantidad = Math.min(99, nuevaCant);
+                guardarCarrito();
+                actualizarBadgeCarrito();
+                abrirModalCarrito();
             }
 
             function obtenerItemValidado(rawItem) {
@@ -2599,8 +2940,15 @@
                                     </div>
                                     <div>
                                         <h5 class="text-xs font-bold text-brand-dark leading-tight">${escapeHTML(item.nombre)}</h5>
-                                        <p class="text-[11px] text-slate-500">Talla: <strong class="text-brand-dark">${escapeHTML(item.talla)}</strong> • Cant: ${item.cantidad}</p>
-                                        <span class="text-xs font-black text-brand-green">$${subtotal.toFixed(2)}</span>
+                                        <p class="text-[11px] text-slate-500">Talla: <strong class="text-brand-dark">${escapeHTML(item.talla)}</strong></p>
+                                        <div class="flex items-center gap-2 mt-1">
+                                            <div class="flex items-center bg-white border border-slate-300 rounded-md">
+                                                <button onclick="modificarCantidadCarrito(${idx}, -1)" class="w-5 h-5 flex items-center justify-center text-slate-700 hover:bg-slate-100 font-bold text-xs" title="Reducir cantidad">−</button>
+                                                <span class="text-xs font-black px-1.5 min-w-[1.2rem] text-center text-brand-dark">${item.cantidad}</span>
+                                                <button onclick="modificarCantidadCarrito(${idx}, 1)" class="w-5 h-5 flex items-center justify-center text-slate-700 hover:bg-slate-100 font-bold text-xs" title="Aumentar cantidad">+</button>
+                                            </div>
+                                            <span class="text-xs font-black text-brand-green">$${subtotal.toFixed(2)}</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <button onclick="eliminarItemCarrito(${idx})" class="text-slate-400 hover:text-red-500 p-1.5 transition-colors text-sm" title="Eliminar artículo">
@@ -2891,6 +3239,25 @@
                                 <p id="captcha-error" class="text-[11px] text-red-600 font-medium hidden mt-1.5">❌ Por favor completa la verificación de seguridad (hCaptcha) para continuar.</p>
                             </div>
 
+                            <!-- Casillas de Consentimiento Legal y Privacidad (RGPD / LOPDP) -->
+                            <div class="my-3 space-y-2.5 pt-1 border-t border-slate-100">
+                                <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                                    <input type="checkbox" id="contacto-consentimiento-legal" name="consentimiento_legal" required class="mt-0.5 h-4 w-4 rounded border-slate-300 text-brand-green focus:ring-brand-green cursor-pointer flex-shrink-0">
+                                    <span class="text-xs text-slate-600 leading-snug">
+                                        He leído y acepto la <button type="button" onclick="abrirModalLegal('privacidad')" class="text-brand-green font-semibold underline hover:text-brand-green-hover transition-colors">Política de Privacidad</button> y el <button type="button" onclick="abrirModalLegal('aviso')" class="text-brand-green font-semibold underline hover:text-brand-green-hover transition-colors">Aviso Legal</button>. <span class="text-red-500">*</span>
+                                    </span>
+                                </label>
+                                <label class="flex items-start gap-2.5 cursor-pointer select-none">
+                                    <input type="checkbox" id="contacto-consentimiento-marketing" name="consentimiento_marketing" class="mt-0.5 h-4 w-4 rounded border-slate-300 text-brand-green focus:ring-brand-green cursor-pointer flex-shrink-0">
+                                    <span class="text-xs text-slate-500 leading-snug">
+                                        Acepto recibir comunicaciones institucionales, novedades deportivas y promociones de C.D. Amazonas por correo electrónico o WhatsApp.
+                                    </span>
+                                </label>
+                                <p id="contacto-aviso-consentimiento" class="text-[11px] text-red-600 font-medium hidden">
+                                    ❌ Debes marcar la casilla aceptando la Política de Privacidad y el Aviso Legal para enviar tu mensaje.
+                                </p>
+                            </div>
+
                             <!-- Alerta de Cooldown / Enfriamiento Anti-Spam -->
                             <div id="contacto-cooldown-alerta" class="hidden p-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg text-xs leading-relaxed">
                                 ⏳ <strong>Envío temporalmente en pausa:</strong> Ya enviaste un mensaje. Para evitar saturación y spam, por favor espera <span id="cooldown-contador" class="font-bold text-brand-dark"></span> antes de enviar otro.
@@ -2921,15 +3288,15 @@
 
     </main>
 
-    <!-- Footer Institucional con Redes Sociales -->
+    <!-- Footer Institucional con Redes Sociales y Marco Legal -->
     <footer class="bg-brand-dark text-brand-white py-10 w-full mt-auto">
-        <div class="container mx-auto px-4 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div class="container mx-auto px-4 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             <div class="space-y-3">
                 <a href="#sobre-el-club" onclick="mostrarSeccion('sobre-el-club'); return false;" class="flex items-center space-x-2.5">
                     <img src="assets/img/branding/Amazonas PGN.png" alt="C.D. Amazonas" class="h-9 w-auto opacity-90" onerror="this.src='https://placehold.co/40x40/046a38/ffffff?text=CDA'">
                     <span class="font-serif text-base font-bold text-white">C.D. Amazonas</span>
                 </a>
-                <p class="text-xs text-slate-400 leading-relaxed max-w-xs">Fomentando el deporte y valores en la parroquia desde 1987.</p>
+                <p class="text-xs text-slate-400 leading-relaxed max-w-xs">Fomentando el deporte, la pasión y los valores en la parroquia de Malchinguí desde 1987. Orgullo verdiblanco con 5 estrellas.</p>
             </div>
             <div>
                 <h4 class="font-serif font-bold text-white text-sm mb-3">Navegación</h4>
@@ -2938,6 +3305,20 @@
                     <li><a href="#noticias" onclick="mostrarSeccion('noticias'); return false;" class="hover:text-brand-gold transition-colors">Noticias</a></li>
                     <li><a href="#plantilla" onclick="mostrarSeccion('plantilla'); return false;" class="hover:text-brand-gold transition-colors">Plantilla Oficial</a></li>
                     <li><a href="#galeria" onclick="mostrarSeccion('galeria'); return false;" class="hover:text-brand-gold transition-colors">Repositorio Histórico</a></li>
+                    <li><a href="#tienda" onclick="mostrarSeccion('tienda'); return false;" class="hover:text-brand-gold transition-colors">Tienda Oficial</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-serif font-bold text-white text-sm mb-3">Marco Legal & Privacidad</h4>
+                <ul class="space-y-2 text-xs text-slate-300">
+                    <li><button type="button" onclick="abrirModalLegal('privacidad')" class="hover:text-brand-gold transition-colors text-left">Política de Privacidad</button></li>
+                    <li><button type="button" onclick="abrirModalLegal('aviso')" class="hover:text-brand-gold transition-colors text-left">Aviso Legal y Términos</button></li>
+                    <li><button type="button" onclick="abrirModalLegal('cookies')" class="hover:text-brand-gold transition-colors text-left">Política de Cookies</button></li>
+                    <li>
+                        <button type="button" onclick="abrirModalConfigCookies()" class="hover:text-brand-gold transition-colors text-left flex items-center gap-1.5 text-brand-gold font-medium">
+                            <span>🍪</span> Reconfigurar cookies
+                        </button>
+                    </li>
                 </ul>
             </div>
             <div>
@@ -2962,8 +3343,19 @@
                 </div>
             </div>
         </div>
-        <div class="container mx-auto px-4 border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
+        <div class="container mx-auto px-4 border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
             <p>© 2026 Club Deportivo Amazonas. Todos los derechos reservados • Malchinguí, Ecuador.</p>
+            <div class="flex items-center gap-3 flex-wrap justify-center text-[11px]">
+                <button type="button" onclick="abrirModalLegal('privacidad')" class="hover:text-slate-300 transition-colors">Privacidad</button>
+                <span>•</span>
+                <button type="button" onclick="abrirModalLegal('aviso')" class="hover:text-slate-300 transition-colors">Aviso Legal</button>
+                <span>•</span>
+                <button type="button" onclick="abrirModalLegal('cookies')" class="hover:text-slate-300 transition-colors">Cookies</button>
+                <span>•</span>
+                <button type="button" onclick="abrirModalConfigCookies()" class="hover:text-brand-gold text-slate-400 inline-flex items-center gap-1 transition-colors">
+                    <span>🍪</span> Configurar Cookies
+                </button>
+            </div>
         </div>
     </footer>
 
@@ -3036,6 +3428,397 @@
         </div>
     </div>
 
+    <!-- ==================== BANNER DE COOKIES FLOTANTE (RGPD / LOPDP) ==================== -->
+    <div id="cda-cookie-banner" class="fixed bottom-4 left-4 right-4 md:left-6 md:right-auto md:max-w-xl bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200/90 p-5 sm:p-6 z-50 hidden cookie-banner-anim" role="dialog" aria-modal="true" aria-labelledby="cookie-banner-title">
+        <div class="flex items-start gap-3.5">
+            <div class="w-10 h-10 rounded-xl bg-brand-green/10 text-brand-green flex items-center justify-center text-xl flex-shrink-0 shadow-inner">
+                🍪
+            </div>
+            <div class="flex-grow space-y-2">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <h3 id="cookie-banner-title" class="font-serif font-bold text-sm sm:text-base text-brand-dark">
+                        Tu privacidad nos importa
+                    </h3>
+                    <span class="text-[10px] font-sans font-bold bg-emerald-100 text-brand-green px-2 py-0.5 rounded-full uppercase tracking-wider">Cumplimiento RGPD / LOPDP</span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    En el <strong>Club Deportivo Amazonas</strong> empleamos cookies técnicas esenciales y almacenamiento local para el funcionamiento del carrito de compras de la tienda oficial y la seguridad anti-spam de nuestros formularios. También utilizamos herramientas de analítica y personalización para mejorar la experiencia de nuestra hinchada.
+                </p>
+                <p class="text-[11px] text-slate-500">
+                    Consulta los detalles en nuestra <button type="button" onclick="abrirModalLegal('cookies')" class="text-brand-green font-semibold underline hover:text-brand-green-hover transition-colors">Política de Cookies</button> y <button type="button" onclick="abrirModalLegal('privacidad')" class="text-brand-green font-semibold underline hover:text-brand-green-hover transition-colors">Política de Privacidad</button>.
+                </p>
+            </div>
+        </div>
+        <div class="mt-4 pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 text-xs font-bold">
+            <button type="button" onclick="CDA_COOKIES.configurar()" class="px-3.5 py-2 rounded-xl text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
+                ⚙️ Configurar
+            </button>
+            <button type="button" onclick="CDA_COOKIES.rechazarNoEsenciales()" class="px-3.5 py-2 rounded-xl text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
+                Rechazar no esenciales
+            </button>
+            <button type="button" onclick="CDA_COOKIES.aceptarTodas()" class="px-4 py-2 rounded-xl text-white bg-brand-green hover:bg-brand-green-hover transition-colors shadow-subtle text-center">
+                Aceptar todas
+            </button>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL CENTRO DE PREFERENCIAS DE COOKIES ==================== -->
+    <div id="modal-config-cookies" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="modal-config-title" onclick="cerrarModalConfigCookies()">
+        <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[90vh] chat-anim-in" onclick="event.stopPropagation()">
+            <!-- Cabecera -->
+            <div class="p-4 sm:p-5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <span class="text-xl">⚙️</span>
+                    <div>
+                        <h3 id="modal-config-title" class="font-serif font-bold text-base text-brand-dark">Centro de Preferencias de Privacidad</h3>
+                        <p class="text-[11px] text-slate-500">Gestión de cookies y tecnologías de almacenamiento (RGPD / LOPDP Ecuador)</p>
+                    </div>
+                </div>
+                <button type="button" onclick="cerrarModalConfigCookies()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-200 transition-colors" aria-label="Cerrar modal">
+                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <!-- Cuerpo scrolleable -->
+            <div class="p-4 sm:p-6 overflow-y-auto space-y-4 text-xs">
+                <p class="text-slate-600 leading-relaxed">
+                    Al navegar por nuestro portal web, se almacena información en tu navegador mediante LocalStorage y cookies. Respetamos tu privacidad y te permitimos elegir qué categorías activar de forma independiente:
+                </p>
+
+                <!-- Grupo 1: Técnicas y Necesarias -->
+                <div class="p-4 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-brand-dark text-sm">Cookies Técnicas y Esenciales</span>
+                            <span class="bg-emerald-200 text-brand-dark px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider">Siempre activas</span>
+                        </div>
+                        <input type="checkbox" checked disabled class="h-4 w-4 text-brand-green rounded border-slate-300 opacity-80 cursor-not-allowed">
+                    </div>
+                    <p class="text-slate-600 leading-relaxed text-[11px]">
+                        Imprescindibles para el funcionamiento operativo del sitio: persistencia de productos y tallas en el carrito de compras (<code class="font-mono bg-white px-1 py-0.5 rounded border border-emerald-200">cda_carrito_tienda</code>), mecanismos anti-spam y token de hCaptcha en el formulario de contacto, y resguardo de tus elecciones de privacidad.
+                    </p>
+                </div>
+
+                <!-- Grupo 2: Analítica y Rendimiento -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-brand-dark text-sm">Cookies de Análisis y Rendimiento</span>
+                            <span class="block text-[10px] text-slate-500 font-normal">Estadísticas anónimas de tráfico</span>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="cookie-opt-analiticas" class="sr-only peer">
+                            <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-green"></div>
+                        </label>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed text-[11px]">
+                        Nos permiten cuantificar las visitas a cada sección (noticias, repositorio histórico, nómina deportiva) para medir el rendimiento técnico y mejorar la experiencia de los aficionados. Toda la información se recopila de manera agregada y anónima.
+                    </p>
+                </div>
+
+                <!-- Grupo 3: Preferencias y Personalización -->
+                <div class="p-4 rounded-xl border border-slate-200 bg-slate-50 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <span class="font-bold text-brand-dark text-sm">Cookies de Preferencias y Funcionalidad</span>
+                            <span class="block text-[10px] text-slate-500 font-normal">Personalización de navegación</span>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="cookie-opt-preferencias" class="sr-only peer">
+                            <div class="w-11 h-6 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-green"></div>
+                        </label>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed text-[11px]">
+                        Permiten recordar tus selecciones de interfaz, como filtros preferidos en la plantilla oficial o la última categoría de productos explorada en la tienda.
+                    </p>
+                </div>
+            </div>
+            <!-- Pie con acciones -->
+            <div class="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2 text-xs font-bold">
+                <button type="button" onclick="CDA_COOKIES.rechazarNoEsenciales()" class="px-3.5 py-2 rounded-xl text-slate-600 bg-white border border-slate-300 hover:bg-slate-100 transition-colors text-center">
+                    Rechazar opcionales
+                </button>
+                <div class="flex items-center gap-2">
+                    <button type="button" onclick="CDA_COOKIES.guardarPreferencias()" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-brand-dark bg-brand-gold hover:bg-yellow-400 transition-colors text-center shadow-xs">
+                        Guardar mis preferencias
+                    </button>
+                    <button type="button" onclick="CDA_COOKIES.aceptarTodas()" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-white bg-brand-green hover:bg-brand-green-hover transition-colors text-center shadow-subtle">
+                        Aceptar todas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL DE DOCUMENTACIÓN LEGAL ==================== -->
+    <div id="modal-documento-legal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-5" role="dialog" aria-modal="true" aria-labelledby="modal-legal-titulo" onclick="cerrarModalLegal()">
+        <div class="bg-white rounded-2xl max-w-3xl w-full shadow-2xl border border-slate-200 overflow-hidden flex flex-col max-h-[92vh] chat-anim-in" onclick="event.stopPropagation()">
+            <!-- Cabecera Institucional y Pestañas -->
+            <div class="bg-slate-50 border-b border-slate-200 flex-shrink-0">
+                <div class="p-4 sm:px-6 sm:py-4 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <img src="assets/img/branding/Amazonas PGN.png" alt="C.D. Amazonas" class="h-8 w-auto" onerror="this.src='https://placehold.co/32x32/046a38/ffffff?text=CDA'">
+                        <div>
+                            <h3 id="modal-legal-titulo" class="font-serif font-bold text-base text-brand-dark">Marco Legal y Cumplimiento Digital</h3>
+                            <p class="text-[11px] text-slate-500">Club Deportivo Amazonas • Malchinguí, Ecuador</p>
+                        </div>
+                    </div>
+                    <button type="button" onclick="cerrarModalLegal()" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg hover:bg-slate-200 transition-colors" aria-label="Cerrar documento legal">
+                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <!-- Barra de Pestañas Legales -->
+                <div class="flex items-center border-t border-slate-200 px-4 sm:px-6 overflow-x-auto">
+                    <button type="button" id="tab-btn-legal-privacidad" onclick="cambiarTabLegal('privacidad')" class="tab-btn-legal px-4 py-2.5 text-xs font-bold border-b-2 border-brand-green text-brand-green bg-emerald-50/50 transition-all whitespace-nowrap">
+                        🔒 Política de Privacidad
+                    </button>
+                    <button type="button" id="tab-btn-legal-aviso" onclick="cambiarTabLegal('aviso')" class="tab-btn-legal px-4 py-2.5 text-xs font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">
+                        ⚖️ Aviso Legal y Términos
+                    </button>
+                    <button type="button" id="tab-btn-legal-cookies" onclick="cambiarTabLegal('cookies')" class="tab-btn-legal px-4 py-2.5 text-xs font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">
+                        🍪 Política de Cookies
+                    </button>
+                </div>
+            </div>
+
+            <!-- Contenedor scrolleable de los textos legales -->
+            <div id="legal-scroll-container" class="p-5 sm:p-7 overflow-y-auto legal-prose flex-grow">
+                
+                <!-- 1. POLÍTICA DE PRIVACIDAD -->
+                <div id="legal-content-privacidad" class="space-y-4">
+                    <div class="border-b border-slate-200 pb-3 mb-4">
+                        <h4 class="text-base font-bold text-brand-dark !mt-0">Política de Privacidad y Protección de Datos Personales</h4>
+                        <p class="text-xs text-slate-500">Última actualización: Octubre 2026 • Conforme a la Ley Orgánica de Protección de Datos Personales (LOPDP de Ecuador) y el RGPD (UE 2016/679).</p>
+                    </div>
+
+                    <p>
+                        En el <strong>Club Deportivo Amazonas</strong>, entidad deportiva fundada el 12 de febrero de 1987 en Malchinguí, Pedro Moncayo, Ecuador, la salvaguarda de tu privacidad y la confidencialidad de tus datos personales es un compromiso institucional prioritario. A través de la presente política, te informamos de manera transparente y clara cómo tratamos tus datos personales.
+                    </p>
+
+                    <h4>1. Responsable del Tratamiento de Datos</h4>
+                    <ul>
+                        <li><strong>Identidad:</strong> Club Deportivo Amazonas</li>
+                        <li><strong>Ubicación institucional:</strong> Barrio El Hospital, Parroquia Malchinguí, Cantón Pedro Moncayo, Provincia de Pichincha, República del Ecuador.</li>
+                        <li><strong>Correo electrónico de privacidad y contacto:</strong> <a href="mailto:cdamazonass@gmail.com" class="text-brand-green font-semibold underline">cdamazonass@gmail.com</a></li>
+                        <li><strong>Representación institucional:</strong> Directiva Oficial C.D. Amazonas 2026.</li>
+                    </ul>
+
+                    <h4>2. Datos Personales Recopilados</h4>
+                    <p>
+                        A través de este sitio web únicamente recopilamos los datos que tú nos proporcionas de manera voluntaria e informada:
+                    </p>
+                    <ul>
+                        <li><strong>Formulario de Contacto:</strong> Nombre y apellidos, dirección de correo electrónico, número telefónico/WhatsApp y el contenido del mensaje o consulta formulada.</li>
+                        <li><strong>Tienda Oficial:</strong> Información de contacto requerida para coordinar la entrega y confirmación de pedidos de indumentaria deportiva institucional vía WhatsApp o correo.</li>
+                        <li><strong>Datos de Navegación y Técnicos:</strong> Dirección IP anonimizada, identificadores técnicos de sesión para prevención de ataques informáticos y registros de consentimiento almacenados localmente en tu dispositivo.</li>
+                    </ul>
+
+                    <h4>3. Finalidad y Usos del Tratamiento</h4>
+                    <p>Tratamos tus datos con las siguientes finalidades explícitas:</p>
+                    <ul>
+                        <li><strong>Atención de Consultas:</strong> Responder a mensajes, inquietudes y peticiones remitidas a través de nuestro formulario de contacto.</li>
+                        <li><strong>Gestión de la Tienda Institucional:</strong> Coordinar y procesar solicitudes de adquisición de indumentaria oficial del club.</li>
+                        <li><strong>Comunicaciones Novedades (Opcional):</strong> Remitir avisos deportivos, boletines de partidos y promociones únicamente a los usuarios que hayan marcado voluntariamente la casilla correspondiente.</li>
+                        <li><strong>Seguridad y Prevención de Abusos:</strong> Prevenir ataques automatizados, saturación de servidores y spam mediante el sistema de verificación hCaptcha y límites de frecuencia.</li>
+                    </ul>
+
+                    <h4>4. Base Jurídica de Legitimación</h4>
+                    <p>La base legal que legitima el tratamiento de tus datos es:</p>
+                    <ul>
+                        <li><strong>Consentimiento explícito e inequívoco del interesado</strong> (Art. 7 de la LOPDP del Ecuador y Art. 6.1.a del RGPD) al marcar las casillas obligatorias de aceptación antes del envío del formulario.</li>
+                        <li><strong>Ejecución de medidas precontractuales o relación contractual</strong> (Art. 7 num. 5 LOPDP / Art. 6.1.b RGPD) en las solicitudes y reservas de indumentaria en la tienda.</li>
+                        <li><strong>Interés legítimo en la ciberseguridad</strong> (Art. 6.1.f RGPD) para la protección de la integridad de la plataforma digital.</li>
+                    </ul>
+
+                    <h4>5. Destinatarios y Proveedores de Servicios</h4>
+                    <p>
+                        El Club Deportivo Amazonas no vende, alquila ni cede tus datos personales a empresas comerciales ajenas. Para el funcionamiento tecnológico del portal, nos apoyamos en prestadores de servicios que actúan como encargados del tratamiento bajo rigurosos acuerdos de confidencialidad y seguridad:
+                    </p>
+                    <ul>
+                        <li><strong>Web3Forms:</strong> Proveedor para la transmisión cifrada y entrega segura de formularios de contacto a nuestro correo institucional.</li>
+                        <li><strong>Intuition Machines, Inc. (hCaptcha):</strong> Servicio de protección anti-bots y prevención de spam.</li>
+                        <li><strong>Alojamiento Web (GitHub Pages):</strong> Infraestructura segura para la entrega de contenido estático del portal.</li>
+                    </ul>
+
+                    <h4>6. Plazo de Conservación</h4>
+                    <p>
+                        Tus datos se conservarán durante el tiempo estrictamente necesario para atender y resolver tu consulta o gestionar la solicitud formulada. Una vez concluida la gestión, se conservarán bloqueados únicamente durante los plazos legalmente exigibles para la atención de responsabilidades, procediéndose posteriormente a su eliminación definitiva y segura.
+                    </p>
+
+                    <h4>7. Tus Derechos de Protección de Datos (ARCO y Digitales)</h4>
+                    <p>
+                        De conformidad con la LOPDP ecuatoriana y el RGPD, puedes ejercer en cualquier momento y de forma totalmente gratuita los siguientes derechos:
+                    </p>
+                    <ul>
+                        <li><strong>Acceso:</strong> Conocer qué datos personales tuyos estamos tratando.</li>
+                        <li><strong>Rectificación:</strong> Solicitar la corrección de datos inexactos, desactualizados o incompletos.</li>
+                        <li><strong>Eliminación / Supresión:</strong> Solicitar que borremos tus datos cuando ya no sean necesarios para los fines recabados.</li>
+                        <li><strong>Oposición:</strong> Oponerte al tratamiento de tus datos personales para determinadas finalidades (por ejemplo, comunicaciones comerciales).</li>
+                        <li><strong>Limitación del tratamiento y Portabilidad:</strong> Solicitar la restricción o transferencia estructurada de tus datos.</li>
+                        <li><strong>Revocación del consentimiento:</strong> Retirar tu consentimiento otorgado previamente en cualquier momento, sin que ello afecte la licitud del tratamiento anterior.</li>
+                    </ul>
+                    <p class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs">
+                        Para ejercer cualquiera de estos derechos, envía un correo electrónico a <a href="mailto:cdamazonass@gmail.com" class="text-brand-green font-bold underline">cdamazonass@gmail.com</a> con el asunto <em>"Protección de Datos - Ejercicio de Derechos"</em>, indicando tu solicitud específica y adjuntando copia de tu cédula o documento de identidad para verificación del titular.
+                    </p>
+                </div>
+
+                <!-- 2. AVISO LEGAL Y CONDICIONES DE USO -->
+                <div id="legal-content-aviso" class="space-y-4 hidden">
+                    <div class="border-b border-slate-200 pb-3 mb-4">
+                        <h4 class="text-base font-bold text-brand-dark !mt-0">Aviso Legal y Condiciones de Uso del Portal Web</h4>
+                        <p class="text-xs text-slate-500">Condiciones aplicables a la navegación y uso del portal oficial de C.D. Amazonas.</p>
+                    </div>
+
+                    <h4>1. Información General y Titularidad</h4>
+                    <p>
+                        El presente portal web oficial (<a href="https://cdamazonas.com" class="text-brand-green font-semibold">cdamazonas.com</a>) es propiedad y está administrado por el <strong>Club Deportivo Amazonas</strong>, organización deportiva sin fines de lucro con sede en el Barrio El Hospital, Parroquia Malchinguí, Cantón Pedro Moncayo, Provincia de Pichincha, República del Ecuador. Contacto: <a href="mailto:cdamazonass@gmail.com" class="text-brand-green font-semibold underline">cdamazonass@gmail.com</a>.
+                    </p>
+
+                    <h4>2. Términos y Condiciones de Acceso</h4>
+                    <p>
+                        El acceso y utilización de este sitio web confiere la condición de usuario e implica la aceptación plena de todas las disposiciones contenidas en este Aviso Legal. El usuario se compromete a:
+                    </p>
+                    <ul>
+                        <li>Hacer un uso diligente, correcto y lícito de todos los contenidos, módulos interactivos, asistente virtual Drak y formularios del sitio.</li>
+                        <li>No introducir programas maliciosos, virus, macros o cualquier dispositivo lógico que pueda causar daños a los sistemas informáticos del club o de terceros.</li>
+                        <li>No realizar envíos masivos, spam o conductas que saturen los formularios de contacto o el asistente institucional.</li>
+                        <li>No suplantar la identidad de jugadores, dirigentes, socios o patrocinadores de la institución.</li>
+                    </ul>
+
+                    <h4>3. Propiedad Intelectual e Industrial</h4>
+                    <p>
+                        Todos los elementos distintivos de este portal web, incluyendo pero sin limitarse a:
+                    </p>
+                    <ul>
+                        <li>El nombre institucional <strong>Club Deportivo Amazonas</strong> y su escudo oficial con 5 estrellas.</li>
+                        <li>Las fotografías del repositorio histórico y acervo documental recopilado por Don Carlos Eliécer Rodríguez Navarrete y sus continuadores.</li>
+                        <li>Los textos descriptivos, crónicas, diseño visual, logotipos de patrocinadores autorizados y código de la aplicación.</li>
+                    </ul>
+                    <p>
+                        Están protegidos por las leyes de propiedad intelectual y derechos de autor vigentes en el Ecuador y tratados internacionales. Queda terminantemente prohibida su reproducción total o parcial, distribución o comunicación pública con fines comerciales sin la expresa autorización por escrito de la directiva de C.D. Amazonas.
+                    </p>
+
+                    <h4>4. Exclusión de Responsabilidad y Enlaces</h4>
+                    <p>
+                        El Club Deportivo Amazonas procura mantener la información deportiva (nóminas, noticias, indumentaria) constantemente actualizada. Sin embargo, no se responsabiliza de posibles inexactitudes transitorias ni de fallos técnicos imputables a redes de telecomunicaciones externas.
+                    </p>
+                    <p>
+                        El portal puede incluir enlaces hacia plataformas externas (como WhatsApp, Facebook e Instagram). C.D. Amazonas no ejerce control sobre los contenidos o políticas de privacidad de dichas plataformas de terceros.
+                    </p>
+
+                    <h4>5. Legislación y Jurisdicción</h4>
+                    <p>
+                        Para la resolución de cualquier controversia judicial o extrajudicial derivada de la utilización de este sitio web, las partes se someten expresamente a la legislación vigente de la República del Ecuador y a los juzgados y tribunales competentes de la provincia de Pichincha.
+                    </p>
+                </div>
+
+                <!-- 3. POLÍTICA DE COOKIES -->
+                <div id="legal-content-cookies" class="space-y-4 hidden">
+                    <div class="border-b border-slate-200 pb-3 mb-4">
+                        <h4 class="text-base font-bold text-brand-dark !mt-0">Política de Cookies y Tecnologías de Almacenamiento Local</h4>
+                        <p class="text-xs text-slate-500">Transparencia técnica completa sobre el uso de cookies y LocalStorage en cdamazonas.com.</p>
+                    </div>
+
+                    <p>
+                        En esta sección te explicamos qué son las cookies, qué tecnologías de almacenamiento local empleamos en este portal institucional, con qué finalidad y cómo puedes administrarlas o revocar tu consentimiento en cualquier momento.
+                    </p>
+
+                    <h4>1. ¿Qué son las Cookies y el Almacenamiento Local (LocalStorage)?</h4>
+                    <p>
+                        Las <strong>cookies</strong> son pequeños archivos de texto que se descargan en tu navegador web al acceder a determinadas páginas. El <strong>almacenamiento local (LocalStorage)</strong> es una tecnología estándar de la web que permite almacenar datos directamente en tu navegador de forma segura y eficiente sin enviarlos en cada solicitud de red, lo que mejora la rapidez de la página.
+                    </p>
+
+                    <h4>2. Inventario Detallado de Cookies y Almacenamiento en este Sitio</h4>
+                    <p>
+                        En estricto cumplimiento del principio de transparencia del RGPD y la LOPDP, a continuación se desglosan todas las tecnologías de almacenamiento presentes en el portal:
+                    </p>
+
+                    <div class="overflow-x-auto">
+                        <table class="cda-table-cookies">
+                            <thead>
+                                <tr>
+                                    <th>Nombre / Clave</th>
+                                    <th>Tipo y Proveedor</th>
+                                    <th>Duración</th>
+                                    <th>Finalidad y Justificación</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code class="font-mono font-bold text-brand-dark">cda_cookie_consent</code></td>
+                                    <td>Propia • LocalStorage (Técnica / Esencial)</td>
+                                    <td>12 meses</td>
+                                    <td>Guarda de forma persistente tus elecciones en el centro de preferencias de cookies para no solicitarlo reiteradamente en cada visita.</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="font-mono font-bold text-brand-dark">cda_carrito_tienda</code></td>
+                                    <td>Propia • LocalStorage (Técnica / Esencial)</td>
+                                    <td>Persistente</td>
+                                    <td>Conserva los artículos, tallas y cantidades seleccionados en el carrito de compras de la tienda oficial mientras navegas por las diferentes pestañas.</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="font-mono font-bold text-brand-dark">cda_ultimo_envio</code></td>
+                                    <td>Propia • LocalStorage (Seguridad / Esencial)</td>
+                                    <td>5 minutos (cooldown)</td>
+                                    <td>Control de enfriamiento temporal entre envíos de formulario para evitar spam repetitivo y denegación de servicio.</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="font-mono font-bold text-brand-dark">cda_envios_hoy</code></td>
+                                    <td>Propia • LocalStorage (Seguridad / Esencial)</td>
+                                    <td>24 horas</td>
+                                    <td>Límite de seguridad diario por dispositivo para preservar la cuota del servicio de atención de mensajes institucionales.</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="font-mono font-bold text-brand-dark">h-captcha-response / __cf_bm</code></td>
+                                    <td>Terceros (Intuition Machines / hCaptcha) • Esencial</td>
+                                    <td>Sesión a 30 días</td>
+                                    <td>Verificación anti-bots para distinguir entre usuarios humanos y tráfico automatizado malicioso en los formularios.</td>
+                                </tr>
+                                <tr>
+                                    <td><code class="font-mono font-bold text-brand-dark">Analíticas agregadas (_ga, _gid)</code></td>
+                                    <td>Terceros (Analítica web si se habilita) • Opcional</td>
+                                    <td>Hasta 13 meses</td>
+                                    <td>Métricas de audiencia y rendimiento agregadas y anónimas. <strong>Bloqueadas por defecto</strong> hasta que el usuario otorgue consentimiento afirmativo.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>3. Cómo Gestionar o Revocar tu Consentimiento en este Sitio</h4>
+                    <p>
+                        Puedes cambiar tus preferencias o retirar tu consentimiento en cualquier momento mediante nuestro botón interactivo:
+                    </p>
+                    <div class="my-3">
+                        <button type="button" onclick="cerrarModalLegal(); abrirModalConfigCookies();" class="inline-flex items-center gap-2 px-4 py-2 bg-brand-green hover:bg-brand-green-hover text-white rounded-xl text-xs font-bold transition-colors shadow-subtle">
+                            <span>🍪</span> Abrir Centro de Preferencias de Cookies
+                        </button>
+                    </div>
+
+                    <h4>4. Cómo Deshabilitar Cookies en tu Navegador</h4>
+                    <p>
+                        También puedes permitir, bloquear o eliminar las cookies instaladas en tu equipo mediante la configuración de las opciones de tu navegador:
+                    </p>
+                    <ul>
+                        <li><strong>Google Chrome:</strong> Menú > Configuración > Privacidad y seguridad > Cookies y otros datos de sitios.</li>
+                        <li><strong>Mozilla Firefox:</strong> Menú > Ajustes > Privacidad y seguridad > Cookies y datos del sitio.</li>
+                        <li><strong>Apple Safari:</strong> Preferencias > Privacidad > Bloquear todas las cookies.</li>
+                        <li><strong>Microsoft Edge:</strong> Menú > Configuración > Cookies y permisos del sitio.</li>
+                    </ul>
+                    <p class="text-[11px] text-slate-500 italic">
+                        Nota: Si deshabilitas las cookies técnicas y el almacenamiento local, ciertas funciones interactivas del portal (como el carrito de la tienda) podrían no funcionar correctamente.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- Pie del Modal con botón cerrar -->
+            <div class="p-3.5 bg-slate-50 border-t border-slate-200 flex justify-end flex-shrink-0">
+                <button type="button" onclick="cerrarModalLegal()" class="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-xl text-xs font-bold transition-colors">
+                    Cerrar Documento
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Toast Modal Notificación -->
     <div id="toast-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-all" onclick="cerrarToast()">
         <div class="bg-white rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl space-y-4 border border-slate-100 chat-anim-in" onclick="event.stopPropagation()">
@@ -3048,14 +3831,20 @@
 
     <!-- JavaScript Principal -->
     <script>
-        function mostrarSeccion(idSeccion) {
+        function mostrarSeccion(idSeccion, updateHash = true) {
             const main = document.querySelector('main');
             const secciones = Array.from(main.children).filter(child => child.tagName === 'SECTION' && child.id !== '');
 
-            secciones.forEach(sec => sec.classList.add('hidden'));
+            secciones.forEach(sec => {
+                sec.classList.add('hidden');
+                sec.classList.remove('block');
+            });
 
             const seccionMostrar = document.getElementById(idSeccion);
-            if (seccionMostrar) seccionMostrar.classList.remove('hidden');
+            if (seccionMostrar) {
+                seccionMostrar.classList.remove('hidden');
+                seccionMostrar.classList.add('block');
+            }
 
             const enlaces = document.querySelectorAll('#menu-principal a');
             enlaces.forEach(enlace => {
@@ -3067,16 +3856,18 @@
                 enlaceActivo.classList.add('text-brand-white', 'bg-white/15', 'font-bold');
             }
 
-            const menuPrincipal = document.getElementById('menu-principal');
-            if (menuPrincipal && !menuPrincipal.classList.contains('hidden') && window.innerWidth < 768) {
-                menuPrincipal.classList.add('hidden');
+            // Cerrar menú móvil y backdrop si estuviera abierto
+            if (typeof toggleMenu === 'function') {
+                toggleMenu(false);
             }
             
-            // NUEVO: Guarda la pestaña actual en la URL del navegador
-            if(history.pushState) {
-                history.pushState(null, null, '#' + idSeccion);
-            } else {
-                location.hash = '#' + idSeccion;
+            // Actualizar URL sin forzar scroll indeseado en la carga inicial
+            if (updateHash) {
+                if (history.replaceState) {
+                    history.replaceState(null, null, '#' + idSeccion);
+                } else {
+                    location.hash = '#' + idSeccion;
+                }
             }
 
             if (idSeccion === 'tienda' && typeof cargarTiendaGoogleSheets === 'function' && (!tiendaCargada || tiendaProductos.length === 0)) {
@@ -3087,13 +3878,47 @@
                 cargarRepositorioGoogleSheets();
             }
             
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            window.scrollTo({ top: 0, behavior: 'instant' });
         }
 
-        function toggleMenu() {
+        function toggleMenu(forceState) {
             const menu = document.getElementById('menu-principal');
-            if(menu) menu.classList.toggle('hidden');
+            const backdrop = document.getElementById('menu-backdrop');
+            const iconOpen = document.getElementById('icon-menu-open');
+            const iconClose = document.getElementById('icon-menu-close');
+            const btn = document.getElementById('btn-toggle-menu');
+
+            if (!menu) return;
+            const isCurrentlyOpen = !menu.classList.contains('hidden');
+            const willOpen = (typeof forceState === 'boolean') ? forceState : !isCurrentlyOpen;
+
+            if (willOpen) {
+                menu.classList.remove('hidden');
+                if (backdrop) backdrop.classList.remove('hidden');
+                if (iconOpen) iconOpen.classList.add('hidden');
+                if (iconClose) iconClose.classList.remove('hidden');
+                if (btn) btn.setAttribute('aria-expanded', 'true');
+            } else {
+                menu.classList.add('hidden');
+                if (backdrop) backdrop.classList.add('hidden');
+                if (iconOpen) iconOpen.classList.remove('hidden');
+                if (iconClose) iconClose.classList.add('hidden');
+                if (btn) btn.setAttribute('aria-expanded', 'false');
+            }
         }
+
+        // Cierre general con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (typeof toggleMenu === 'function') toggleMenu(false);
+                if (typeof cerrarModalFichaJugador === 'function') cerrarModalFichaJugador();
+                if (typeof cerrarModalProducto === 'function') cerrarModalProducto();
+                if (typeof cerrarModalCarrito === 'function') cerrarModalCarrito();
+                if (typeof cerrarModalRepo === 'function') cerrarModalRepo();
+                if (typeof cerrarModalLegal === 'function') cerrarModalLegal();
+                if (typeof cerrarModalConfigCookies === 'function') cerrarModalConfigCookies();
+            }
+        });
 
         function mostrarSubPestaña(seccionPadre, tipo) {
             const contenidos = document.querySelectorAll(`.${seccionPadre}-content`);
@@ -3316,6 +4141,21 @@
                 }
             } catch (err) {}
 
+            // 2.1 Verificación de Consentimiento Obligatorio de Privacidad (RGPD / LOPDP)
+            const checkLegal = document.getElementById('contacto-consentimiento-legal');
+            const avisoConsentimiento = document.getElementById('contacto-aviso-consentimiento');
+            if (!checkLegal || !checkLegal.checked) {
+                if (avisoConsentimiento) avisoConsentimiento.classList.remove('hidden');
+                if (checkLegal) {
+                    checkLegal.focus();
+                    checkLegal.classList.add('ring-2', 'ring-red-500');
+                    setTimeout(() => checkLegal.classList.remove('ring-2', 'ring-red-500'), 3000);
+                }
+                mostrarToast('Consentimiento Requerido', 'Debes marcar la casilla aceptando la Política de Privacidad y el Aviso Legal para enviar tu mensaje.');
+                return;
+            }
+            if (avisoConsentimiento) avisoConsentimiento.classList.add('hidden');
+
             // 3. Validación de campos de contacto (Email O Teléfono)
             const inputNombre = document.getElementById('contacto-nombre');
             const inputEmail = document.getElementById('contacto-email');
@@ -3363,6 +4203,12 @@
                 </span>
             `;
 
+            // Consentimiento legal y preferencias comerciales
+            const checkMarketing = document.getElementById('contacto-consentimiento-marketing');
+            const aceptoMarketing = checkMarketing && checkMarketing.checked;
+            formData.set('consentimiento_legal', 'Aceptado (RGPD / LOPDP Ecuador)');
+            formData.set('consentimiento_marketing', aceptoMarketing ? 'Aceptado (Comunicaciones comerciales y novedades)' : 'No aceptado');
+
             // Si el usuario no proporcionó correo electrónico pero sí teléfono:
             // Asignamos un correo remitente seguro para que Web3Forms acepte la petición
             if (!email && telefono) {
@@ -3377,6 +4223,8 @@
                 `👤 REMITENTE: ${nombre}`,
                 email ? `📧 CORREO ELECTRÓNICO: ${email}` : `📧 CORREO: (No proporcionado - Prefiere contacto telefónico)`,
                 telefono ? `📱 TELÉFONO / WHATSAPP: ${telefono}` : `📱 TELÉFONO: (No proporcionado)`,
+                `📜 PRIVACIDAD: Aceptó Política de Privacidad y Aviso Legal (Obligatorio)`,
+                `📢 COMUNICACIONES: ${aceptoMarketing ? 'SÍ (Aceptó recibir novedades y promociones)' : 'NO (Solo respuesta a esta consulta)'}`,
                 `📅 FECHA Y HORA: ${new Date().toLocaleString('es-EC', { timeZone: 'America/Guayaquil' })}`,
                 `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`,
                 `💬 MENSAJE:`,
@@ -3554,17 +4402,179 @@
             contenedor.scrollTop = contenedor.scrollHeight;
         }
 
+        // ==========================================
+        // GESTIÓN DE COOKIES Y CUMPLIMIENTO LEGAL (RGPD / LOPDP)
+        // ==========================================
+        const CDA_COOKIES = {
+            STORAGE_KEY: 'cda_cookie_consent',
+            
+            getConsent() {
+                try {
+                    const raw = localStorage.getItem(this.STORAGE_KEY);
+                    return raw ? JSON.parse(raw) : null;
+                } catch (e) {
+                    return null;
+                }
+            },
+
+            hasAnswered() {
+                const c = this.getConsent();
+                return !!(c && c.timestamp);
+            },
+
+            setConsent(opts) {
+                const consent = {
+                    timestamp: Date.now(),
+                    tecnicas: true,
+                    analiticas: !!opts.analiticas,
+                    preferencias: !!opts.preferencias
+                };
+                try {
+                    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(consent));
+                } catch (e) {
+                    console.warn('No se pudo guardar la configuración de cookies en LocalStorage:', e);
+                }
+                this.aplicarConsentimiento(consent);
+                this.ocultarBanner();
+                return consent;
+            },
+
+            aceptarTodas() {
+                this.setConsent({ analiticas: true, preferencias: true });
+                this.cerrarConfig();
+                mostrarToast('Preferencias Guardadas', 'Has aceptado todas las cookies. ¡Gracias por apoyar la experiencia digital de C.D. Amazonas!');
+            },
+
+            rechazarNoEsenciales() {
+                this.setConsent({ analiticas: false, preferencias: false });
+                this.cerrarConfig();
+                mostrarToast('Preferencias Guardadas', 'Solo se mantendrán activas las cookies técnicas y de seguridad necesarias para la web.');
+            },
+
+            configurar() {
+                this.ocultarBanner();
+                abrirModalConfigCookies();
+            },
+
+            guardarPreferencias() {
+                const an = document.getElementById('cookie-opt-analiticas');
+                const pref = document.getElementById('cookie-opt-preferencias');
+                this.setConsent({
+                    analiticas: an ? an.checked : false,
+                    preferencias: pref ? pref.checked : false
+                });
+                this.cerrarConfig();
+                mostrarToast('Preferencias Actualizadas', 'Tus preferencias de cookies y privacidad han sido guardadas correctamente.');
+            },
+
+            cerrarConfig() {
+                cerrarModalConfigCookies();
+            },
+
+            ocultarBanner() {
+                const banner = document.getElementById('cda-cookie-banner');
+                if (banner) banner.classList.add('hidden');
+            },
+
+            aplicarConsentimiento(consent) {
+                if (consent && consent.analiticas) {
+                    window['cda_analiticas_permitidas'] = true;
+                    window.dispatchEvent(new CustomEvent('cda:analiticas:activadas'));
+                } else {
+                    window['cda_analiticas_permitidas'] = false;
+                    window.dispatchEvent(new CustomEvent('cda:analiticas:desactivadas'));
+                }
+            },
+
+            iniciar() {
+                const consent = this.getConsent();
+                if (!consent) {
+                    setTimeout(() => {
+                        const banner = document.getElementById('cda-cookie-banner');
+                        if (banner) banner.classList.remove('hidden');
+                    }, 500);
+                } else {
+                    this.aplicarConsentimiento(consent);
+                }
+            }
+        };
+
+        function abrirModalConfigCookies() {
+            const modal = document.getElementById('modal-config-cookies');
+            const consent = CDA_COOKIES.getConsent() || { analiticas: false, preferencias: false };
+            const chkAn = document.getElementById('cookie-opt-analiticas');
+            const chkPref = document.getElementById('cookie-opt-preferencias');
+            if (chkAn) chkAn.checked = !!consent.analiticas;
+            if (chkPref) chkPref.checked = !!consent.preferencias;
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+        }
+
+        function cerrarModalConfigCookies() {
+            const modal = document.getElementById('modal-config-cookies');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function abrirModalLegal(seccion = 'privacidad') {
+            const modal = document.getElementById('modal-documento-legal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                cambiarTabLegal(seccion);
+            }
+        }
+
+        function cerrarModalLegal() {
+            const modal = document.getElementById('modal-documento-legal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        function cambiarTabLegal(tabId) {
+            const tabs = ['privacidad', 'aviso', 'cookies'];
+            tabs.forEach(t => {
+                const content = document.getElementById(`legal-content-${t}`);
+                const btn = document.getElementById(`tab-btn-legal-${t}`);
+                if (content) {
+                    if (t === tabId) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                }
+                if (btn) {
+                    if (t === tabId) {
+                        btn.className = 'tab-btn-legal px-4 py-2.5 text-xs font-bold border-b-2 border-brand-green text-brand-green bg-emerald-50/50 transition-all whitespace-nowrap';
+                    } else {
+                        btn.className = 'tab-btn-legal px-4 py-2.5 text-xs font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap';
+                    }
+                }
+            });
+            const scrollCont = document.getElementById('legal-scroll-container');
+            if (scrollCont) scrollCont.scrollTop = 0;
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             let hash = window.location.hash.substring(1);
             
             if (hash && document.getElementById(hash)) {
-                mostrarSeccion(hash);
+                mostrarSeccion(hash, false);
             } else {
-                mostrarSeccion('sobre-el-club');
+                mostrarSeccion('sobre-el-club', false);
             }
 
             // Inicializar controles de seguridad, captcha y estado anti-spam del formulario
             verificarEstadoSeguridadInicial();
+
+            // Inicializar controles de cookies y privacidad RGPD / LOPDP
+            CDA_COOKIES.iniciar();
         });
     </script>
 </body>

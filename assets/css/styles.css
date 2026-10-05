@@ -39,12 +39,16 @@
 /* ==========================================
    1. RESET Y ESTRUCTURA BASE
    ========================================== */
-html, body {
-    max-width: 100vw;
-    overflow-x: hidden;
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 4.5rem; /* Evita que los anclajes tapen el encabezado fijo */
+}
+
+body {
+    max-width: 100%;
+    overflow-x: clip; /* Previene desbordamiento horizontal sin romper position: sticky */
     margin: 0;
     padding: 0;
-    scroll-behavior: smooth;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
 }
@@ -61,7 +65,7 @@ html, body {
 .bg-hero-pattern {
     background-image: 
         radial-gradient(circle at 50% 20%, rgba(4, 106, 56, 0.6) 0%, rgba(18, 20, 24, 0.95) 75%),
-        url('../img/repositorio/historico/Campeonato1ra.jpg');
+        url('../img/repositorio/masculino/Campeonato1ra.jpg');
     background-size: cover;
     background-position: center;
     position: relative;
@@ -397,3 +401,80 @@ html, body {
 ::-webkit-scrollbar-thumb:hover { 
     background: var(--cda-green-700); 
 }
+
+/* ==========================================
+   8. CUMPLIMIENTO LEGAL Y GESTIÓN DE COOKIES (RGPD / LOPDP)
+   ========================================== */
+.cookie-banner-anim {
+    animation: cookieSlideUp 0.35s var(--cda-ease-spring) forwards;
+}
+
+@keyframes cookieSlideUp {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.legal-prose {
+    color: #334155;
+    line-height: 1.65;
+}
+
+.legal-prose h4 {
+    color: #0f172a;
+    font-weight: 700;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.legal-prose p {
+    margin-bottom: 0.75rem;
+    font-size: 0.8125rem;
+}
+
+.legal-prose ul {
+    list-style-type: disc;
+    padding-left: 1.25rem;
+    margin-bottom: 0.75rem;
+    font-size: 0.8125rem;
+}
+
+.legal-prose li {
+    margin-bottom: 0.35rem;
+}
+
+.cda-table-cookies {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.cda-table-cookies th {
+    background: #f8fafc;
+    color: #0f172a;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+}
+
+.cda-table-cookies td {
+    padding: 0.6rem 0.75rem;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    vertical-align: top;
+}
+
+.cda-table-cookies tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
