@@ -203,72 +203,55 @@
     <main class="flex-grow flex flex-col relative w-full overflow-hidden">
 
         <!-- ==================== 1. SOBRE EL CLUB (FULLSCREEN HERO & RECUADROS INTERACTIVOS) ==================== -->
-        <section id="sobre-el-club" class="w-full relative min-h-[calc(100vh-4.5rem)] flex items-center justify-center overflow-hidden block">
+        <section id="sobre-el-club" class="w-full relative min-h-[calc(100vh-4.5rem)] flex items-end justify-center overflow-hidden block">
             
-            <!-- Imagen de Fondo en Pantalla Completa con Capas Atmosféricas -->
-            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 scale-105 pointer-events-none" style="background-image: linear-gradient(180deg, rgba(2, 42, 22, 0.78) 0%, rgba(17, 20, 23, 0.88) 55%, rgba(17, 20, 23, 0.98) 100%), url('assets/img/repositorio/masculino/Campeonato1ra.jpg');"></div>
-            
-            <!-- Aura de Iluminación Ambiental Institucional -->
-            <div class="hero-ambient-glow pointer-events-none"></div>
+            <!-- Imagen de Fondo en Pantalla Completa Clara y Nítida (optimizada vía CSS sin alterar el archivo original) -->
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 scale-102 pointer-events-none" style="background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.12) 52%, rgba(6, 24, 15, 0.65) 100%), url('assets/img/repositorio/masculino/Campeonato1ra.jpg'); filter: brightness(1.12) contrast(1.05) saturate(1.08);"></div>
 
-            <!-- Contenido Central sobre la Imagen Fullscreen -->
-            <div class="container mx-auto px-4 lg:px-8 text-center relative z-10 max-w-4xl py-12 flex flex-col items-center justify-center">
+            <!-- Contenido Principal sobre la Imagen Fullscreen (ubicado estratégicamente para lucir la fotografía) -->
+            <div class="container mx-auto px-4 lg:px-8 text-center relative z-10 max-w-3xl pb-12 sm:pb-16 md:pb-20 pt-24 flex flex-col items-center justify-end">
                 
-                <!-- Escudo Institucional Flotante -->
-                <div class="mb-8 relative group cursor-pointer" onclick="abrirRecuadroHistoria('fundacion')" title="Conoce la historia del club">
-                    <div class="absolute -inset-4 bg-brand-gold/25 rounded-full blur-2xl group-hover:bg-brand-gold/45 transition-all duration-300"></div>
-                    <img src="assets/img/branding/Amazonas PGN.png" alt="Escudo Oficial Club Deportivo Amazonas" class="relative h-28 sm:h-36 md:h-40 w-auto object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.6)] transition-transform duration-300 group-hover:scale-105" onerror="this.src='https://placehold.co/120x120/046a38/ffffff?text=CDA'">
-                </div>
-
                 <!-- Botones Principales Interactivos: Fundación y Orígenes & Actualidad y Presente -->
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-8 w-full max-w-xl px-2">
-                    <button type="button" onclick="abrirRecuadroHistoria('fundacion')" class="group w-full sm:w-1/2 py-4 px-5 rounded-2xl bg-white/95 hover:bg-white text-slate-900 shadow-2xl backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-emerald-900/50 border border-white/80 flex items-center gap-3.5 text-left cursor-pointer">
-                        <span class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center group-hover:bg-brand-green group-hover:text-white transition-colors flex-shrink-0 shadow-sm">
-                            <span class="material-symbols-outlined text-[26px]">history_edu</span>
-                        </span>
-                        <div class="min-w-0">
-                            <span class="block text-[10px] font-bold uppercase tracking-wider text-emerald-700">1987 • Los Inicios</span>
-                            <span class="font-serif text-sm sm:text-base font-bold text-slate-900 leading-tight block">Fundación y Orígenes</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 w-full max-w-2xl px-2">
+                    <button type="button" onclick="abrirRecuadroHistoria('fundacion')" class="group relative w-full py-4 px-5 rounded-2xl bg-white/90 hover:bg-white text-slate-900 shadow-[0_20px_50px_rgba(0,0,0,0.45)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:shadow-emerald-950/60 border border-white flex items-center justify-between gap-3.5 text-left cursor-pointer overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1.5 h-full bg-brand-green transition-all duration-300 group-hover:w-2"></div>
+                        <div class="flex items-center gap-3.5 min-w-0 pl-1">
+                            <span class="w-12 h-12 rounded-xl bg-emerald-100/90 text-emerald-800 flex items-center justify-center group-hover:bg-brand-green group-hover:text-white transition-all duration-300 flex-shrink-0 shadow-xs">
+                                <span class="material-symbols-outlined text-[26px]">history_edu</span>
+                            </span>
+                            <div class="min-w-0">
+                                <span class="block text-[10px] font-extrabold uppercase tracking-widest text-emerald-700 mb-0.5">1987 • Los Inicios</span>
+                                <span class="font-serif text-base sm:text-lg font-bold text-slate-900 leading-tight block">Fundación y Orígenes</span>
+                            </div>
                         </div>
+                        <span class="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-emerald-50 text-slate-400 group-hover:text-brand-green flex items-center justify-center transition-all duration-300 flex-shrink-0 group-hover:translate-x-0.5">
+                            <span class="material-symbols-outlined text-[18px]">open_in_full</span>
+                        </span>
                     </button>
 
-                    <button type="button" onclick="abrirRecuadroHistoria('actualidad')" class="group w-full sm:w-1/2 py-4 px-5 rounded-2xl bg-white/95 hover:bg-white text-slate-900 shadow-2xl backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-amber-900/50 border border-white/80 flex items-center gap-3.5 text-left cursor-pointer">
-                        <span class="w-12 h-12 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-colors flex-shrink-0 shadow-sm">
-                            <span class="material-symbols-outlined text-[26px]">stadium</span>
-                        </span>
-                        <div class="min-w-0">
-                            <span class="block text-[10px] font-bold uppercase tracking-wider text-amber-700">2026 • Vigencia</span>
-                            <span class="font-serif text-sm sm:text-base font-bold text-slate-900 leading-tight block">Actualidad y Presente</span>
+                    <button type="button" onclick="abrirRecuadroHistoria('actualidad')" class="group relative w-full py-4 px-5 rounded-2xl bg-white/90 hover:bg-white text-slate-900 shadow-[0_20px_50px_rgba(0,0,0,0.45)] backdrop-blur-md transition-all duration-300 hover:-translate-y-1.5 hover:shadow-amber-950/60 border border-white flex items-center justify-between gap-3.5 text-left cursor-pointer overflow-hidden">
+                        <div class="absolute top-0 left-0 w-1.5 h-full bg-amber-500 transition-all duration-300 group-hover:w-2"></div>
+                        <div class="flex items-center gap-3.5 min-w-0 pl-1">
+                            <span class="w-12 h-12 rounded-xl bg-amber-100/90 text-amber-800 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white transition-all duration-300 flex-shrink-0 shadow-xs">
+                                <span class="material-symbols-outlined text-[26px]">stadium</span>
+                            </span>
+                            <div class="min-w-0">
+                                <span class="block text-[10px] font-extrabold uppercase tracking-widest text-amber-700 mb-0.5">2026 • Vigencia</span>
+                                <span class="font-serif text-base sm:text-lg font-bold text-slate-900 leading-tight block">Actualidad y Presente</span>
+                            </div>
                         </div>
+                        <span class="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-amber-50 text-slate-400 group-hover:text-amber-600 flex items-center justify-center transition-all duration-300 flex-shrink-0 group-hover:translate-x-0.5">
+                            <span class="material-symbols-outlined text-[18px]">open_in_full</span>
+                        </span>
                     </button>
                 </div>
 
-                <!-- Acceso Directo Destacado: Conoce nuestras alianzas estratégicas -->
-                <div class="mb-10">
-                    <button type="button" onclick="mostrarSeccion('aliados'); return false;" class="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-brand-gold/20 hover:bg-brand-gold/30 text-brand-gold border border-brand-gold/50 backdrop-blur-md transition-all duration-300 text-xs sm:text-sm font-bold uppercase tracking-wider hover:scale-105 shadow-lg group">
-                        <span class="material-symbols-outlined text-[20px] transition-transform group-hover:rotate-12">handshake</span>
-                        <span>Conoce nuestras alianzas estratégicas</span>
-                        <span class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">arrow_forward</span>
-                    </button>
-                </div>
-
-                <!-- Píldoras de Navegación Rápida a Otras Secciones -->
-                <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs text-white/90">
-                    <button type="button" onclick="mostrarSeccion('plantilla'); return false;" class="px-4 py-2 rounded-xl bg-black/40 hover:bg-white/20 text-white/90 border border-white/20 backdrop-blur-sm transition-all flex items-center gap-1.5 font-semibold hover:text-white">
-                        <span class="material-symbols-outlined text-[16px]">groups</span>
-                        <span>Plantilla Oficial</span>
-                    </button>
-                    <button type="button" onclick="mostrarSeccion('galeria'); return false;" class="px-4 py-2 rounded-xl bg-black/40 hover:bg-white/20 text-white/90 border border-white/20 backdrop-blur-sm transition-all flex items-center gap-1.5 font-semibold hover:text-white">
-                        <span class="material-symbols-outlined text-[16px]">photo_library</span>
-                        <span>Repositorio Gráfico</span>
-                    </button>
-                    <button type="button" onclick="mostrarSeccion('tienda'); return false;" class="px-4 py-2 rounded-xl bg-black/40 hover:bg-white/20 text-white/90 border border-white/20 backdrop-blur-sm transition-all flex items-center gap-1.5 font-semibold hover:text-white">
-                        <span class="material-symbols-outlined text-[16px]">shopping_bag</span>
-                        <span>Tienda Oficial</span>
-                    </button>
-                    <button type="button" onclick="mostrarSeccion('noticias'); return false;" class="px-4 py-2 rounded-xl bg-black/40 hover:bg-white/20 text-white/90 border border-white/20 backdrop-blur-sm transition-all flex items-center gap-1.5 font-semibold hover:text-white">
-                        <span class="material-symbols-outlined text-[16px]">newspaper</span>
-                        <span>Noticias</span>
+                <!-- Acceso Directo al Repositorio Gráfico: Revive los mejores momentos del club -->
+                <div>
+                    <button type="button" onclick="mostrarSeccion('galeria'); return false;" class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-slate-950/75 hover:bg-brand-green text-white border border-brand-gold/70 hover:border-brand-gold backdrop-blur-md transition-all duration-300 text-xs sm:text-sm font-bold uppercase tracking-wider hover:-translate-y-1 shadow-[0_14px_35px_rgba(0,0,0,0.5)] group cursor-pointer">
+                        <span class="material-symbols-outlined text-[20px] text-brand-gold group-hover:text-white transition-transform duration-300 group-hover:scale-110">photo_library</span>
+                        <span>Revive los mejores momentos del club</span>
+                        <span class="material-symbols-outlined text-[18px] text-brand-gold group-hover:text-white transition-transform duration-300 group-hover:translate-x-1.5">arrow_forward</span>
                     </button>
                 </div>
 
