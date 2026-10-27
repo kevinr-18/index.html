@@ -22,6 +22,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -212,8 +213,8 @@
                 <div class="container mx-auto px-4 lg:px-8 text-center relative z-10 max-w-4xl">
                     
                     <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full cda-badge-stars text-brand-white text-xs font-semibold tracking-wider mb-6 cda-float-anim cursor-default" title="Club Deportivo Amazonas · Malchinguí 1987 - 2026">
-                        <span class="text-brand-gold text-xs tracking-widest drop-shadow">1987 ★</span>
-                        <span class="text-[11px] text-slate-200 font-bold uppercase tracking-widest">2026</span>
+                        <span class="text-brand-gold text-xs tracking-widest font-bold">1987 ★ 2026</span>
+                        <span class="text-[11px] text-slate-200 font-bold uppercase tracking-wider">• 5 Estrellas</span>
                     </div>
 
                     <h2 class="font-serif text-3xl sm:text-5xl md:text-6xl font-extrabold mb-4 tracking-tight leading-tight text-brand-white drop-shadow-md px-2">
@@ -226,15 +227,15 @@
 
                     <div class="flex flex-wrap justify-center gap-3 px-4">
                         <button onclick="mostrarSeccion('plantilla'); return false;" class="cda-btn-shine px-6 py-3 bg-brand-white hover:bg-slate-100 text-brand-green font-bold text-xs tracking-wider uppercase rounded-xl shadow-card transition-all inline-flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                            <span class="material-symbols-outlined text-[18px]">groups</span>
                             <span>Plantilla Oficial</span>
                         </button>
                         <button onclick="mostrarSeccion('galeria'); return false;" class="cda-btn-shine px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/40 text-brand-white font-bold text-xs tracking-wider uppercase rounded-xl backdrop-blur-md transition-all inline-flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <span class="material-symbols-outlined text-[18px]">photo_library</span>
                             <span>Repositorio Gráfico</span>
                         </button>
                         <button onclick="mostrarSeccion('tienda'); return false;" class="cda-btn-shine px-6 py-3 bg-brand-gold/20 hover:bg-brand-gold/30 border border-brand-gold/50 text-brand-gold font-bold text-xs tracking-wider uppercase rounded-xl backdrop-blur-md transition-all inline-flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                            <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
                             <span>Tienda Oficial</span>
                         </button>
                     </div>
@@ -441,7 +442,7 @@
                     
                     <button onclick="cambiarPlantillaTab('leyendas')" id="btn-tab-leyendas" 
                         class="plantilla-tab-btn px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all duration-300 shadow-md">
-                        ★ Leyendas del Club
+                        Leyendas del Club
                     </button>
                 </div>
                 <!-- Contenedor Dinámico donde se inyectan Skeletons y Trading Cards -->
@@ -455,8 +456,8 @@
         <div id="modal-ficha-jugador" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm items-center justify-center p-3 sm:p-4 overflow-y-auto" onclick="cerrarModalFichaJugador()">
             <div class="relative w-full max-w-lg bg-brand-dark rounded-2xl border border-white/20 shadow-2xl p-5 sm:p-6 text-white my-auto overflow-hidden" onclick="event.stopPropagation()">
                 <!-- Botón de Cerrar -->
-                <button onclick="cerrarModalFichaJugador()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center font-bold text-sm transition-colors z-20" title="Cerrar (Esc)">
-                    ✕
+                <button onclick="cerrarModalFichaJugador()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center font-bold transition-colors z-20" title="Cerrar (Esc)">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
                 </button>
 
                 <!-- Cabecera del Jugador -->
@@ -473,9 +474,9 @@
                         </div>
                         <p id="modal-jugador-nombres" class="text-xs text-slate-300 font-medium truncate"></p>
                         <h4 id="modal-jugador-apellidos" class="font-serif text-lg sm:text-xl font-black uppercase text-white truncate drop-shadow-sm"></h4>
-                        <div class="mt-2 space-y-0.5 text-[11px] text-slate-300">
-                            <p id="modal-jugador-fecha" class="truncate">📅 Fecha Nac: -</p>
-                            <p id="modal-jugador-obs" class="truncate">📍 Lugar / Observación: -</p>
+                        <div class="mt-2 space-y-1 text-xs text-slate-300 bg-white/5 p-2.5 rounded-xl border border-white/10">
+                            <p class="truncate"><span class="text-slate-400 font-medium">Fecha de Nacimiento:</span> <span id="modal-jugador-fecha" class="font-bold text-white">-</span></p>
+                            <p class="truncate"><span class="text-slate-400 font-medium">Lugar / Origen:</span> <span id="modal-jugador-obs" class="font-bold text-white">-</span></p>
                         </div>
                     </div>
                 </div>
@@ -490,7 +491,7 @@
                         <!-- RIT -->
                         <div>
                             <div class="flex justify-between text-xs font-bold mb-1">
-                                <span class="text-slate-300">⚡ Ritmo (RIT)</span>
+                                <span class="text-slate-300 font-medium">Ritmo (RIT)</span>
                                 <span id="modal-stat-rit-val" class="font-black text-white">0</span>
                             </div>
                             <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
@@ -500,7 +501,7 @@
                         <!-- TIR -->
                         <div>
                             <div class="flex justify-between text-xs font-bold mb-1">
-                                <span class="text-slate-300">🎯 Tiro (TIR)</span>
+                                <span class="text-slate-300 font-medium">Tiro (TIR)</span>
                                 <span id="modal-stat-tir-val" class="font-black text-white">0</span>
                             </div>
                             <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
@@ -510,7 +511,7 @@
                         <!-- PAS -->
                         <div>
                             <div class="flex justify-between text-xs font-bold mb-1">
-                                <span class="text-slate-300">👟 Pase (PAS)</span>
+                                <span class="text-slate-300 font-medium">Pase (PAS)</span>
                                 <span id="modal-stat-pas-val" class="font-black text-white">0</span>
                             </div>
                             <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
@@ -520,7 +521,7 @@
                         <!-- REG -->
                         <div>
                             <div class="flex justify-between text-xs font-bold mb-1">
-                                <span class="text-slate-300">🪄 Regate (REG)</span>
+                                <span class="text-slate-300 font-medium">Regate (REG)</span>
                                 <span id="modal-stat-reg-val" class="font-black text-white">0</span>
                             </div>
                             <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
@@ -530,7 +531,7 @@
                         <!-- DEF -->
                         <div>
                             <div class="flex justify-between text-xs font-bold mb-1">
-                                <span class="text-slate-300">🛡️ Defensa (DEF)</span>
+                                <span class="text-slate-300 font-medium">Defensa (DEF)</span>
                                 <span id="modal-stat-def-val" class="font-black text-white">0</span>
                             </div>
                             <div class="w-full h-2 bg-white/10 rounded-full overflow-hidden">
@@ -577,17 +578,17 @@
                     <!-- Pestañas Principales (Equipos) -->
                     <div id="repo-pestanas-equipos" class="flex flex-wrap items-center gap-2 w-full md:w-auto justify-center md:justify-start">
                         <button onclick="cambiarEquipoRepo('masculino')" id="repo-tab-masculino" class="px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 bg-brand-green text-white shadow-sm border border-brand-green">
-                            <span>⚽</span>
+                            <span class="material-symbols-outlined text-[18px]">sports_soccer</span>
                             <span>Equipo Masculino</span>
                             <span id="repo-count-masculino" class="text-[10px] bg-white/20 px-2 py-0.5 rounded-full font-black">...</span>
                         </button>
                         <button onclick="cambiarEquipoRepo('femenino')" id="repo-tab-femenino" class="px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200">
-                            <span>🌸</span>
+                            <span class="material-symbols-outlined text-[18px]">groups</span>
                             <span>Equipo Femenino</span>
                             <span id="repo-count-femenino" class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-black">...</span>
                         </button>
                         <button onclick="cambiarEquipoRepo('historico')" id="repo-tab-historico" class="px-4 py-2.5 rounded-xl font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-2 bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200">
-                            <span>📜</span>
+                            <span class="material-symbols-outlined text-[18px]">history_edu</span>
                             <span>Histórico (1987)</span>
                             <span id="repo-count-historico" class="text-[10px] bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-black">...</span>
                         </button>
@@ -598,17 +599,17 @@
                         <!-- Buscador instantáneo -->
                         <div class="relative flex-grow md:w-64">
                             <input type="text" id="repo-busqueda-input" oninput="filtrarPorBusquedaRepo()" placeholder="Buscar año, torneo o foto..." class="w-full pl-8 pr-7 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-green/30 focus:border-brand-green transition-all">
-                            <span class="absolute left-2.5 top-2.5 text-slate-400 text-xs">🔍</span>
-                            <button id="repo-busqueda-clear" onclick="limpiarBusquedaRepo()" class="hidden absolute right-2.5 top-2 text-slate-400 hover:text-slate-600 text-xs font-bold">✕</button>
+                            <span class="material-symbols-outlined text-[18px] text-slate-400 absolute left-2.5 top-2">search</span>
+                            <button id="repo-busqueda-clear" onclick="limpiarBusquedaRepo()" class="hidden absolute right-2.5 top-2 text-slate-400 hover:text-slate-600 flex items-center justify-center"><span class="material-symbols-outlined text-[16px]">close</span></button>
                         </div>
 
                         <!-- Selector de Vista -->
                         <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 flex-shrink-0">
                             <button onclick="cambiarModoVistaRepo('grid')" id="repo-view-grid" title="Vista Cuadrícula" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all bg-white text-brand-dark shadow-xs border border-slate-200">
-                                🖼️ <span class="hidden sm:inline">Galería</span>
+                                <span class="material-symbols-outlined text-[16px] inline-block align-middle mr-1">photo_library</span><span class="hidden sm:inline">Galería</span>
                             </button>
                             <button onclick="cambiarModoVistaRepo('folders')" id="repo-view-folders" title="Vista Carpetas / Álbumes" class="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-600 hover:text-slate-900 transition-all border border-transparent">
-                                📂 <span class="hidden sm:inline">Carpetas</span>
+                                <span class="material-symbols-outlined text-[16px] inline-block align-middle mr-1">folder</span><span class="hidden sm:inline">Carpetas</span>
                             </button>
                         </div>
                     </div>
@@ -630,11 +631,11 @@
 
                 <!-- Pie informativo con invitación a colaborar -->
                 <div class="mt-12 bg-white rounded-2xl p-6 border border-slate-200 text-center max-w-xl mx-auto shadow-sm">
-                    <span class="text-2xl mb-2 block">📸</span>
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto mb-2"><span class="material-symbols-outlined text-[26px]">add_a_photo</span></div>
                     <h5 class="font-serif font-bold text-brand-dark text-sm">¿Tienes fotografías conmemorativas del club?</h5>
                     <p class="text-xs text-slate-500 mt-1 mb-3">Ayúdanos a enriquecer el archivo histórico de Malchinguí. Comparte tus postales con la directiva.</p>
                     <a href="https://wa.me/593981556626?text=Hola%20Club%20Deportivo%20Amazonas%2C%20tengo%20fotograf%C3%ADas%20hist%C3%B3ricas%20del%20club%20que%20me%20gustar%C3%ADa%20compartir%20para%20el%20repositorio." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-brand-green hover:bg-brand-green-hover text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-sm">
-                        <span>💬 Enviar fotos por WhatsApp</span>
+                        <span class="material-symbols-outlined text-[18px]">chat</span> <span>Enviar fotos por WhatsApp</span>
                     </a>
                 </div>
 
@@ -652,13 +653,13 @@
                 </div>
                 <div class="flex items-center gap-2">
                     <a id="lightbox-btn-descargar" href="#" download class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-1.5 transition-colors" title="Descargar imagen en alta calidad">
-                        <span>📥</span> <span class="hidden sm:inline">Descargar</span>
+                        <span class="material-symbols-outlined text-[18px]">download</span> <span class="hidden sm:inline">Descargar</span>
                     </a>
                     <a id="lightbox-btn-abrir" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-1.5 transition-colors" title="Abrir imagen original">
-                        <span>↗️</span> <span class="hidden sm:inline">Original</span>
+                        <span class="material-symbols-outlined text-[18px]">open_in_new</span> <span class="hidden sm:inline">Original</span>
                     </a>
-                    <button onclick="cerrarModalRepo()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-red-600 text-white flex items-center justify-center font-bold text-sm transition-colors" title="Cerrar (Esc)">
-                        ✕
+                    <button onclick="cerrarModalRepo()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-red-600 text-white flex items-center justify-center transition-colors" title="Cerrar (Esc)">
+                        <span class="material-symbols-outlined text-[20px]">close</span>
                     </button>
                 </div>
             </div>
@@ -666,16 +667,16 @@
             <!-- Área Central con Imagen y Flechas de Navegación -->
             <div class="relative flex-grow flex items-center justify-center my-auto overflow-hidden py-2" onclick="event.stopPropagation()">
                 <!-- Flecha Anterior -->
-                <button onclick="navegarLightboxRepo(-1)" id="lightbox-btn-prev" class="absolute left-2 sm:left-4 z-20 w-11 h-11 rounded-full bg-black/60 hover:bg-brand-green text-white flex items-center justify-center text-xl font-bold transition-all shadow-lg backdrop-blur-xs hover:scale-110" aria-label="Fotografía anterior">
-                    ❮
+                <button onclick="navegarLightboxRepo(-1)" id="lightbox-btn-prev" class="absolute left-2 sm:left-4 z-20 w-11 h-11 rounded-full bg-black/60 hover:bg-brand-green text-white flex items-center justify-center transition-all shadow-lg backdrop-blur-xs hover:scale-110" aria-label="Fotografía anterior">
+                    <span class="material-symbols-outlined text-[24px]">chevron_left</span>
                 </button>
 
                 <!-- Imagen Centrada -->
                 <img id="modal-img-src" src="" alt="Fotografía del repositorio" class="max-h-[72vh] max-w-full object-contain mx-auto rounded-xl shadow-2xl transition-all select-none">
 
                 <!-- Flecha Siguiente -->
-                <button onclick="navegarLightboxRepo(1)" id="lightbox-btn-next" class="absolute right-2 sm:right-4 z-20 w-11 h-11 rounded-full bg-black/60 hover:bg-brand-green text-white flex items-center justify-center text-xl font-bold transition-all shadow-lg backdrop-blur-xs hover:scale-110" aria-label="Siguiente fotografía">
-                    ❯
+                <button onclick="navegarLightboxRepo(1)" id="lightbox-btn-next" class="absolute right-2 sm:right-4 z-20 w-11 h-11 rounded-full bg-black/60 hover:bg-brand-green text-white flex items-center justify-center transition-all shadow-lg backdrop-blur-xs hover:scale-110" aria-label="Siguiente fotografía">
+                    <span class="material-symbols-outlined text-[24px]">chevron_right</span>
                 </button>
             </div>
 
@@ -686,7 +687,7 @@
                 <div class="flex items-center justify-center gap-2 text-[11px] text-slate-400 mt-2">
                     <span class="text-slate-300 font-semibold">Club Deportivo Amazonas</span>
                     <span>•</span>
-                    <span>Usa las flechas ⬅️ ➡️ del teclado para navegar</span>
+                    <span>Usa las flechas del teclado o los controles en pantalla</span>
                 </div>
             </div>
 
@@ -714,8 +715,8 @@
                 <!-- Barra de Ventajas de Compra -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-10 max-w-4xl mx-auto">
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-50 text-brand-green flex items-center justify-center text-xl flex-shrink-0">
-                            🚚
+                        <div class="w-10 h-10 rounded-lg bg-emerald-50 text-brand-green flex items-center justify-center flex-shrink-0">
+                            <span class="material-symbols-outlined text-[24px]">local_shipping</span>
                         </div>
                         <div>
                             <h5 class="text-xs font-bold text-brand-dark">Entregas & Envíos</h5>
@@ -723,8 +724,8 @@
                         </div>
                     </div>
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-amber-50 text-brand-gold flex items-center justify-center text-xl flex-shrink-0">
-                            🛡️
+                        <div class="w-10 h-10 rounded-lg bg-amber-50 text-brand-gold flex items-center justify-center flex-shrink-0">
+                            <span class="material-symbols-outlined text-[24px]">verified_user</span>
                         </div>
                         <div>
                             <h5 class="text-xs font-bold text-brand-dark">Compra segura</h5>
@@ -732,8 +733,8 @@
                         </div>
                     </div>
                     <div class="bg-white p-3.5 rounded-xl border border-slate-200/80 shadow-xs flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-emerald-50 text-[#25D366] flex items-center justify-center text-xl flex-shrink-0">
-                            💬
+                        <div class="w-10 h-10 rounded-lg bg-emerald-50 text-[#25D366] flex items-center justify-center flex-shrink-0">
+                            <span class="material-symbols-outlined text-[24px]">support_agent</span>
                         </div>
                         <div>
                             <h5 class="text-xs font-bold text-brand-dark">Atención Directa</h5>
@@ -753,13 +754,13 @@
                     <div class="flex items-center gap-3 w-full md:w-auto justify-between md:justify-end">
                         <!-- Buscador -->
                         <div class="relative flex-grow md:w-64">
-                            <span class="absolute inset-y-0 left-3 flex items-center text-slate-400 text-xs pointer-events-none">🔍</span>
+                            <span class="material-symbols-outlined text-[18px] text-slate-400 absolute inset-y-0 left-3 flex items-center pointer-events-none">search</span>
                             <input type="text" id="tienda-buscador" oninput="filtrarProductosTienda()" placeholder="Buscar camiseta, polo..." class="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-green outline-none transition-all">
                         </div>
 
                         <!-- Botón del Carrito de Pedido -->
                         <button onclick="abrirModalCarrito()" class="relative flex items-center gap-2 px-3.5 py-1.5 bg-brand-dark hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex-shrink-0">
-                            <span>🛒 Mi Pedido</span>
+                            <span class="material-symbols-outlined text-[18px]">shopping_cart</span> <span>Mi Pedido</span>
                             <span id="tienda-badge-carrito" class="bg-brand-gold text-brand-dark text-[10px] font-black px-1.5 py-0.2 rounded-full">0</span>
                         </button>
                     </div>
@@ -772,13 +773,13 @@
 
                 <!-- Banner Informativo Inferior -->
                 <div class="mt-14 bg-gradient-to-r from-brand-dark via-emerald-950 to-brand-dark text-white rounded-2xl p-6 sm:p-8 border border-brand-gold/30 shadow-lg text-center max-w-4xl mx-auto">
-                    <span class="text-2xl block mb-2">👕</span>
+                    <div class="w-12 h-12 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center mx-auto mb-2"><span class="material-symbols-outlined text-[28px]">checkroom</span></div>
                     <h4 class="font-serif text-lg sm:text-xl font-black text-white mb-2">¿Deseas personalizar tu indumentaria con tu nombre y dorsal?</h4>
                     <p class="text-xs text-slate-300 max-w-2xl mx-auto mb-4 font-light leading-relaxed">
                         Coordinamos el estampado oficial personalizado para hinchas, familias y empresas auspiciantes. Escríbenos directamente y te ayudamos con el diseño y la talla exacta.
                     </p>
                     <button onclick="pedirPersonalizacionWhatsApp()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-md">
-                        <span>💬 Consultar Personalización por WhatsApp</span>
+                        <span class="material-symbols-outlined text-[18px]">chat</span> <span>Consultar Personalización por WhatsApp</span>
                     </button>
                 </div>
 
@@ -789,8 +790,8 @@
         <div id="modal-producto-tienda" class="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs hidden items-center justify-center p-4">
             <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 relative animate-fade-in flex flex-col md:flex-row">
                 <!-- Botón Cerrar -->
-                <button onclick="cerrarModalProducto()" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-base transition-colors">
-                    ✕
+                <button onclick="cerrarModalProducto()" class="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors">
+                    <span class="material-symbols-outlined text-[20px]">close</span>
                 </button>
 
                 <!-- Imagen del Producto en Modal -->
@@ -841,14 +842,14 @@
                     <!-- Botones de Acción -->
                     <div class="space-y-2 pt-2 border-t border-slate-100">
                         <button id="modal-btn-whatsapp" onclick="pedirProductoModalWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-sm">
-                            <span>💬 Pedir por WhatsApp</span>
+                            <span class="material-symbols-outlined text-[18px]">chat</span> <span>Pedir por WhatsApp</span>
                         </button>
                         <div class="grid grid-cols-2 gap-2">
                             <button onclick="agregarAlCarritoDesdeModal()" class="w-full bg-brand-dark hover:bg-slate-800 text-white py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5">
-                                <span>🛒 Añadir a Pedido</span>
+                                <span class="material-symbols-outlined text-[18px]">add_shopping_cart</span> <span>Añadir a Pedido</span>
                             </button>
                             <button onclick="consultarPorFormularioModal()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-colors">
-                                <span>✉️ Formulario Web</span>
+                                <span class="material-symbols-outlined text-[18px]">mail</span> <span>Formulario Web</span>
                             </button>
                         </div>
                     </div>
@@ -863,11 +864,11 @@
                 <div>
                     <div class="flex items-center justify-between pb-4 border-b border-slate-200 mb-4">
                         <div class="flex items-center gap-2">
-                            <span class="text-xl">🛒</span>
+                            <span class="material-symbols-outlined text-[22px] text-brand-dark">shopping_cart</span>
                             <h4 class="font-serif text-lg font-black text-brand-dark">Mi Pedido C.D. Amazonas</h4>
                         </div>
-                        <button onclick="cerrarModalCarrito()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-sm">
-                            ✕
+                        <button onclick="cerrarModalCarrito()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[20px]">close</span>
                         </button>
                     </div>
 
@@ -887,14 +888,14 @@
                         * Los pedidos se coordinan formalmente por WhatsApp o correo institucional antes de la entrega en cancha o despacho.
                     </p>
                     <button onclick="enviarPedidoCompletoWhatsApp()" class="w-full bg-[#25D366] hover:bg-[#20bd5a] text-white py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-md">
-                        <span>💬 Confirmar Pedido por WhatsApp</span>
+                        <span class="material-symbols-outlined text-[18px]">chat</span> <span>Confirmar Pedido por WhatsApp</span>
                     </button>
                     <div class="flex gap-2">
                         <button onclick="enviarPedidoCompletoFormulario()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-colors">
-                            ✉️ Por Correo
+                            <span class="material-symbols-outlined text-[16px] inline-block align-middle mr-1">mail</span> Por Correo
                         </button>
                         <button onclick="vaciarCarrito()" class="w-1/2 bg-red-50 hover:bg-red-100 text-red-600 py-2 rounded-xl text-[11px] font-bold uppercase tracking-wider transition-colors">
-                            🗑️ Vaciar
+                            <span class="material-symbols-outlined text-[16px] inline-block align-middle mr-1">delete_sweep</span> Vaciar
                         </button>
                     </div>
                 </div>
@@ -934,11 +935,11 @@
                             </p>
                             <ul class="text-sm text-gray-600 space-y-2.5 mb-6">
                                 <li class="flex items-start gap-2">
-                                    <span class="text-brand-gold font-bold mt-0.5">✓</span> 
+                                    <span class="material-symbols-outlined text-emerald-600 text-[18px] inline-block align-middle mr-1">check_circle</span> 
                                     <span>Endodoncia</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <span class="text-brand-gold font-bold mt-0.5">✓</span> 
+                                    <span class="material-symbols-outlined text-emerald-600 text-[18px] inline-block align-middle mr-1">check_circle</span> 
                                     <span>Descuentos especiales para socios e hinchas verdiblancos</span>
                                 </li>
                             </ul>
@@ -948,7 +949,7 @@
                             <span class="text-gray-400 text-xs font-medium">Cayambe</span>
                             <!-- Botón dirigido a redes sociales -->
                             <a href="https://www.facebook.com/share/1CViFLCqH4/" target="_blank" rel="noopener noreferrer" class="text-brand-green font-semibold hover:text-brand-gold transition-colors inline-flex items-center gap-1">
-                                Redes sociales <span>→</span>
+                                <span>Redes sociales</span> <span class="material-symbols-outlined text-[16px] inline-block align-middle ml-0.5">arrow_forward</span>
                             </a>
                         </div>
                     </div>
@@ -973,11 +974,11 @@
                             </p>
                             <ul class="text-sm text-gray-600 space-y-2.5 mb-6">
                                 <li class="flex items-start gap-2">
-                                    <span class="text-brand-gold font-bold mt-0.5">✓</span> 
+                                    <span class="material-symbols-outlined text-emerald-600 text-[18px] inline-block align-middle mr-1">check_circle</span> 
                                     <span>Productos de alta calidad.</span>
                                 </li>
                                 <li class="flex items-start gap-2">
-                                    <span class="text-brand-gold font-bold mt-0.5">✓</span> 
+                                    <span class="material-symbols-outlined text-emerald-600 text-[18px] inline-block align-middle mr-1">check_circle</span> 
                                     <span>Venta al por mayor y menor</span>
                                 </li>
                             </ul>
@@ -987,7 +988,7 @@
                             <span class="text-gray-400 text-xs font-medium">Malchinguí</span>
                             <!-- Botón dirigido a redes sociales -->
                             <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer" class="text-brand-green font-semibold hover:text-brand-gold transition-colors inline-flex items-center gap-1">
-                                Cotización <span>→</span>
+                                <span>Cotización</span> <span class="material-symbols-outlined text-[16px] inline-block align-middle ml-0.5">arrow_forward</span>
                             </a>
                         </div>
                     </div>
@@ -1019,11 +1020,11 @@
                         <h4 class="font-serif text-xl font-bold text-brand-dark">Información relevante</h4>
                         <ul class="space-y-4 text-xs sm:text-sm text-slate-600">
                             <li class="flex items-start gap-3">
-                                <span class="text-brand-green font-bold">📍</span>
+                                <span class="material-symbols-outlined text-[22px] text-brand-green">location_on</span>
                                 <div><strong class="text-brand-dark block">Sede y Estadio</strong>Barrio el Hospital, Malchinguí, Ecuador, Estadio Carlos Eliecer Rodriguez</div>
                             </li>
                             <li class="flex items-start gap-3">
-                                <span class="text-brand-green font-bold">✉️</span>
+                                <span class="material-symbols-outlined text-[22px] text-brand-green">mail</span>
                                 <div><strong class="text-brand-dark block">Contacto formal</strong><a href="mailto:cdamazonass@gmail.com" class="hover:underline">cdamazonass@gmail.com</a></div>
                             </li>
                         </ul>
@@ -1033,7 +1034,7 @@
                         <div class="flex items-center justify-between mb-4">
                             <h4 class="font-serif text-xl font-bold text-brand-dark">Envíanos un Mensaje</h4>
                             <span class="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                                🔒 Canal Oficial Seguro
+                                <span class="material-symbols-outlined text-[14px]">lock</span> Canal Oficial Seguro
                             </span>
                         </div>
                         
@@ -1069,7 +1070,7 @@
                                 </div>
                             </div>
                             <p id="contacto-aviso-vacio" class="text-[11px] text-amber-800 bg-amber-50 p-2.5 rounded-lg border border-amber-200 hidden font-medium">
-                                ⚠️ Por favor ingresa al menos un método de respuesta: <strong>correo electrónico</strong> o <strong>número de teléfono / WhatsApp</strong>.
+                                <span class="material-symbols-outlined text-[16px] text-amber-700 inline-block align-middle mr-1">info</span> Por favor ingresa al menos un método de respuesta: <strong>correo electrónico</strong> o <strong>número de teléfono / WhatsApp</strong>.
                             </p>
 
                             <div>
@@ -1084,7 +1085,7 @@
                             <!-- Protección Anti-Spam Oficial hCaptcha (Web3Forms) -->
                             <div class="my-2 flex flex-col items-center justify-center">
                                 <div class="h-captcha" data-captcha="true"></div>
-                                <p id="captcha-error" class="text-[11px] text-red-600 font-medium hidden mt-1.5">❌ Por favor completa la verificación de seguridad (hCaptcha) para continuar.</p>
+                                <p id="captcha-error" class="text-[11px] text-red-600 font-medium hidden mt-1.5"><span class="material-symbols-outlined text-[16px] text-red-600 inline-block align-middle mr-1">error</span> Por favor completa la verificación de seguridad (hCaptcha) para continuar.</p>
                             </div>
 
                             <!-- Casillas de Consentimiento Legal y Privacidad (RGPD / LOPDP) -->
@@ -1102,17 +1103,18 @@
                                     </span>
                                 </label>
                                 <p id="contacto-aviso-consentimiento" class="text-[11px] text-red-600 font-medium hidden">
-                                    ❌ Debes marcar la casilla aceptando la Política de Privacidad y el Aviso Legal para enviar tu mensaje.
+                                    <span class="material-symbols-outlined text-[16px] text-red-600 inline-block align-middle mr-1">error</span> Debes marcar la casilla aceptando la Política de Privacidad y el Aviso Legal para enviar tu mensaje.
                                 </p>
                             </div>
 
                             <!-- Alerta de Cooldown / Enfriamiento Anti-Spam -->
                             <div id="contacto-cooldown-alerta" class="hidden p-3 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg text-xs leading-relaxed">
-                                ⏳ <strong>Envío temporalmente en pausa:</strong> Ya enviaste un mensaje. Para evitar saturación y spam, por favor espera <span id="cooldown-contador" class="font-bold text-brand-dark"></span> antes de enviar otro.
+                                <span class="material-symbols-outlined text-[16px] text-amber-700 inline-block align-middle mr-1">schedule</span> <strong>Envío temporalmente en pausa:</strong> Ya enviaste un mensaje. Para evitar saturación y spam, por favor espera <span id="cooldown-contador" class="font-bold text-brand-dark"></span> antes de enviar otro.
                             </div>
 
-                            <button type="submit" id="btn-enviar-contacto" class="w-full bg-brand-green hover:bg-brand-green-hover text-brand-white py-2.5 rounded font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center shadow-sm">
-                                Enviar Mensaje Seguro
+                            <button type="submit" id="btn-enviar-contacto" class="w-full bg-brand-green hover:bg-brand-green-hover text-brand-white py-2.5 rounded font-bold uppercase tracking-wider text-xs transition-colors flex items-center justify-center gap-2 shadow-sm">
+                                <span class="material-symbols-outlined text-[18px]">send</span>
+                                <span>Enviar Mensaje Seguro</span>
                             </button>
                         </form>
                     </div>
@@ -1164,7 +1166,7 @@
                     <li><button type="button" onclick="abrirModalLegal('cookies')" class="hover:text-brand-gold transition-colors text-left">Política de Cookies</button></li>
                     <li>
                         <button type="button" onclick="abrirModalConfigCookies()" class="hover:text-brand-gold transition-colors text-left flex items-center gap-1.5 text-brand-gold font-medium">
-                            <span>🍪</span> Reconfigurar cookies
+                            <span class="material-symbols-outlined text-[16px] text-amber-400 inline-block align-middle mr-1">cookie</span> Reconfigurar cookies
                         </button>
                     </li>
                 </ul>
@@ -1201,7 +1203,7 @@
                 <button type="button" onclick="abrirModalLegal('cookies')" class="hover:text-slate-300 transition-colors">Cookies</button>
                 <span>•</span>
                 <button type="button" onclick="abrirModalConfigCookies()" class="hover:text-brand-gold text-slate-400 inline-flex items-center gap-1 transition-colors">
-                    <span>🍪</span> Configurar Cookies
+                    <span class="material-symbols-outlined text-[16px] text-amber-400 inline-block align-middle mr-1">cookie</span> Configurar Cookies
                 </button>
             </div>
         </div>
@@ -1254,10 +1256,10 @@
                     </div>
                     <!-- Chips de Preguntas Rápidas -->
                     <div class="flex flex-wrap gap-1.5 pt-0.5" id="chat-quick-chips">
-                        <button type="button" onclick="preguntarChatRapido('Cuéntame la historia del club')" class="bg-white hover:bg-emerald-50 text-brand-green border border-brand-green/30 text-[10px] px-2.5 py-1 rounded-full font-medium transition-all shadow-xs">📜 Historia</button>
-                        <button type="button" onclick="preguntarChatRapido('¿Dónde juegan y cómo es su estadio?')" class="bg-white hover:bg-emerald-50 text-brand-green border border-brand-green/30 text-[10px] px-2.5 py-1 rounded-full font-medium transition-all shadow-xs">📍 Estadio</button>
-                        <button type="button" onclick="preguntarChatRapido('¿Qué indumentaria oficial tienen en la tienda?')" class="bg-white hover:bg-emerald-50 text-brand-green border border-brand-green/30 text-[10px] px-2.5 py-1 rounded-full font-medium transition-all shadow-xs">👕 Tienda</button>
-                        <button type="button" onclick="preguntarChatRapido('¿Quiénes integran la plantilla y directiva?')" class="bg-white hover:bg-emerald-50 text-brand-green border border-brand-green/30 text-[10px] px-2.5 py-1 rounded-full font-medium transition-all shadow-xs">👥 Nómina</button>
+                        <button type="button" onclick="preguntarChatRapido('Cuéntame la historia del club')" class="bg-white hover:bg-emerald-50 text-brand-green border border-brand-green/30 text-[10px] px-2.5 py-1 rounded-full font-medium transition-all shadow-xs inline-flex items-center"><span class="material-symbols-outlined text-[13px] mr-1">history_edu</span>Historia</button>
+                        <button type="button" onclick="preguntarChatRapido('¿Dónde juegan y cómo es su estadio?')" class="bg-white hover:bg-emerald-50 text-brand-green border border-brand-green/30 text-[10px] px-2.5 py-1 rounded-full font-medium transition-all shadow-xs inline-flex items-center"><span class="material-symbols-outlined text-[13px] mr-1">stadium</span>Estadio</button>
+                        <button type="button" onclick="preguntarChatRapido('¿Qué indumentaria oficial tienen en la tienda?')" class="bg-white hover:bg-emerald-50 text-brand-green border border-brand-green/30 text-[10px] px-2.5 py-1 rounded-full font-medium transition-all shadow-xs inline-flex items-center"><span class="material-symbols-outlined text-[13px] mr-1">shopping_bag</span>Tienda</button>
+                        <button type="button" onclick="preguntarChatRapido('¿Quiénes integran la plantilla y directiva?')" class="bg-white hover:bg-emerald-50 text-brand-green border border-brand-green/30 text-[10px] px-2.5 py-1 rounded-full font-medium transition-all shadow-xs inline-flex items-center"><span class="material-symbols-outlined text-[13px] mr-1">groups</span>Nómina</button>
                     </div>
                 </div>
             </div>
@@ -1279,8 +1281,8 @@
     <!-- ==================== BANNER DE COOKIES FLOTANTE (RGPD / LOPDP) ==================== -->
     <div id="cda-cookie-banner" class="fixed bottom-4 left-4 right-4 md:left-6 md:right-auto md:max-w-xl bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl border border-slate-200/90 p-5 sm:p-6 z-50 hidden cookie-banner-anim" role="dialog" aria-modal="true" aria-labelledby="cookie-banner-title">
         <div class="flex items-start gap-3.5">
-            <div class="w-10 h-10 rounded-xl bg-brand-green/10 text-brand-green flex items-center justify-center text-xl flex-shrink-0 shadow-inner">
-                🍪
+            <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center flex-shrink-0 shadow-inner">
+                <span class="material-symbols-outlined text-[24px]">cookie</span>
             </div>
             <div class="flex-grow space-y-2">
                 <div class="flex items-center gap-2 flex-wrap">
@@ -1299,7 +1301,7 @@
         </div>
         <div class="mt-4 pt-3 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-2 text-xs font-bold">
             <button type="button" onclick="CDA_COOKIES.configurar()" class="px-3.5 py-2 rounded-xl text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
-                ⚙️ Configurar
+                <span class="material-symbols-outlined text-[15px] inline-block align-middle mr-1">tune</span> Configurar
             </button>
             <button type="button" onclick="CDA_COOKIES.rechazarNoEsenciales()" class="px-3.5 py-2 rounded-xl text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors text-center">
                 Rechazar no esenciales
@@ -1316,7 +1318,7 @@
             <!-- Cabecera -->
             <div class="p-4 sm:p-5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
                 <div class="flex items-center gap-2.5">
-                    <span class="text-xl">⚙️</span>
+                    <span class="material-symbols-outlined text-[22px] text-brand-dark">tune</span>
                     <div>
                         <h3 id="modal-config-title" class="font-serif font-bold text-base text-brand-dark">Centro de Preferencias de Privacidad</h3>
                         <p class="text-[11px] text-slate-500">Gestión de cookies y tecnologías de almacenamiento (RGPD / LOPDP Ecuador)</p>
@@ -1417,13 +1419,13 @@
                 <!-- Barra de Pestañas Legales -->
                 <div class="flex items-center border-t border-slate-200 px-4 sm:px-6 overflow-x-auto">
                     <button type="button" id="tab-btn-legal-privacidad" onclick="cambiarTabLegal('privacidad')" class="tab-btn-legal px-4 py-2.5 text-xs font-bold border-b-2 border-brand-green text-brand-green bg-emerald-50/50 transition-all whitespace-nowrap">
-                        🔒 Política de Privacidad
+                        <span class="material-symbols-outlined text-[15px] inline-block align-middle mr-1">lock</span> Política de Privacidad
                     </button>
                     <button type="button" id="tab-btn-legal-aviso" onclick="cambiarTabLegal('aviso')" class="tab-btn-legal px-4 py-2.5 text-xs font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">
-                        ⚖️ Aviso Legal y Términos
+                        <span class="material-symbols-outlined text-[15px] inline-block align-middle mr-1">gavel</span> Aviso Legal y Términos
                     </button>
                     <button type="button" id="tab-btn-legal-cookies" onclick="cambiarTabLegal('cookies')" class="tab-btn-legal px-4 py-2.5 text-xs font-semibold border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition-all whitespace-nowrap">
-                        🍪 Política de Cookies
+                        <span class="material-symbols-outlined text-[15px] inline-block align-middle mr-1">cookie</span> Política de Cookies
                     </button>
                 </div>
             </div>
@@ -1637,7 +1639,7 @@
                     </p>
                     <div class="my-3">
                         <button type="button" onclick="cerrarModalLegal(); abrirModalConfigCookies();" class="inline-flex items-center gap-2 px-4 py-2 bg-brand-green hover:bg-brand-green-hover text-white rounded-xl text-xs font-bold transition-colors shadow-subtle">
-                            <span>🍪</span> Abrir Centro de Preferencias de Cookies
+                            <span class="material-symbols-outlined text-[16px] inline-block align-middle mr-1">tune</span> Abrir Centro de Preferencias de Cookies
                         </button>
                     </div>
 
@@ -1670,7 +1672,7 @@
     <!-- Toast Modal Notificación -->
     <div id="toast-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-all" onclick="cerrarToast()">
         <div class="bg-white rounded-2xl p-6 max-w-sm w-full text-center shadow-2xl space-y-4 border border-slate-100 chat-anim-in" onclick="event.stopPropagation()">
-            <div class="w-12 h-12 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center mx-auto text-xl font-bold shadow-inner">✓</div>
+            <div class="w-12 h-12 bg-emerald-100 text-brand-green rounded-full flex items-center justify-center mx-auto shadow-inner"><span class="material-symbols-outlined text-[26px]">check</span></div>
             <h4 class="font-serif font-bold text-lg text-brand-dark" id="toast-title">Aviso Institucional</h4>
             <p class="text-xs text-slate-600 leading-relaxed" id="toast-msg">Mensaje enviado correctamente.</p>
             <button onclick="cerrarToast()" class="w-full bg-brand-green hover:bg-brand-green-hover text-white py-2.5 rounded-lg font-bold text-xs uppercase tracking-wider transition-colors shadow-subtle">Aceptar</button>

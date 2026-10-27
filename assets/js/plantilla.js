@@ -182,7 +182,7 @@
                     console.error("Error en la sincronización:", error);
                     container.innerHTML = `
                         <div class="bg-amber-50 border border-amber-200 rounded-2xl p-8 text-center max-w-xl mx-auto shadow-sm">
-                            <span class="text-3xl block mb-2">⚠️</span>
+                            <span class="material-symbols-outlined text-4xl text-amber-500 block mb-2">cloud_off</span>
                             <h4 class="font-serif font-bold text-brand-dark text-base mb-1">Sincronización en proceso</h4>
                             <p class="text-xs text-slate-600 mb-4">No se pudo obtener la nómina en vivo en este momento. Verifica que las hojas de cálculo de Google Sheets tengan permisos públicos de lectura.</p>
                             <button onclick="cargarDatosPlantilla('${tipoTab}')" class="px-4 py-2 bg-brand-green text-white text-xs font-bold rounded-lg hover:bg-brand-green-hover transition-colors">Reintentar Conexión</button>
@@ -253,21 +253,21 @@
                     }
                     if (tecnicos.length > 0) {
                         const divCuerpo = document.createElement('div');
-                        divCuerpo.className = 'max-w-4xl mx-auto bg-slate-900 text-white p-6 sm:p-7 rounded-2xl border border-brand-green/40 mb-12 shadow-xl';
+                        divCuerpo.className = 'max-w-4xl mx-auto bg-white rounded-2xl border border-slate-200/90 p-6 sm:p-7 mb-12 shadow-sm';
                         divCuerpo.innerHTML = `
                             <div class="text-center mb-6">
-                                <span class="text-[10px] font-black uppercase tracking-widest text-brand-gold block">Estrategia & Liderazgo</span>
-                                <h4 class="font-serif text-xl sm:text-2xl font-black text-white">Cuerpo Técnico Oficial</h4>
-                                <div class="w-12 h-0.5 bg-brand-gold mx-auto mt-2"></div>
+                                <span class="text-[10px] font-bold uppercase tracking-widest text-emerald-700 block">Estrategia & Liderazgo</span>
+                                <h4 class="font-serif text-xl sm:text-2xl font-bold text-slate-900">Cuerpo Técnico Oficial</h4>
+                                <div class="w-12 h-0.5 bg-emerald-600 mx-auto mt-2 rounded-full"></div>
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-${Math.min(tecnicos.length, 3)} gap-4 text-center">
                                 ${tecnicos.map(t => `
-                                    <div class="bg-white/5 backdrop-blur-md p-4 rounded-xl border border-white/10 hover:border-brand-green/60 transition-colors flex flex-col items-center">
-                                        <div class="w-20 h-20 rounded-full overflow-hidden mb-3 bg-brand-dark border-2 border-brand-gold shadow-md">
+                                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 hover:border-emerald-600/50 transition-colors flex flex-col items-center">
+                                        <div class="w-20 h-20 rounded-full overflow-hidden mb-3 bg-slate-200 border-2 border-emerald-600/30 shadow-sm">
                                             <img src="${t.fotoUrl || 'assets/img/plantilla/masculino/Jugador_Generico.png'}" alt="${escapeHTML(t.nombre)} ${escapeHTML(t.apellido)}" loading="lazy" class="w-full h-full object-cover" onerror="this.src='assets/img/plantilla/masculino/Jugador_Generico.png'">
                                         </div>
-                                        <span class="text-[10px] font-black tracking-wider uppercase text-brand-gold bg-brand-gold/15 px-2 py-0.5 rounded-full mb-1.5">${escapeHTML(t.cargo || 'Dirección Técnica')}</span>
-                                        <span class="text-sm font-bold text-white">${escapeHTML(t.nombre)} ${escapeHTML(t.apellido)}</span>
+                                        <span class="text-[10px] font-bold tracking-wider uppercase text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full mb-1.5">${escapeHTML(t.cargo || 'Dirección Técnica')}</span>
+                                        <span class="text-sm font-bold text-slate-800">${escapeHTML(t.nombre)} ${escapeHTML(t.apellido)}</span>
                                     </div>
                                 `).join('')}
                             </div>
@@ -387,123 +387,116 @@
                         const grid = divSec.querySelector(`#grid-${tipoTab}-${sec.key}`);
                         lista.forEach(j => {
                             const tarjeta = document.createElement('div');
-                            // Configuración visual según Tab (Masculino, Femenino o Leyendas)
-                            let borderGradient = 'from-emerald-500 via-emerald-800 to-[#046a38]';
-                            let cardBg = 'bg-gradient-to-b from-[#112318] via-[#09150e] to-[#040a07]';
-                            let shadowHover = 'hover:shadow-tcg-green';
-                            let posBadgeColor = 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40';
-                            let ovrColor = 'text-emerald-400';
-                            let dorsalBg = 'bg-emerald-600/30 text-white border-emerald-400/30';
-                            let statBarColor = 'bg-emerald-500';
+                            // Configuración visual según categoría (Masculino, Femenino o Leyendas)
+                            let accentGlow = 'bg-emerald-500/10 group-hover:bg-emerald-500/20';
+                            let posBadgeColor = 'bg-emerald-50 text-emerald-800 border-emerald-200';
+                            let dorsalColor = 'text-emerald-700';
+                            let statBarColor = 'bg-emerald-600';
+                            let ctaBtnStyle = 'bg-slate-100 hover:bg-emerald-700 hover:text-white text-emerald-800';
+                            let hoverBorder = 'hover:border-emerald-500/50';
+
                             if (tipoTab === 'femenino') {
-                                borderGradient = 'from-pink-400 via-rose-700 to-[#f179c5]';
-                                cardBg = 'bg-gradient-to-b from-[#24101e] via-[#160812] to-[#0b0309]';
-                                shadowHover = 'hover:shadow-tcg-rose';
-                                posBadgeColor = 'bg-pink-500/20 text-pink-300 border-pink-400/40';
-                                ovrColor = 'text-pink-400';
-                                dorsalBg = 'bg-pink-600/30 text-white border-pink-400/30';
+                                accentGlow = 'bg-pink-500/10 group-hover:bg-pink-500/20';
+                                posBadgeColor = 'bg-pink-50 text-pink-800 border-pink-200';
+                                dorsalColor = 'text-pink-600';
                                 statBarColor = 'bg-pink-500';
+                                ctaBtnStyle = 'bg-slate-100 hover:bg-pink-600 hover:text-white text-pink-700';
+                                hoverBorder = 'hover:border-pink-400/50';
                             } else if (tipoTab === 'leyendas') {
-                                borderGradient = 'from-amber-300 via-yellow-600 to-[#d4af37]';
-                                cardBg = 'bg-gradient-to-b from-[#251b08] via-[#171104] to-[#0a0701]';
-                                shadowHover = 'hover:shadow-tcg-gold';
-                                posBadgeColor = 'bg-amber-400/20 text-brand-gold border-brand-gold/50';
-                                ovrColor = 'text-brand-gold';
-                                dorsalBg = 'bg-amber-500/30 text-brand-gold border-amber-400/40';
-                                statBarColor = 'bg-brand-gold';
+                                accentGlow = 'bg-amber-500/15 group-hover:bg-amber-500/25';
+                                posBadgeColor = 'bg-amber-50 text-amber-900 border-amber-300';
+                                dorsalColor = 'text-amber-600';
+                                statBarColor = 'bg-amber-500';
+                                ctaBtnStyle = 'bg-slate-100 hover:bg-amber-600 hover:text-white text-amber-800';
+                                hoverBorder = 'hover:border-amber-400/50';
                             }
+
                             const esArquero = (j.posicion || '').toUpperCase().includes('ARQ') || (j.posicion || '').toUpperCase().includes('POR');
                             const fallbackFoto = esArquero ? 'assets/img/plantilla/masculino/Portero_Generico.png' : 'assets/img/plantilla/masculino/Jugador_Generico.png';
                             const imagenFinal = (j.fotoUrl && j.fotoUrl.trim() !== '') ? j.fotoUrl : fallbackFoto;
                             const posAbrev = abreviarPosicion(j.posicion);
-                            // Estructura de la Trading Card de Alta Gama
-                            const legendGlow = (tipoTab === 'leyendas') ? 'tcg-legend-glow ' : '';
-                            tarjeta.className = `tcg-shimmer-effect ${legendGlow}group relative rounded-2xl p-[2px] bg-gradient-to-b ${borderGradient} shadow-xl ${shadowHover} transition-all duration-300 cursor-pointer flex flex-col hover:scale-[1.02]`;
+
+                            // Estructura de la Carta con Diseño Elegante y Limpio
+                            tarjeta.className = `player-card relative bg-white rounded-2xl p-4 sm:p-5 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group overflow-hidden border border-slate-200/80 ${hoverBorder} cursor-pointer`;
                             tarjeta.setAttribute('title', 'Toca para ver ficha técnica detallada');
                             tarjeta.onclick = () => abrirModalFichaJugador(j, tipoTab);
                             tarjeta.innerHTML = `
-                                <div class="${cardBg} rounded-[14px] p-3.5 flex flex-col justify-between h-full relative z-10 text-white overflow-hidden">
-                                    
-                                    <!-- Cabecera de la Trading Card: OVR, Posición y Dorsal -->
-                                    <div class="flex justify-between items-center pb-2.5 mb-2.5 border-b border-white/10">
-                                        <div class="flex items-center gap-1.5">
-                                            <span class="text-lg font-black font-sans tracking-tight ${ovrColor} drop-shadow">${escapeHTML(j.ovr)}</span>
-                                            <span class="text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full border ${posBadgeColor}">
-                                                ${escapeHTML(posAbrev)}
-                                            </span>
-                                        </div>
-                                        <div class="flex items-center gap-1">
-                                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">DORSAL</span>
-                                            <span class="text-xs font-black px-2 py-0.5 rounded-md border ${dorsalBg}">
-                                                #${escapeHTML(j.num)}
-                                            </span>
-                                        </div>
+                                <div class="absolute -top-12 -right-12 w-32 h-32 rounded-full ${accentGlow} pointer-events-none transition-all group-hover:scale-125"></div>
+                                <div>
+                                    <!-- Cabecera de la Carta: Posición y Dorsal -->
+                                    <div class="flex items-start justify-between mb-3">
+                                        <span class="px-2.5 py-0.5 rounded-md ${posBadgeColor} border font-bold text-[11px] uppercase tracking-wider">
+                                            ${escapeHTML(posAbrev)}
+                                        </span>
+                                        <span class="font-sans text-2xl font-black ${dorsalColor}">
+                                            #${escapeHTML(j.num)}
+                                        </span>
                                     </div>
-                                    <!-- Retrato del Jugador Integrado con Marco Biselado -->
-                                    <div class="relative h-44 sm:h-48 w-full rounded-xl overflow-hidden bg-gradient-to-b from-black/40 via-black/20 to-black/70 border border-white/10 flex items-center justify-center p-1 mb-3">
-                                        <img src="${imagenFinal}" alt="${escapeHTML(j.nombres)} ${escapeHTML(j.apellidos)}" loading="lazy" class="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105" onerror="this.src='${fallbackFoto}'; this.classList.remove('object-cover'); this.classList.add('object-contain', 'p-2');">
-                                        <div class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-black/90 to-transparent pointer-events-none"></div>
-                                        <img src="assets/img/branding/Amazonas PGN.png" class="absolute bottom-1 right-1.5 h-5 w-auto opacity-30 pointer-events-none" alt="Escudo Watermark">
-                                    </div>
-                                    <!-- Identificación del Jugador (Nombre y APELLIDO EN MAYÚSCULAS) -->
-                                    <div class="text-center mb-3">
-                                        <p class="text-[11px] font-medium text-slate-300 truncate tracking-wide">${escapeHTML(j.nombres || 'Jugador')}</p>
-                                        <h5 class="text-sm sm:text-base font-black font-serif text-white tracking-wide uppercase truncate drop-shadow-sm">
-                                            ${escapeHTML(j.apellidos || j.nombres)}
-                                        </h5>
-                                        <div class="flex items-center justify-center gap-2 mt-1 text-[10px] text-slate-400">
-                                            <span class="truncate">📅 ${escapeHTML(j.fechaNac)}</span>
-                                            <span>•</span>
-                                            <span class="truncate font-medium text-slate-300">📍 ${escapeHTML(j.observacion)}</span>
+
+                                    <!-- Retrato del Jugador Integrado con Aspect Ratio y OVR Badge -->
+                                    <div class="w-full aspect-[4/3] rounded-xl bg-slate-100 flex items-center justify-center relative overflow-hidden mb-3 border border-slate-100">
+                                        <img src="${imagenFinal}" alt="${escapeHTML(j.nombres)} ${escapeHTML(j.apellidos)}" loading="lazy" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" onerror="this.src='${fallbackFoto}'; this.classList.remove('object-cover'); this.classList.add('object-contain', 'p-2');">
+                                        <div class="absolute bottom-2 left-2 px-2.5 py-0.5 rounded bg-slate-900/80 backdrop-blur-sm text-white text-[11px] font-bold tracking-wider">
+                                            ${escapeHTML(j.ovr)} OVR
                                         </div>
                                     </div>
+
+                                    <!-- Identificación del Jugador (Tipografía limpia sin saturación de emojis) -->
+                                    <div class="mb-3">
+                                        <h4 class="text-base font-bold text-slate-900 group-hover:text-emerald-700 transition-colors leading-snug truncate">
+                                            ${escapeHTML(j.nombres)} ${escapeHTML(j.apellidos)}
+                                        </h4>
+                                        <div class="flex items-center gap-1.5 text-xs text-slate-500 mt-1 truncate font-medium">
+                                            <span class="truncate">${escapeHTML(j.observacion || 'Plantilla Oficial')}</span>
+                                            <span class="text-slate-300">•</span>
+                                            <span class="truncate text-slate-400">${escapeHTML(j.fechaNac)}</span>
+                                        </div>
+                                    </div>
+
                                     <!-- Rejilla de Atributos Deportivos (0-99): RIT | TIR | PAS | REG | DEF -->
-                                    <div class="pt-2 border-t border-white/10 bg-black/40 -mx-3.5 -mb-3.5 p-3 rounded-b-[14px]">
-                                        <div class="grid grid-cols-5 gap-1 text-center">
-                                            
-                                            <!-- RIT (Col C) -->
-                                            <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
-                                                <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">RIT</span>
-                                                <span class="text-xs font-black text-white">${escapeHTML(j.rit)}</span>
-                                                <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
-                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Math.max(0, Number(j.rit) || 0))}%"></div>
-                                                </div>
-                                            </div>
-                                            <!-- TIR (Col H) -->
-                                            <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
-                                                <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">TIR</span>
-                                                <span class="text-xs font-black text-white">${escapeHTML(j.tir)}</span>
-                                                <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
-                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Math.max(0, Number(j.tir) || 0))}%"></div>
-                                                </div>
-                                            </div>
-                                            <!-- PAS (Col I) -->
-                                            <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
-                                                <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">PAS</span>
-                                                <span class="text-xs font-black text-white">${escapeHTML(j.pas)}</span>
-                                                <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
-                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Math.max(0, Number(j.pas) || 0))}%"></div>
-                                                </div>
-                                            </div>
-                                            <!-- REG (Col K) -->
-                                            <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
-                                                <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">REG</span>
-                                                <span class="text-xs font-black text-white">${escapeHTML(j.reg)}</span>
-                                                <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
-                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Math.max(0, Number(j.reg) || 0))}%"></div>
-                                                </div>
-                                            </div>
-                                            <!-- DEF (Col J) -->
-                                            <div class="bg-white/5 py-1 px-0.5 rounded border border-white/5 flex flex-col items-center">
-                                                <span class="text-[8px] font-extrabold text-slate-400 uppercase tracking-tighter">DEF</span>
-                                                <span class="text-xs font-black text-white">${escapeHTML(j.def)}</span>
-                                                <div class="w-full h-1 bg-white/10 rounded-full mt-1 overflow-hidden">
-                                                    <div class="h-full ${statBarColor}" style="width: ${Math.min(100, Math.max(0, Number(j.def) || 0))}%"></div>
-                                                </div>
-                                            </div>
+                                    <div class="space-y-1.5 pt-2 border-t border-slate-100">
+                                        <div class="flex items-center justify-between text-[11px] text-slate-600 font-medium">
+                                            <span>RIT (Ritmo)</span><span class="font-bold text-slate-900">${escapeHTML(j.rit)}</span>
+                                        </div>
+                                        <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                            <div class="h-full ${statBarColor} rounded-full" style="width: ${Math.min(100, Math.max(0, Number(j.rit) || 0))}%"></div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between text-[11px] text-slate-600 font-medium">
+                                            <span>TIR (Tiro)</span><span class="font-bold text-slate-900">${escapeHTML(j.tir)}</span>
+                                        </div>
+                                        <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                            <div class="h-full ${statBarColor} rounded-full" style="width: ${Math.min(100, Math.max(0, Number(j.tir) || 0))}%"></div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between text-[11px] text-slate-600 font-medium">
+                                            <span>PAS (Pase)</span><span class="font-bold text-slate-900">${escapeHTML(j.pas)}</span>
+                                        </div>
+                                        <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                            <div class="h-full ${statBarColor} rounded-full" style="width: ${Math.min(100, Math.max(0, Number(j.pas) || 0))}%"></div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between text-[11px] text-slate-600 font-medium">
+                                            <span>REG (Regate)</span><span class="font-bold text-slate-900">${escapeHTML(j.reg)}</span>
+                                        </div>
+                                        <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                            <div class="h-full ${statBarColor} rounded-full" style="width: ${Math.min(100, Math.max(0, Number(j.reg) || 0))}%"></div>
+                                        </div>
+
+                                        <div class="flex items-center justify-between text-[11px] text-slate-600 font-medium">
+                                            <span>DEF (Defensa)</span><span class="font-bold text-slate-900">${escapeHTML(j.def)}</span>
+                                        </div>
+                                        <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                                            <div class="h-full ${statBarColor} rounded-full" style="width: ${Math.min(100, Math.max(0, Number(j.def) || 0))}%"></div>
                                         </div>
                                     </div>
                                 </div>
+
+                                <!-- Botón Ver Ficha Completa -->
+                                <button class="mt-4 w-full py-2.5 rounded-xl ${ctaBtnStyle} font-bold text-xs uppercase tracking-wider transition-all duration-200 flex items-center justify-center gap-1.5 shadow-xs">
+                                    <span>Ver Ficha Completa</span>
+                                    <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                                </button>
                             `;
                             grid.appendChild(tarjeta);
                         });
@@ -520,17 +513,17 @@
             }
             function cambiarPlantillaTab(tipoTab) {
                 const tabs = [
-                    { id: 'masculino', bg: 'bg-brand-green text-white shadow-tcg-green border-2 border-brand-green' },
-                    { id: 'femenino', bg: 'bg-brand-rose text-white shadow-tcg-rose border-2 border-brand-rose' },
-                    { id: 'leyendas', bg: 'bg-gradient-to-r from-brand-gold to-yellow-500 text-brand-dark shadow-tcg-gold border-2 border-yellow-300' }
+                    { id: 'masculino', activeClass: 'bg-brand-green text-white shadow-sm border-brand-green' },
+                    { id: 'femenino', activeClass: 'bg-brand-rose text-white shadow-sm border-brand-rose' },
+                    { id: 'leyendas', activeClass: 'bg-brand-gold text-brand-dark shadow-sm border-amber-400' }
                 ];
                 tabs.forEach(t => {
                     const btn = document.getElementById(`btn-tab-${t.id}`);
                     if (btn) {
                         if (t.id === tipoTab) {
-                            btn.className = `plantilla-tab-btn px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all duration-300 ${t.bg} scale-105`;
+                            btn.className = `plantilla-tab-btn px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 ${t.activeClass} border scale-102`;
                         } else {
-                            btn.className = 'plantilla-tab-btn px-6 py-3 rounded-xl font-black text-xs uppercase tracking-wider transition-all duration-300 bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-brand-dark shadow-sm';
+                            btn.className = 'plantilla-tab-btn px-6 py-3 rounded-xl font-bold text-xs uppercase tracking-wider transition-all duration-300 bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:text-brand-dark shadow-xs';
                         }
                     }
                 });
@@ -566,10 +559,10 @@
                 if (apeEl) apeEl.textContent = escapeHTML(j.apellidos || j.nombres || 'Jugador');
 
                 const fecEl = document.getElementById('modal-jugador-fecha');
-                if (fecEl) fecEl.textContent = `📅 Fecha Nac: ${escapeHTML(j.fechaNac || 'No registrada')}`;
+                if (fecEl) fecEl.textContent = escapeHTML(j.fechaNac || 'No registrada');
 
                 const obsEl = document.getElementById('modal-jugador-obs');
-                if (obsEl) obsEl.textContent = `📍 Origen: ${escapeHTML(j.observacion || 'Malchinguí')}`;
+                if (obsEl) obsEl.textContent = escapeHTML(j.observacion || 'Malchinguí');
 
                 const stats = [
                     { id: 'rit', val: Number(j.rit) || 0 },

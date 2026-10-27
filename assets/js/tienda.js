@@ -324,7 +324,7 @@
                 if (filtrados.length === 0) {
                     grid.innerHTML = `
                         <div class="col-span-full py-16 text-center bg-white rounded-2xl border border-slate-200 p-8 shadow-xs">
-                            <span class="text-4xl block mb-2">🔍</span>
+                            <span class="material-symbols-outlined text-4xl text-slate-400 block mb-2">search_off</span>
                             <h4 class="font-serif font-bold text-brand-dark text-base mb-1">No se encontraron productos</h4>
                             <p class="text-xs text-slate-500">Prueba ajustando el término de búsqueda o seleccionando otra categoría.</p>
                         </div>
@@ -335,9 +335,9 @@
                 grid.innerHTML = filtrados.map(prod => {
                     let stockBadge = '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">● En Stock</span>';
                     if (prod.stockEstado === 'Bajo Pedido') {
-                        stockBadge = '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-200">⏳ Bajo Pedido</span>';
+                        stockBadge = '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200"><span class="material-symbols-outlined text-[12px]">schedule</span> Bajo Pedido</span>';
                     } else if (prod.stockEstado === 'Agotado') {
-                        stockBadge = '<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200">✕ Agotado</span>';
+                        stockBadge = '<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-800 border border-rose-200">Agotado</span>';
                     }
 
                     const esAgotado = prod.stockEstado === 'Agotado';
@@ -403,7 +403,7 @@
 
                                     <div class="grid grid-cols-2 gap-2">
                                         <button onclick="pedirProductoDirectoWhatsApp('${idSeguro}')" ${esAgotado ? 'disabled' : ''} class="w-full cda-btn-whatsapp text-white py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1.5 shadow-xs disabled:opacity-50 disabled:cursor-not-allowed">
-                                            <span>💬 Pedir</span>
+                                            <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-[15px]">chat</span> Pedir</span>
                                         </button>
                                         <button onclick="abrirModalProducto('${idSeguro}')" class="w-full bg-slate-100 hover:bg-brand-dark hover:text-white text-slate-700 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center gap-1">
                                             <span>Detalles →</span>
@@ -453,7 +453,7 @@
                     elStock.textContent = '⏳ Bajo Pedido';
                 } else {
                     elStock.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-200';
-                    elStock.textContent = '✕ Agotado';
+                    elStock.textContent = 'Agotado';
                 }
 
                 const contTallas = document.getElementById('modal-prod-tallas');
@@ -670,7 +670,7 @@
                 if (carritoTienda.length === 0) {
                     container.innerHTML = `
                         <div class="py-12 text-center text-slate-500">
-                            <span class="text-4xl block mb-2">🛒</span>
+                            <span class="material-symbols-outlined text-4xl text-slate-400 block mb-2">shopping_bag</span>
                             <p class="font-bold text-sm text-brand-dark mb-1">Tu pedido está vacío</p>
                             <p class="text-xs text-slate-400">Selecciona algún producto de la tienda para comenzar.</p>
                         </div>
@@ -701,8 +701,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button onclick="eliminarItemCarrito(${idx})" class="text-slate-400 hover:text-red-500 p-1.5 transition-colors text-sm" title="Eliminar artículo">
-                                    🗑️
+                                <button onclick="eliminarItemCarrito(${idx})" class="text-slate-400 hover:text-red-600 p-1.5 transition-colors flex items-center justify-center rounded-lg hover:bg-red-50" title="Eliminar artículo">
+                                    <span class="material-symbols-outlined text-[18px]">delete</span>
                                 </button>
                             </div>
                         `;

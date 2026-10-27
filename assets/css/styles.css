@@ -478,3 +478,33 @@ body {
     background-color: #f8fafc;
 }
 
+
+
+/* ==========================================
+   9. MATERIAL SYMBOLS & ALINEACIÓN ELEGANTE DE ICONOS
+   ========================================== */
+.material-symbols-outlined {
+    font-family: 'Material Symbols Outlined';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+    vertical-align: middle;
+}
+
+/* Transición suave y elevación para cartas rediseñadas */
+.player-card {
+    transition: transform 0.3s var(--cda-ease-spring), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.player-card:hover {
+    transform: translateY(-6px);
+}

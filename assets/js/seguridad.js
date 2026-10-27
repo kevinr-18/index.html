@@ -139,7 +139,7 @@
                     }
                     if (alertaCooldown) {
                         alertaCooldown.classList.remove('hidden');
-                        alertaCooldown.innerHTML = `🛡️ <strong>Límite diario alcanzado:</strong> Has enviado el máximo de consultas permitidas hoy (${SEGURIDAD_CONFIG.MAX_ENVIOS_DIARIOS}). Si necesitas atención urgente, escríbenos directamente a <strong>cdamazonass@gmail.com</strong>.`;
+                        alertaCooldown.innerHTML = `<span class="material-symbols-outlined text-[18px] text-amber-700 inline-block align-middle mr-1">shield</span> <strong>Límite diario alcanzado:</strong> Has enviado el máximo de consultas permitidas hoy (${SEGURIDAD_CONFIG.MAX_ENVIOS_DIARIOS}). Si necesitas atención urgente, escríbenos directamente a <strong>cdamazonass@gmail.com</strong>.`;
                     }
                 }
             } catch (e) {}

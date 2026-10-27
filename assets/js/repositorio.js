@@ -333,25 +333,25 @@
                 });
 
                 const subCategorias = [
-                    { id: 'todas', label: '📁 Todas las Fotos', count: fotosEquipo.length }
+                    { id: 'todas', label: 'Todas las Fotos', count: fotosEquipo.length }
                 ];
 
                 if (equipoRepoActual === 'masculino') {
-                    if (categoriasMap['Máxima']) subCategorias.push({ id: 'Máxima', label: '🏆 División Máxima', count: categoriasMap['Máxima'] });
-                    if (categoriasMap['Primera']) subCategorias.push({ id: 'Primera', label: '🥇 Categoría Primera', count: categoriasMap['Primera'] });
-                    if (categoriasMap['Segunda']) subCategorias.push({ id: 'Segunda', label: '🥈 Categoría Segunda', count: categoriasMap['Segunda'] });
+                    if (categoriasMap['Máxima']) subCategorias.push({ id: 'Máxima', label: 'División Máxima', count: categoriasMap['Máxima'] });
+                    if (categoriasMap['Primera']) subCategorias.push({ id: 'Primera', label: 'Categoría Primera', count: categoriasMap['Primera'] });
+                    if (categoriasMap['Segunda']) subCategorias.push({ id: 'Segunda', label: 'Categoría Segunda', count: categoriasMap['Segunda'] });
                     Object.keys(categoriasMap).forEach(cat => {
                         if (!['Máxima', 'Primera', 'Segunda'].includes(cat)) {
-                            subCategorias.push({ id: cat, label: `⚽ ${cat}`, count: categoriasMap[cat] });
+                            subCategorias.push({ id: cat, label: cat, count: categoriasMap[cat] });
                         }
                     });
                 } else if (equipoRepoActual === 'femenino') {
                     Object.keys(categoriasMap).forEach(cat => {
-                        subCategorias.push({ id: cat, label: `🌸 ${cat}`, count: categoriasMap[cat] });
+                        subCategorias.push({ id: cat, label: cat, count: categoriasMap[cat] });
                     });
                 } else {
                     Object.keys(categoriasMap).forEach(cat => {
-                        subCategorias.push({ id: cat, label: `📜 ${cat}`, count: categoriasMap[cat] });
+                        subCategorias.push({ id: cat, label: cat, count: categoriasMap[cat] });
                     });
                 }
 
@@ -525,8 +525,8 @@
                                 <span class="text-white text-xs font-black tracking-wider uppercase drop-shadow">${escapeHTML(nombre)}</span>
                                 <span class="text-slate-200 text-[11px] font-medium">${grupo.length} Fotografías Oficiales</span>
                             </div>
-                            <span class="absolute top-3 right-3 bg-brand-green/90 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow-sm">
-                                📁 Carpeta
+                            <span class="absolute top-3 right-3 bg-slate-900/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-0.5 rounded-md shadow-sm inline-flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[14px]">folder</span> Álbum
                             </span>
                         </div>
                         <div class="p-4 flex items-center justify-between mt-auto bg-white border-t border-slate-100">
@@ -545,7 +545,7 @@
                 if (itemsActualmenteFiltrados.length === 0) {
                     container.innerHTML = `
                         <div class="col-span-full text-center py-14 bg-white rounded-2xl border border-slate-200 p-6 space-y-2">
-                            <span class="text-3xl block">🔍</span>
+                            <span class="material-symbols-outlined text-4xl text-slate-400 block mb-1">photo_library</span>
                             <h4 class="font-bold text-slate-700 text-sm">No encontramos fotografías con estos criterios</h4>
                             <p class="text-xs text-slate-400">Intenta restablecer los filtros o buscar con otro término.</p>
                             <button onclick="limpiarBusquedaRepo(); cambiarCategoriaRepo('todas'); cambiarAnioRepo('todos');" class="mt-2 px-3.5 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition-colors">
@@ -578,7 +578,7 @@
                             <!-- Overlay Hover -->
                             <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                                 <span class="bg-white text-brand-dark px-3 py-1.5 rounded-xl font-bold text-xs shadow-md flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
-                                    🔍 Ampliar
+                                    <span class="material-symbols-outlined text-[16px]">zoom_in</span> Ampliar
                                 </span>
                             </div>
                         </div>
