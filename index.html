@@ -202,133 +202,220 @@
 
     <main class="flex-grow flex flex-col relative w-full overflow-hidden">
 
-        <!-- ==================== 1. SOBRE EL CLUB ==================== -->
-        <section id="sobre-el-club" class="w-full block">
+        <!-- ==================== 1. SOBRE EL CLUB (FULLSCREEN HERO & RECUADROS INTERACTIVOS) ==================== -->
+        <section id="sobre-el-club" class="w-full relative min-h-[calc(100vh-4.5rem)] flex items-center justify-center overflow-hidden block">
             
-            <!-- Hero Section con espaciado óptimo para evitar solapamientos -->
-            <div class="bg-hero-pattern text-brand-white py-20 sm:py-28 md:py-36 relative overflow-hidden">
-                <!-- Aura de iluminación ambiental institucional -->
-                <div class="hero-ambient-glow"></div>
+            <!-- Imagen de Fondo en Pantalla Completa con Capas Atmosféricas -->
+            <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 scale-105 pointer-events-none" style="background-image: linear-gradient(180deg, rgba(2, 42, 22, 0.78) 0%, rgba(17, 20, 23, 0.88) 55%, rgba(17, 20, 23, 0.98) 100%), url('assets/img/repositorio/masculino/Campeonato1ra.jpg');"></div>
+            
+            <!-- Aura de Iluminación Ambiental Institucional -->
+            <div class="hero-ambient-glow pointer-events-none"></div>
 
-                <div class="container mx-auto px-4 lg:px-8 text-center relative z-10 max-w-4xl">
-                    
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full cda-badge-stars text-brand-white text-xs font-semibold tracking-wider mb-6 cda-float-anim cursor-default" title="Club Deportivo Amazonas · Malchinguí 1987 - 2026">
-                        <span class="text-brand-gold text-xs tracking-widest font-bold">1987 ★ 2026</span>
-                        <span class="text-[11px] text-slate-200 font-bold uppercase tracking-wider">• 5 Estrellas</span>
-                    </div>
-
-                    <h2 class="font-serif text-3xl sm:text-5xl md:text-6xl font-extrabold mb-4 tracking-tight leading-tight text-brand-white drop-shadow-md px-2">
-                        Club Deportivo Amazonas
-                    </h2>
-                    
-                    <p class="text-sm sm:text-lg md:text-xl mb-8 max-w-2xl mx-auto text-slate-200 font-light leading-relaxed px-4 drop-shadow-xs">
-                        Somos más que un equipo de pueblo...
-                    </p>
-
-                    <div class="flex flex-wrap justify-center gap-3 px-4">
-                        <button onclick="mostrarSeccion('plantilla'); return false;" class="cda-btn-shine px-6 py-3 bg-brand-white hover:bg-slate-100 text-brand-green font-bold text-xs tracking-wider uppercase rounded-xl shadow-card transition-all inline-flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[18px]">groups</span>
-                            <span>Plantilla Oficial</span>
-                        </button>
-                        <button onclick="mostrarSeccion('galeria'); return false;" class="cda-btn-shine px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/40 text-brand-white font-bold text-xs tracking-wider uppercase rounded-xl backdrop-blur-md transition-all inline-flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[18px]">photo_library</span>
-                            <span>Repositorio Gráfico</span>
-                        </button>
-                        <button onclick="mostrarSeccion('tienda'); return false;" class="cda-btn-shine px-6 py-3 bg-brand-gold/20 hover:bg-brand-gold/30 border border-brand-gold/50 text-brand-gold font-bold text-xs tracking-wider uppercase rounded-xl backdrop-blur-md transition-all inline-flex items-center gap-2">
-                            <span class="material-symbols-outlined text-[18px]">shopping_bag</span>
-                            <span>Tienda Oficial</span>
-                        </button>
-                    </div>
+            <!-- Contenido Central sobre la Imagen Fullscreen -->
+            <div class="container mx-auto px-4 lg:px-8 text-center relative z-10 max-w-4xl py-12 flex flex-col items-center justify-center">
+                
+                <!-- Escudo Institucional Flotante -->
+                <div class="mb-8 relative group cursor-pointer" onclick="abrirRecuadroHistoria('fundacion')" title="Conoce la historia del club">
+                    <div class="absolute -inset-4 bg-brand-gold/25 rounded-full blur-2xl group-hover:bg-brand-gold/45 transition-all duration-300"></div>
+                    <img src="assets/img/branding/Amazonas PGN.png" alt="Escudo Oficial Club Deportivo Amazonas" class="relative h-28 sm:h-36 md:h-40 w-auto object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.6)] transition-transform duration-300 group-hover:scale-105" onerror="this.src='https://placehold.co/120x120/046a38/ffffff?text=CDA'">
                 </div>
+
+                <!-- Botones Principales Interactivos: Fundación y Orígenes & Actualidad y Presente -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 mb-8 w-full max-w-xl px-2">
+                    <button type="button" onclick="abrirRecuadroHistoria('fundacion')" class="group w-full sm:w-1/2 py-4 px-5 rounded-2xl bg-white/95 hover:bg-white text-slate-900 shadow-2xl backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-emerald-900/50 border border-white/80 flex items-center gap-3.5 text-left cursor-pointer">
+                        <span class="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center group-hover:bg-brand-green group-hover:text-white transition-colors flex-shrink-0 shadow-sm">
+                            <span class="material-symbols-outlined text-[26px]">history_edu</span>
+                        </span>
+                        <div class="min-w-0">
+                            <span class="block text-[10px] font-bold uppercase tracking-wider text-emerald-700">1987 • Los Inicios</span>
+                            <span class="font-serif text-sm sm:text-base font-bold text-slate-900 leading-tight block">Fundación y Orígenes</span>
+                        </div>
+                    </button>
+
+                    <button type="button" onclick="abrirRecuadroHistoria('actualidad')" class="group w-full sm:w-1/2 py-4 px-5 rounded-2xl bg-white/95 hover:bg-white text-slate-900 shadow-2xl backdrop-blur-md transition-all duration-300 hover:scale-105 hover:shadow-amber-900/50 border border-white/80 flex items-center gap-3.5 text-left cursor-pointer">
+                        <span class="w-12 h-12 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center group-hover:bg-amber-600 group-hover:text-white transition-colors flex-shrink-0 shadow-sm">
+                            <span class="material-symbols-outlined text-[26px]">stadium</span>
+                        </span>
+                        <div class="min-w-0">
+                            <span class="block text-[10px] font-bold uppercase tracking-wider text-amber-700">2026 • Vigencia</span>
+                            <span class="font-serif text-sm sm:text-base font-bold text-slate-900 leading-tight block">Actualidad y Presente</span>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Acceso Directo Destacado: Conoce nuestras alianzas estratégicas -->
+                <div class="mb-10">
+                    <button type="button" onclick="mostrarSeccion('aliados'); return false;" class="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-brand-gold/20 hover:bg-brand-gold/30 text-brand-gold border border-brand-gold/50 backdrop-blur-md transition-all duration-300 text-xs sm:text-sm font-bold uppercase tracking-wider hover:scale-105 shadow-lg group">
+                        <span class="material-symbols-outlined text-[20px] transition-transform group-hover:rotate-12">handshake</span>
+                        <span>Conoce nuestras alianzas estratégicas</span>
+                        <span class="material-symbols-outlined text-[18px] transition-transform group-hover:translate-x-1">arrow_forward</span>
+                    </button>
+                </div>
+
+                <!-- Píldoras de Navegación Rápida a Otras Secciones -->
+                <div class="flex flex-wrap items-center justify-center gap-2.5 text-xs text-white/90">
+                    <button type="button" onclick="mostrarSeccion('plantilla'); return false;" class="px-4 py-2 rounded-xl bg-black/40 hover:bg-white/20 text-white/90 border border-white/20 backdrop-blur-sm transition-all flex items-center gap-1.5 font-semibold hover:text-white">
+                        <span class="material-symbols-outlined text-[16px]">groups</span>
+                        <span>Plantilla Oficial</span>
+                    </button>
+                    <button type="button" onclick="mostrarSeccion('galeria'); return false;" class="px-4 py-2 rounded-xl bg-black/40 hover:bg-white/20 text-white/90 border border-white/20 backdrop-blur-sm transition-all flex items-center gap-1.5 font-semibold hover:text-white">
+                        <span class="material-symbols-outlined text-[16px]">photo_library</span>
+                        <span>Repositorio Gráfico</span>
+                    </button>
+                    <button type="button" onclick="mostrarSeccion('tienda'); return false;" class="px-4 py-2 rounded-xl bg-black/40 hover:bg-white/20 text-white/90 border border-white/20 backdrop-blur-sm transition-all flex items-center gap-1.5 font-semibold hover:text-white">
+                        <span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+                        <span>Tienda Oficial</span>
+                    </button>
+                    <button type="button" onclick="mostrarSeccion('noticias'); return false;" class="px-4 py-2 rounded-xl bg-black/40 hover:bg-white/20 text-white/90 border border-white/20 backdrop-blur-sm transition-all flex items-center gap-1.5 font-semibold hover:text-white">
+                        <span class="material-symbols-outlined text-[16px]">newspaper</span>
+                        <span>Noticias</span>
+                    </button>
+                </div>
+
             </div>
 
-            <!-- Historia del Club -->
-            <div class="py-16 sm:py-20 md:py-24 bg-brand-white w-full border-b border-slate-200">
-                <div class="container mx-auto px-4 lg:px-8 max-w-5xl">
-                    
-                    <div class="text-center mb-12">
-                        <span class="text-xs font-bold text-brand-green uppercase tracking-widest block mb-1">Legado Institucional</span>
-                        <h3 class="font-serif text-2xl sm:text-3xl md:text-4xl font-bold text-brand-dark px-2">
-                            Historia del Club Deportivo Amazonas
-                        </h3>
-                        <div class="w-16 h-0.5 bg-brand-green mx-auto mt-4"></div>
+        </section>
+
+        <!-- ==================== RECUADRO ANIMADO: HISTORIA Y ACTUALIDAD DEL CLUB ==================== -->
+        <div id="recuadro-historia-club" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-5 overflow-y-auto" onclick="cerrarRecuadroHistoria()">
+            <div class="relative w-full max-w-4xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-auto chat-anim-in flex flex-col max-h-[92vh]" onclick="event.stopPropagation()">
+                
+                <!-- Cabecera del Recuadro con Selector de Pestañas y Botón Cerrar -->
+                <div class="p-4 sm:px-6 sm:py-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 flex-shrink-0">
+                    <div class="flex items-center gap-3 w-full sm:w-auto">
+                        <img src="assets/img/branding/Amazonas PGN.png" alt="C.D. Amazonas" class="h-9 w-auto flex-shrink-0" onerror="this.src='https://placehold.co/36x36/046a38/ffffff?text=CDA'">
+                        <div>
+                            <h3 class="font-serif font-bold text-base sm:text-lg text-slate-900 leading-tight">Club Deportivo Amazonas</h3>
+                            <span class="text-[11px] text-emerald-800 font-bold uppercase tracking-wider">Malchinguí • 1987</span>
+                        </div>
                     </div>
 
-                    <div class="space-y-16">
-                        
-                        <!-- Bloque 1: Fundación y Orígenes -->
+                    <!-- Selector de Pestañas dentro del Recuadro -->
+                    <div class="flex items-center gap-2 bg-slate-200/80 p-1 rounded-2xl w-full sm:w-auto justify-center">
+                        <button type="button" id="tab-btn-historia-fundacion" onclick="cambiarTabHistoria('fundacion')" class="tab-btn-historia px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider bg-brand-green text-white shadow-sm transition-all flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px]">history_edu</span>
+                            <span>Fundación y Orígenes</span>
+                        </button>
+                        <button type="button" id="tab-btn-historia-actualidad" onclick="cambiarTabHistoria('actualidad')" class="tab-btn-historia px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center gap-1.5">
+                            <span class="material-symbols-outlined text-[16px]">stadium</span>
+                            <span>Actualidad y Presente</span>
+                        </button>
+                    </div>
+
+                    <!-- Botón Cerrar -->
+                    <button type="button" onclick="cerrarRecuadroHistoria()" class="absolute top-3 right-3 sm:relative sm:top-auto sm:right-auto w-9 h-9 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 flex items-center justify-center transition-colors flex-shrink-0" title="Cerrar (Esc)">
+                        <span class="material-symbols-outlined text-[20px]">close</span>
+                    </button>
+                </div>
+
+                <!-- Contenido Dinámico Scrolleable -->
+                <div class="p-5 sm:p-8 overflow-y-auto flex-grow">
+                    
+                    <!-- Panel 1: Fundación y Orígenes (1987) -->
+                    <div id="panel-historia-fundacion" class="space-y-6">
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                            <div class="lg:col-span-7 space-y-4 text-brand-dark leading-relaxed">
-                                <h4 class="font-serif text-xl sm:text-2xl font-bold text-brand-dark flex items-center gap-2.5">
-                                    <span class="w-1.5 h-5 bg-brand-green inline-block rounded-sm flex-shrink-0"></span>
+                            <div class="lg:col-span-7 space-y-4">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold uppercase tracking-wider">
+                                    <span class="material-symbols-outlined text-[16px]">flag</span>
+                                    <span>1987 • Los Inicios</span>
+                                </div>
+                                <h4 class="font-serif text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
                                     Fundación y Orígenes
                                 </h4>
                                 <div class="space-y-3.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-light">
                                     <p>
-                                        El <strong class="text-brand-dark font-medium">Club Deportivo Amazonas</strong> nació formalmente el <strong class="text-brand-dark font-medium">12 de febrero de 1987</strong> en el Barrio El Hospital de la parroquia de Malchinguí, provincia de Pichincha.
+                                        El <strong class="text-slate-900 font-semibold">Club Deportivo Amazonas</strong> nació formalmente el <strong class="text-slate-900 font-semibold">12 de febrero de 1987</strong> en el Barrio El Hospital de la parroquia de Malchinguí, provincia de Pichincha.
                                     </p>
                                     <p>
-                                        La visión y el empuje de <strong class="text-brand-dark font-medium">Don Carlos Eliécer Rodriguez Navarrete</strong> junto a sus hijos, dieron vida a esta institución que hoy es uno de los grandes referentes del deporte local. Nuestra identidad siempre ha sido clara: jugar bonito y jamás darse por vencido.
+                                        La visión y el empuje de <strong class="text-slate-900 font-semibold">Don Carlos Eliécer Rodríguez Navarrete</strong> junto a sus hijos, dieron vida a esta institución que hoy es uno de los grandes referentes del deporte local. Nuestra identidad siempre ha sido clara: jugar bonito y jamás darse por vencido.
                                     </p>
                                     <p>
-                                        Esa entrega se tradujo en gloria. En nuestro escudo brillan 5 estrellas logradas en diferentes épocas y categorías —Máxima, Primera y Segunda—, además de múltiples finales disputadas a nivel parroquial y cantonal.  
+                                        Esa entrega se tradujo en gloria. En nuestro escudo brillan <strong class="text-slate-900 font-semibold">5 estrellas</strong> logradas en diferentes épocas y categorías —Máxima, Primera y Segunda—, además de múltiples finales disputadas a nivel parroquial y cantonal.
                                     </p>
                                     <p>
                                         Por nuestras filas han dejado huella verdaderas leyendas y talentos reconocidos por todo el pueblo malchingueño. Con momentos de gloria y etapas difíciles, el Amazonas nunca perdió lo que tanto lo caracteriza: garra, sacrificio y la humildad para unir a nuestra gente a través del fútbol.
                                     </p>
                                 </div>
                             </div>
+
+                            <!-- Imagen Archivo Histórico -->
                             <div class="lg:col-span-5 flex justify-center w-full">
-                                <div class="w-full max-w-xs sm:max-w-sm rounded-2xl overflow-hidden shadow-card border border-slate-200 bg-slate-50 group">
-                                    <div class="h-52 sm:h-60 w-full overflow-hidden flex items-center justify-center p-3">
-                                        <img src="assets/img/repositorio/historico/1.png" alt="Archivo Histórico" class="max-h-full max-w-full object-contain group-hover:scale-102 transition-transform duration-300" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
+                                <div class="w-full max-w-sm rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-slate-50 group">
+                                    <div class="h-60 sm:h-72 w-full overflow-hidden flex items-center justify-center p-4 bg-gradient-to-b from-slate-100 to-slate-200">
+                                        <img src="assets/img/repositorio/historico/1.png" alt="Archivo Histórico 1987" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-md" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
                                     </div>
-                                    <div class="px-4 py-2.5 bg-slate-100 border-t border-slate-200 flex justify-between items-center text-xs">
-                                        <span class="text-slate-500 font-medium">Archivo Histórico</span>
-                                        <span class="text-brand-green font-semibold">1987</span>
+                                    <div class="p-4 bg-white border-t border-slate-200 flex justify-between items-center text-xs">
+                                        <div>
+                                            <span class="block font-bold text-slate-800">Primer Plantel Histórico</span>
+                                            <span class="text-slate-400 text-[11px]">Archivo Conmemorativo</span>
+                                        </div>
+                                        <span class="px-2.5 py-1 rounded-md bg-emerald-100 text-emerald-800 font-black text-xs">1987</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div class="w-full h-px bg-slate-200"></div>
-
-                        <!-- Bloque 2: Actualidad y Presente -->
+                    <!-- Panel 2: Actualidad y Presente (2026) -->
+                    <div id="panel-historia-actualidad" class="space-y-6 hidden">
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                            <div class="lg:col-span-7 space-y-4 text-brand-dark leading-relaxed">
-                                <h4 class="font-serif text-xl sm:text-2xl font-bold text-brand-dark flex items-center gap-2.5">
-                                    <span class="w-1.5 h-5 bg-brand-green inline-block rounded-sm flex-shrink-0"></span>
+                            <div class="lg:col-span-7 space-y-4">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold uppercase tracking-wider">
+                                    <span class="material-symbols-outlined text-[16px]">verified</span>
+                                    <span>2026 • Presente & Registro Legal</span>
+                                </div>
+                                <h4 class="font-serif text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight">
                                     Actualidad y Presente
                                 </h4>
                                 <div class="space-y-3.5 text-xs sm:text-sm text-slate-600 leading-relaxed font-light">
                                     <p>
-                                        Hoy en día, el Club Deportivo Amazonas cuenta con personería jurídica, legalmente registrado ante el Ministerio del Deporte. Competimos en la Categoría Máxima y en la categoría femenina de la Liga Deportiva Parroquial de Malchinguí, haciendo respetar nuestra localía en el <strong class="text-brand-dark font-medium">Estadio Cancha 7 "Carlos Eliécer Rodriguez"</strong>, ubicado en el Barrio El Hospital.
+                                        Hoy en día, el Club Deportivo Amazonas cuenta con <strong class="text-slate-900 font-semibold">personería jurídica, legalmente registrado ante el Ministerio del Deporte</strong>. Competimos en la Categoría Máxima y en la categoría femenina de la Liga Deportiva Parroquial de Malchinguí, haciendo respetar nuestra localía en el <strong class="text-slate-900 font-semibold">Estadio Cancha 7 “Carlos Eliécer Rodríguez”</strong>, ubicado en el Barrio El Hospital.
                                     </p>
-                                    <p>
-                                        Al frente del equipo masculino de Máxima está la dirigencia conformada por Patricio Rodriguez, Ramiro Rodriguez, Daniel Rodriguez, Orlando Rodriguez, José Luis Rodriguez y Manuel Heredia, mientras que la categoría femenina está bajo el liderazgo de Sandra Reyes.
-                                    </p>
+                                    <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+                                        <span class="block text-xs font-bold uppercase tracking-wider text-emerald-800">Liderazgo & Directiva Institucional</span>
+                                        <p class="text-xs text-slate-600 leading-relaxed">
+                                            Al frente del equipo masculino de Máxima está la dirigencia conformada por <strong class="text-slate-800">Patricio Rodríguez, Ramiro Rodríguez, Daniel Rodríguez, Orlando Rodríguez, José Luis Rodríguez y Manuel Heredia</strong>, mientras que la categoría femenina está bajo el liderazgo de <strong class="text-slate-800">Sandra Reyes</strong>.
+                                        </p>
+                                    </div>
                                     <p>
                                         Hinchada, jugadores y dirigencia conformamos una sola familia que representa con orgullo los valores de nuestra gente. En Amazonas somos más que un club.
                                     </p>
                                 </div>
                             </div>
+
+                            <!-- Imagen Estadio Cancha 7 -->
                             <div class="lg:col-span-5 flex justify-center w-full">
-                                <div class="w-full max-w-xs sm:max-w-sm rounded-2xl overflow-hidden shadow-card border border-slate-200 bg-slate-50 group">
-                                    <div class="h-52 sm:h-60 w-full overflow-hidden flex items-center justify-center p-3">
-                                        <img src="assets/img/repositorio/historico/2.png" alt="Archivo Histórico" class="max-h-full max-w-full object-contain group-hover:scale-102 transition-transform duration-300" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
+                                <div class="w-full max-w-sm rounded-2xl overflow-hidden shadow-lg border border-slate-200 bg-slate-50 group">
+                                    <div class="h-60 sm:h-72 w-full overflow-hidden flex items-center justify-center p-4 bg-gradient-to-b from-slate-100 to-slate-200">
+                                        <img src="assets/img/repositorio/historico/2.png" alt="Sede Deportiva Cancha 7" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-500 drop-shadow-md" onerror="this.src='assets/img/branding/Amazonas PGN.png'">
                                     </div>
-                                    <div class="px-4 py-2.5 bg-slate-100 border-t border-slate-200 flex justify-between items-center text-xs">
-                                        <span class="text-slate-500 font-medium">Sede Deportiva</span>
-                                        <span class="text-brand-green font-semibold">2026</span>
+                                    <div class="p-4 bg-white border-t border-slate-200 flex justify-between items-center text-xs">
+                                        <div>
+                                            <span class="block font-bold text-slate-800">Sede Cancha 7</span>
+                                            <span class="text-slate-400 text-[11px]">Vigencia Oficial</span>
+                                        </div>
+                                        <span class="px-2.5 py-1 rounded-md bg-amber-100 text-amber-900 font-black text-xs">2026</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
+
+                <!-- Pie del Recuadro -->
+                <div class="p-4 sm:px-6 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 flex-shrink-0">
+                    <button type="button" onclick="cerrarRecuadroHistoria(); mostrarSeccion('aliados');" class="text-xs font-bold text-emerald-800 hover:text-emerald-950 inline-flex items-center gap-1.5 transition-colors cursor-pointer">
+                        <span class="material-symbols-outlined text-[18px]">handshake</span>
+                        <span>Ver nuestros patrocinadores y aliados estratégicos →</span>
+                    </button>
+                    <button type="button" onclick="cerrarRecuadroHistoria()" class="w-full sm:w-auto px-5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs uppercase tracking-wider transition-colors cursor-pointer">
+                        Cerrar Lectura
+                    </button>
+                </div>
+
             </div>
-        </section>
+        </div>
 
         <!-- ==================== 2. NOTICIAS ==================== -->
         <section id="noticias" class="hidden py-16 md:py-24 bg-slate-50 w-full flex-grow border-b border-slate-200">

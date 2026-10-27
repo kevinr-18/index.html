@@ -97,6 +97,7 @@ document.addEventListener('keydown', (e) => {
         if (typeof cerrarModalLegal === 'function') cerrarModalLegal();
         if (typeof cerrarModalConfigCookies === 'function') cerrarModalConfigCookies();
         if (typeof cerrarToast === 'function') cerrarToast();
+        if (typeof cerrarRecuadroHistoria === 'function') cerrarRecuadroHistoria();
     }
 });
 
@@ -125,6 +126,49 @@ function mostrarSubPestaña(seccionPadre, tipo) {
         botonActivo.classList.remove('bg-slate-100', 'text-slate-700', 'hover:bg-slate-200');
         botonActivo.classList.add('bg-brand-green', 'text-brand-white', 'shadow-subtle');
     }
+}
+
+
+// ==========================================
+// RECUADRO ANIMADO INTERACTIVO: HISTORIA & ACTUALIDAD
+// ==========================================
+function abrirRecuadroHistoria(tab = 'fundacion') {
+    const modal = document.getElementById('recuadro-historia-club');
+    if (!modal) return;
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    cambiarTabHistoria(tab);
+    document.body.style.overflow = 'hidden';
+}
+
+function cerrarRecuadroHistoria() {
+    const modal = document.getElementById('recuadro-historia-club');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+    document.body.style.overflow = 'auto';
+}
+
+function cambiarTabHistoria(tab) {
+    const tabs = ['fundacion', 'actualidad'];
+    tabs.forEach(t => {
+        const contenido = document.getElementById(`panel-historia-${t}`);
+        const btn = document.getElementById(`tab-btn-historia-${t}`);
+        if (contenido) {
+            if (t === tab) {
+                contenido.classList.remove('hidden');
+            } else {
+                contenido.classList.add('hidden');
+            }
+        }
+        if (btn) {
+            if (t === tab) {
+                btn.className = 'tab-btn-historia px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider bg-brand-green text-white shadow-sm transition-all flex items-center gap-1.5';
+            } else {
+                btn.className = 'tab-btn-historia px-4 py-2 rounded-xl font-bold text-xs uppercase tracking-wider text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-all flex items-center gap-1.5';
+            }
+        }
+    });
 }
 
 // Soporte para botones Atrás/Adelante del navegador
@@ -162,3 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
 window.mostrarSeccion = mostrarSeccion;
 window.toggleMenu = toggleMenu;
 window.mostrarSubPestaña = mostrarSubPestaña;
+window.abrirRecuadroHistoria = abrirRecuadroHistoria;
+window.cerrarRecuadroHistoria = cerrarRecuadroHistoria;
+window.cambiarTabHistoria = cambiarTabHistoria;
